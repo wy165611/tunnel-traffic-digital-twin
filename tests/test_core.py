@@ -6,6 +6,7 @@ from backend.calibration.homography import RoadCalibration
 from backend.traffic.speed_estimator import SpeedEstimator
 from backend.traffic.flow_counter import FlowCounter
 from backend.traffic.lane_detector import LaneDetector
+from backend.traffic.traffic_metrics import traffic_metrics
 from backend.vision.tracker import SortTracker
 from backend.events.rules import EventDetector
 from backend.settings import load_config
@@ -28,6 +29,18 @@ def test_homography_corners_and_midpoint():
 def test_invalid_calibration_rejected(points):
     with pytest.raises(ValueError):
         RoadCalibration(dict(points=points,width_m=10,length_m=50))
+
+
+def test_calibration_rejects_wrong_corner_order():
+    with pytest.raises(ValueError, match='左上'):
+        RoadCalibration(dict(points=[[100,100],[100,600],[300,600],[300,100]],width_m=10,length_m=50))
+
+
+def test_calibration_horizontal_speed_scale():
+    import math
+    good = RoadCalibration(dict(points=[[100,100],[300,100],[300,600],[100,600]],width_m=10,length_m=50))
+    a, b = good.map([100,350]), good.map([120,350])
+    assert math.hypot(b[0]-a[0], b[1]-a[1]) * 3.6 == pytest.approx(3.6, rel=.01)
 
 
 def test_calibration_save_reload(tmp_path):
@@ -76,6 +89,15 @@ def test_short_video_rates_marked_estimates():
     m=f.metrics(8)
     assert m['flow_estimated'] and m['flow_per_hour'] is None
     assert not f.metrics(60)['flow_estimated']
+
+
+def test_traffic_metrics_ignore_predicted_speeds():
+    vehicles = [
+        dict(observed=True, speed=36, type='car', lane='A', world=[0, 0]),
+        dict(observed=False, speed=36, type='car', lane='A', world=[1, 0]),
+    ]
+    metrics = traffic_metrics(vehicles, {1}, FlowCounter(), 1, None, [])
+    assert metrics['average_speed'] == 36
 
 
 def det(x,kind='car'):

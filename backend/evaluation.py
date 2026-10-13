@@ -65,14 +65,29 @@ def evaluate_run(directory, truth, tolerance=.15):
         if start <= timestamp <= end:
             by_id.setdefault(int(vehicle['vehicle_id']), []).append((timestamp, finite(vehicle['speed'], 'vehicle.speed')))
     errors = []
+    from collections import defaultdict
+    grouped = defaultdict(list)
     for item in truth['speeds']:
         speed = finite(item['speed_kmh'], 'speed_kmh')
         if speed < 0:
             raise ValueError('真值速度不可为负')
-        candidates = by_id.get(int(item['vehicle_id']), [])
-        closest = min(candidates, key=lambda x: abs(x[0] - item['timestamp']), default=None)
-        if closest is not None and abs(closest[0] - item['timestamp']) <= tolerance:
-            errors.append(closest[1] - speed)
+        grouped[int(item['vehicle_id'])].append(item)
+    forbidden_unit = tolerance + 1
+    for vehicle_id, items in grouped.items():
+        candidates = by_id.get(vehicle_id, [])
+        if not items or not candidates:
+            continue
+        forbidden = (min(len(items), len(candidates)) + 1) * forbidden_unit
+        cost = np.full((len(items), len(candidates)), forbidden)
+        for i, item in enumerate(items):
+            for j, (sample_time, sample_speed) in enumerate(candidates):
+                delta = abs(sample_time - item['timestamp'])
+                if delta <= tolerance:
+                    cost[i, j] = delta
+        row_ind, col_ind = linear_sum_assignment(cost)
+        for i, j in zip(row_ind, col_ind):
+            if cost[i, j] < forbidden:
+                errors.append(candidates[j][1] - finite(items[i]['speed_kmh'], 'speed_kmh'))
     predicted = [x for x in rows(directory / 'events.csv') if start <= finite(x['timestamp'], 'event.timestamp') <= end]
     expected = truth['events']
     supported_events = {'ABNORMAL STOP', 'HARD BRAKING', 'WRONG WAY'}

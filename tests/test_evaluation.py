@@ -49,6 +49,18 @@ def test_eval_rejects_unverified_mismatched_or_incomplete_truth(sample_run, chan
         evaluate_run(directory, truth)
 
 
+def test_speed_evaluation_matches_one_measurement_to_one_truth(sample_run):
+    directory, truth = sample_run
+    truth['speeds'] = [
+        dict(timestamp=1, vehicle_id=1, speed_kmh=10),
+        dict(timestamp=1.05, vehicle_id=1, speed_kmh=50),
+    ]
+    result = evaluate_run(directory, truth, tolerance=.15)
+    assert result['speed']['truth_samples'] == 2
+    assert result['speed']['matched_samples'] == 1
+    assert result['speed']['coverage'] == pytest.approx(.5)
+
+
 def test_missing_speed_and_empty_events_are_unavailable_not_perfect(sample_run):
     directory, truth = sample_run
     truth['speeds'] = [dict(timestamp=3, vehicle_id=3, speed_kmh=30)]

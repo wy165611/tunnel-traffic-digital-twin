@@ -3,6 +3,20 @@ import cv2
 import numpy as np
 
 
+def _corner_index_order(points):
+    """Return geometric TL, TR, BR, BL indices for image coordinates (y grows downward)."""
+    pts = np.asarray(points, float)
+    by_y = sorted(range(4), key=lambda i: pts[i, 1])
+    top = sorted(by_y[:2], key=lambda i: pts[i, 0])
+    bottom = sorted(by_y[2:], key=lambda i: pts[i, 0])
+    return top[0], top[1], bottom[1], bottom[0]
+
+
+def validate_corner_order(points):
+    if list(range(4)) != list(_corner_index_order(points)):
+        raise ValueError('四个点必须按左上、右上、右下、左下顺序形成凸四边形，不能交叉或共线')
+
+
 class RoadCalibration:
     def __init__(self, payload):
         self.payload = {name: payload[name] for name in ('points', 'width_m', 'length_m')}
@@ -15,6 +29,7 @@ class RoadCalibration:
             raise ValueError('请输入合理的道路实际宽度和长度')
         if not cv2.isContourConvex(self.points) or abs(cv2.contourArea(self.points)) < 100:
             raise ValueError('四个点必须按左上、右上、右下、左下顺序形成凸四边形，不能交叉或共线')
+        validate_corner_order(self.points)
         target = np.array([[0, 0], [self.width, 0], [self.width, self.length], [0, self.length]], np.float32)
         self.matrix = cv2.getPerspectiveTransform(self.points, target)
         if not np.isfinite(self.matrix).all() or abs(np.linalg.det(self.matrix)) < 1e-12:
