@@ -3,11 +3,11 @@ from collections import Counter
 
 def traffic_metrics(vehicles, seen, flow, timestamp, calibration, lanes, segment_start=0):
     calibrated = [v for v in vehicles if v['world'] is not None]
-    speeds = [v['speed'] for v in vehicles if v['speed'] is not None]
+    speeds = [v['speed'] for v in vehicles if v['observed'] and v['speed'] is not None]
     lane_stats = []
     for lane in lanes:
         lv = [v for v in vehicles if v['lane'] == lane['name']]
-        ls = [v['speed'] for v in lv if v['speed'] is not None]
+        ls = [v['speed'] for v in lv if v['observed'] and v['speed'] is not None]
         lane_stats.append(dict(name=lane['name'], count=len(lv), flow=flow.by_lane[lane['name']],
                                average_speed=sum(ls)/len(ls) if ls else None))
     return dict(vehicle_count=len(vehicles), total_vehicles=len(seen),

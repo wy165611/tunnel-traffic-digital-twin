@@ -248,6 +248,30 @@ def test_stale_video_and_scene_cannot_be_saved(client):
     assert c.post('/api/calibration', json={'scene_revision': before['scene_revision'], 'lanes': []}).status_code == 409
 
 
+def test_play_after_ended_restarts_segment(client):
+    c, s = client
+    c.post('/api/control', json={'action': 'play'})
+    old_run = s.processor.exporter.run_id
+    s.status = 'ended'
+    s.reader.frames = 999
+    c.post('/api/control', json={'action': 'play'})
+    assert s.status == 'playing'
+    assert s.processor is not None
+    assert s.processor.exporter.run_id != old_run
+
+
+def test_frontend_placeholder_when_dist_missing():
+    from backend.settings import ROOT
+    if (ROOT / 'frontend' / 'dist').exists():
+        pytest.skip('frontend/dist 已存在')
+    from fastapi.testclient import TestClient
+    import backend.main as main
+    with TestClient(main.app, base_url='http://127.0.0.1:8000') as c:
+        response = c.get('/')
+        assert response.status_code == 200
+        assert '前端尚未构建' in response.text
+
+
 def test_failed_new_video_keeps_running_session(client, monkeypatch):
     c, s = client
     c.post('/api/control', json={'action': 'play'})

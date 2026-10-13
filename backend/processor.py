@@ -66,10 +66,12 @@ class TrafficProcessor:
         vehicles = []
         for track in tracks:
             if track.missed > min(self.config['tracking']['max_age'], interval*2):
+                self.flow.forget(track.id)
                 continue
             box = (track.box * [sx, sy, sx, sy]).tolist()
             pixel = [(box[0]+box[2])/2, box[3]]
             if not 0 <= pixel[0] <= self.reader.width or not 0 <= pixel[1] <= self.reader.height:
+                self.flow.forget(track.id)
                 continue
             self.seen.add(track.id)
             if track.id not in self.states:
@@ -93,7 +95,7 @@ class TrafficProcessor:
                     state.estimator.reset()
                     state.world_trajectory.clear()
                     state.speed = state.acceleration = None
-            if world is None:
+            if world is None or not observed:
                 speed = acceleration = None
             else:
                 speed, acceleration = state.speed, state.acceleration

@@ -5,5 +5,12 @@ export async function api<T>(path:string, body?:unknown):Promise<T> {
   return data;
 }
 export const formatSpeed=(v:number|null|undefined)=>v==null?'—':v.toFixed(1);
-export const formatTime=(v:number=0)=>`${Math.floor(v/60).toString().padStart(2,'0')}:${Math.floor(v%60).toString().padStart(2,'0')}.${Math.floor((v%1)*10)}`;
+export const formatTime=(v:number=0)=>{
+  const hours=Math.floor(v/3600);
+  const minutes=Math.floor((v%3600)/60);
+  const seconds=Math.floor(v%60);
+  const tenths=Math.floor((v%1)*10);
+  const body=`${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}.${tenths}`;
+  return hours>0?`${hours.toString().padStart(2,'0')}:${body}`:body;
+};
 export const typeNames:Record<string,string>={car:'轿车',truck:'货车',bus:'客车',motorcycle:'摩托车'};

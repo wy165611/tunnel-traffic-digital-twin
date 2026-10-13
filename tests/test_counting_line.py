@@ -29,6 +29,14 @@ def test_auto_line_spans_all_lanes_and_clamps_to_video():
     assert automatic_counting_line(600,300,[dict(points=[[0,-10],[600,-10],[600,400],[0,400]])])==[[300,0],[300,300]]
 
 
+def test_flow_counter_does_not_bridge_off_screen_jump():
+    f = FlowCounter([[100, 0], [100, 200]])
+    f.update(1, [10, 50], 0, 'car', 'Lane 1')
+    f.forget(1)
+    assert not f.update(1, [180, 50], 1, 'car', 'Lane 1')
+    assert f.crossing_count == 0
+
+
 def test_auto_scene_does_not_mutate_input_and_recomputes_for_new_dimensions():
     scene=dict(lanes=[],counting_line=None)
     resolved=resolve_counting_line(scene,400,200)

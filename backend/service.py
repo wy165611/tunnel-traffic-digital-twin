@@ -142,13 +142,14 @@ class AnalysisService:
                     self.processor = None
                 await asyncio.to_thread(self.preview_sync, control.seconds)
             elif action in ('play', 'restart'):
+                resume_from_ended = self.status == 'ended'
                 self.status, self.error = 'loading', None
                 self.changed()
                 try:
                     if self.detector is None:
                         self.detector = await asyncio.to_thread(VehicleDetector, self.config['detector'])
-                    if action == 'restart' or self.processor is None or self.reader.index >= self.reader.frames:
-                        seconds = 0 if action == 'restart' or self.reader.index >= self.reader.frames else self.snapshot.get('timestamp', 0)
+                    if action == 'restart' or self.processor is None or resume_from_ended or self.reader.index >= self.reader.frames:
+                        seconds = 0 if action == 'restart' or resume_from_ended or self.reader.index >= self.reader.frames else self.snapshot.get('timestamp', 0)
                         await asyncio.to_thread(self.reset_processor_sync, seconds)
                     self.status = 'playing'
                 except Exception as exc:
