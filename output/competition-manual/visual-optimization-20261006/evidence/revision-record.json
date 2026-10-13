@@ -1,0 +1,21 @@
+{
+  "date": "2026-10-06",
+  "request": "Optimize illustrations, tables, printing clarity and narrative distribution while preserving undergraduate research emphasis",
+  "previous_docx_sha256": "40d83a6f5a9fddfa82c749292c598af9e9fa2a6f73c4efc216f053015744b24c",
+  "changes": [
+    "New background need diagram",
+    "Compact source-derived architecture",
+    "Actual light-theme paired screenshot with ID 22 magnification",
+    "Clear evidence workflow",
+    "Design relationship diagram",
+    "Actual report and controlled evaluation separated by labelled panels",
+    "All real CSV rows plotted with separate statistical grains and units",
+    "Conditional application roadmap",
+    "Dark blue native table headers, alternating rows, 11 pt text and larger cell padding",
+    "Post-table spacing and protected paragraph/page relationships"
+  ],
+  "experiments_added": false,
+  "project_source_or_data_modified": false,
+  "preexisting_drift_count": 6,
+  "human_approval": "pending"
+}

@@ -1,0 +1,28 @@
+{
+  "document_type": "Chinese undergraduate engineering competition project manual",
+  "structure": [
+    "design background and research objectives",
+    "system solution",
+    "design contributions",
+    "research practice and verification",
+    "application value and phased extension",
+    "conclusions"
+  ],
+  "clinical_guideline": "not_applicable; engineering project description and descriptive software verification",
+  "topics": {
+    "need_and_objectives": "1",
+    "source_models": "2.2 and Table 2",
+    "method_summary": "2.3–2.7",
+    "contribution_evidence": "3 and Table 3",
+    "undergraduate_research_process": "4.1 and Table 4",
+    "software_validation": "4.2: historical 88 backend/27 frontend tests, later historical 31 frontend tests",
+    "descriptive_outputs": "4.3, Table 5 and Figure 7",
+    "independent_real_truth": "missing, disclosed in 4.4",
+    "next_experiments": "4.5",
+    "application_conditions": "5 and Table 6",
+    "human_approval": "pending",
+    "team_members_and_individual_contributions": "pending",
+    "display_provenance": "Figures 1–8 plus displays.json"
+  },
+  "submission_ready": false
+}

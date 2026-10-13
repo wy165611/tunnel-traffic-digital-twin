@@ -1,0 +1,29 @@
+{
+  "result": "PASS",
+  "checks": [
+    "template_saved_source_and_scale",
+    "nonmutating_overlay_preview",
+    "duplicate_name_rejected",
+    "same_fov_resolution_coordinates",
+    "scale_requires_separate_confirmation",
+    "geometry_only_uncalibrated",
+    "manual_scale_copied_and_persisted",
+    "stale_video_guard",
+    "changed_aspect_apply_blocked",
+    "template_revision_guard",
+    "independent_no_event_requirement_source_range",
+    "recorded_observed_id_helper",
+    "draft_cannot_evaluate",
+    "count_error_zero",
+    "mapped_tp_fp_and_unmapped_fn",
+    "speed_unreviewed_not_zero",
+    "run_and_fingerprint_binding",
+    "annotation_revision_guard",
+    "saved_result_invalidated_after_edit",
+    "partial_counts_needs_only_statistics_csv",
+    "annotation_does_not_mutate_live_or_machine_csv",
+    "draft_and_template_survive_new_service"
+  ],
+  "count": 22,
+  "controlled_run": "20261002-212723-e836ab"
+}

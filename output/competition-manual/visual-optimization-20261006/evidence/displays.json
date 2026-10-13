@@ -1,0 +1,191 @@
+[
+  {
+    "number": 1,
+    "kind": "figure",
+    "asset": "fig1-needs.png",
+    "caption": "作品要解决的观察与研究需求  根据项目需求绘制",
+    "processing": "Project-need schematic, not an experimental finding",
+    "evidence": [
+      "E028",
+      "E030"
+    ],
+    "asset_sha256": "8e418daf77e9e188eb4c7ece7db5e823dc1b0f831feb6a09c4ba63da11e9e57f",
+    "human_verification": "pending",
+    "material_rights": "User-supplied project materials; competition redistribution rights to be confirmed by team"
+  },
+  {
+    "number": 1,
+    "kind": "table",
+    "title": "使用需求与作品功能的对应关系",
+    "native_word_table": true,
+    "evidence": [
+      "E028",
+      "E030",
+      "E031"
+    ]
+  },
+  {
+    "number": 2,
+    "kind": "figure",
+    "asset": "fig2-architecture.png",
+    "caption": "本机系统架构与数据联系  依据当前源码绘制",
+    "processing": "Source-derived local single-session topology, simplified for the undergraduate audience",
+    "evidence": [
+      "E005",
+      "E015",
+      "E023"
+    ],
+    "asset_sha256": "cc9990e43423d8f21bcf547f99c00bd21d1ae48577e157082c8a089ff410ce87",
+    "human_verification": "pending",
+    "material_rights": "User-supplied project materials; competition redistribution rights to be confirmed by team"
+  },
+  {
+    "number": 2,
+    "kind": "table",
+    "title": "预训练模型来源与方案选择",
+    "native_word_table": true,
+    "evidence": [
+      "E003",
+      "E006",
+      "E001"
+    ]
+  },
+  {
+    "number": 3,
+    "kind": "figure",
+    "asset": "fig3-twin.png",
+    "caption": "真实桥梁视频与二维孪生  同帧截图及ID 22放大，未标定",
+    "processing": "Literal crops and proportional enlargement from one actual desktop-full.jpg snapshot; overview crops [389,542,700,990] and [1015,542,1235,990]; ID 22 inset crops [521,561,668,639] and [1090,605,1237,683]; labels added outside screenshots; no scene data altered",
+    "evidence": [
+      "E090",
+      "E089",
+      "E024"
+    ],
+    "asset_sha256": "c10022deadb2c0dfcb2c2dc2e5d77603151ae4e68e1e06c36fc588f9d7f1478b",
+    "human_verification": "pending",
+    "material_rights": "User-supplied project materials; competition redistribution rights to be confirmed by team"
+  },
+  {
+    "number": 4,
+    "kind": "figure",
+    "asset": "fig4-evidence.png",
+    "caption": "疑似事件的证据保存与人工判断  依据当前实现绘制",
+    "processing": "Source-derived event evidence workflow with observation and scale prerequisites",
+    "evidence": [
+      "E014",
+      "E019",
+      "E028"
+    ],
+    "asset_sha256": "e140d704bab2ee2d045fc661e9827df870bf7fda5de2de6e6c6537c2c4cdb106",
+    "human_verification": "pending",
+    "material_rights": "User-supplied project materials; competition redistribution rights to be confirmed by team"
+  },
+  {
+    "number": 3,
+    "kind": "table",
+    "title": "作品设计特色及验证依据",
+    "native_word_table": true,
+    "evidence": [
+      "E051",
+      "E005",
+      "E019",
+      "E021",
+      "E033"
+    ]
+  },
+  {
+    "number": 5,
+    "kind": "figure",
+    "asset": "fig5-design.png",
+    "caption": "作品特色之间的联系  源码与功能归纳图",
+    "processing": "Qualitative synthesis of implemented design relationships; no benefit percentages claimed",
+    "evidence": [
+      "E026",
+      "E005",
+      "E019",
+      "E021"
+    ],
+    "asset_sha256": "83bd3a9ff738579189419430fdbc7bdf867cc227a030cb7448ac8ca502933f83",
+    "human_verification": "pending",
+    "material_rights": "User-supplied project materials; competition redistribution rights to be confirmed by team"
+  },
+  {
+    "number": 4,
+    "kind": "table",
+    "title": "研究环节与可检查的成果材料",
+    "native_word_table": true,
+    "evidence": [
+      "E001",
+      "E029",
+      "E033",
+      "E062"
+    ]
+  },
+  {
+    "number": 6,
+    "kind": "figure",
+    "asset": "fig6-verification.png",
+    "caption": "功能验证界面  A实际桥梁历史报告  B构造标签人工评测",
+    "processing": "Panel A literal report crop [180,249,797,355] from features-report-desktop.jpg, run 20261002-165026-852c78; panel B literal evaluation crop [325,548,1000,697] from 002-evaluation-result.jpg with constructed labels; distinct sessions and evidence roles",
+    "evidence": [
+      "E067",
+      "E068",
+      "E036"
+    ],
+    "asset_sha256": "fbea5f1b8dbb2ba66dbb1268ecb6755295bdff7dbd237bcf65cc4b1eba7ddaca",
+    "human_verification": "pending",
+    "material_rights": "User-supplied project materials; competition redistribution rights to be confirmed by team"
+  },
+  {
+    "number": 7,
+    "kind": "figure",
+    "asset": "fig7-traffic.png",
+    "caption": "真实CSV曲线  累计机器过线与在场轨迹，全部256帧",
+    "processing": "Matplotlib step plots of all 256 CSV records, timestamp/flow/vehicle_count; distinct axes and units; no smoothing or interpolation; not independent traffic truth",
+    "evidence": [
+      "E060"
+    ],
+    "asset_sha256": "b85d7bd151c6513ca2fd88f620e0b24349c7b9ba657331048dea74566f3c717d",
+    "human_verification": "pending",
+    "material_rights": "User-supplied project materials; competition redistribution rights to be confirmed by team"
+  },
+  {
+    "number": 5,
+    "kind": "table",
+    "title": "真实桥梁运行结果及含义",
+    "native_word_table": true,
+    "evidence": [
+      "E062",
+      "E063",
+      "E061",
+      "E072"
+    ]
+  },
+  {
+    "number": 8,
+    "kind": "figure",
+    "asset": "fig8-roadmap.png",
+    "caption": "由研究原型走向应用的条件路线  后续阶段尚待验证",
+    "processing": "Conditional application roadmap; current prototype and future unvalidated stages explicitly distinguished",
+    "evidence": [
+      "E029",
+      "E035",
+      "E008"
+    ],
+    "asset_sha256": "7d25e1fa351681da29f91efdf35c7bb51cb1427d88a29c763d33c64fec03b781",
+    "human_verification": "pending",
+    "material_rights": "User-supplied project materials; competition redistribution rights to be confirmed by team"
+  },
+  {
+    "number": 6,
+    "kind": "table",
+    "title": "应用阶段与推广条件",
+    "native_word_table": true,
+    "evidence": [
+      "E008",
+      "E015",
+      "E029",
+      "E035"
+    ]
+  }
+]

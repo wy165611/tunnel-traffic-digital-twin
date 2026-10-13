@@ -1,0 +1,327 @@
+{
+  "schema_version": "1.0",
+  "numeric_facts": [
+    {
+      "fact_id": "N001",
+      "concept": "statistics_frames",
+      "section": "4.3",
+      "value": 256,
+      "unit": "frame",
+      "numerator": null,
+      "denominator": null,
+      "sample_size": 256,
+      "analysis_set": "bridge_run_20261002-170236-c53990",
+      "evidence_ids": [
+        "E072"
+      ]
+    },
+    {
+      "fact_id": "N002",
+      "concept": "statistics_frames",
+      "section": "Table 5",
+      "value": 256,
+      "unit": "frame",
+      "numerator": null,
+      "denominator": null,
+      "sample_size": 256,
+      "analysis_set": "bridge_run_20261002-170236-c53990",
+      "evidence_ids": [
+        "E072"
+      ]
+    },
+    {
+      "fact_id": "N003",
+      "concept": "machine_crossings",
+      "section": "4.3",
+      "value": 19,
+      "unit": "crossing",
+      "numerator": null,
+      "denominator": null,
+      "sample_size": 256,
+      "analysis_set": "bridge_run_20261002-170236-c53990",
+      "evidence_ids": [
+        "E072"
+      ]
+    },
+    {
+      "fact_id": "N004",
+      "concept": "machine_crossings",
+      "section": "Table 5",
+      "value": 19,
+      "unit": "crossing",
+      "numerator": null,
+      "denominator": null,
+      "sample_size": 256,
+      "analysis_set": "bridge_run_20261002-170236-c53990",
+      "evidence_ids": [
+        "E072"
+      ]
+    },
+    {
+      "fact_id": "N005",
+      "concept": "confirmed_track_ids",
+      "section": "4.3",
+      "value": 28,
+      "unit": "track ID",
+      "numerator": null,
+      "denominator": null,
+      "sample_size": null,
+      "analysis_set": "bridge_run_20261002-170236-c53990",
+      "evidence_ids": [
+        "E072"
+      ]
+    },
+    {
+      "fact_id": "N006",
+      "concept": "confirmed_track_ids",
+      "section": "Table 5",
+      "value": 28,
+      "unit": "track ID",
+      "numerator": null,
+      "denominator": null,
+      "sample_size": null,
+      "analysis_set": "bridge_run_20261002-170236-c53990",
+      "evidence_ids": [
+        "E072"
+      ]
+    },
+    {
+      "fact_id": "N007",
+      "concept": "max_active_tracks",
+      "section": "4.3",
+      "value": 13,
+      "unit": "track ID",
+      "numerator": null,
+      "denominator": null,
+      "sample_size": null,
+      "analysis_set": "bridge_run_20261002-170236-c53990",
+      "evidence_ids": [
+        "E072"
+      ]
+    },
+    {
+      "fact_id": "N008",
+      "concept": "max_active_tracks",
+      "section": "Table 5",
+      "value": 13,
+      "unit": "track ID",
+      "numerator": null,
+      "denominator": null,
+      "sample_size": null,
+      "analysis_set": "bridge_run_20261002-170236-c53990",
+      "evidence_ids": [
+        "E072"
+      ]
+    },
+    {
+      "fact_id": "N009",
+      "concept": "vehicle_frame_rows",
+      "section": "4.3",
+      "value": 2162,
+      "unit": "vehicle frame",
+      "numerator": null,
+      "denominator": null,
+      "sample_size": null,
+      "analysis_set": "bridge_run_20261002-170236-c53990",
+      "evidence_ids": [
+        "E072"
+      ]
+    },
+    {
+      "fact_id": "N010",
+      "concept": "vehicle_frame_rows",
+      "section": "Table 5",
+      "value": 2162,
+      "unit": "vehicle frame",
+      "numerator": null,
+      "denominator": null,
+      "sample_size": null,
+      "analysis_set": "bridge_run_20261002-170236-c53990",
+      "evidence_ids": [
+        "E072"
+      ]
+    },
+    {
+      "fact_id": "N011",
+      "concept": "observed_vehicle_frames",
+      "section": "4.3",
+      "value": 1074,
+      "unit": "vehicle frame",
+      "numerator": null,
+      "denominator": null,
+      "sample_size": null,
+      "analysis_set": "bridge_run_20261002-170236-c53990",
+      "evidence_ids": [
+        "E072"
+      ]
+    },
+    {
+      "fact_id": "N012",
+      "concept": "observed_vehicle_frames",
+      "section": "Table 5",
+      "value": 1074,
+      "unit": "vehicle frame",
+      "numerator": null,
+      "denominator": null,
+      "sample_size": null,
+      "analysis_set": "bridge_run_20261002-170236-c53990",
+      "evidence_ids": [
+        "E072"
+      ]
+    },
+    {
+      "fact_id": "N013",
+      "concept": "predicted_vehicle_frames",
+      "section": "4.3",
+      "value": 1088,
+      "unit": "vehicle frame",
+      "numerator": null,
+      "denominator": null,
+      "sample_size": null,
+      "analysis_set": "bridge_run_20261002-170236-c53990",
+      "evidence_ids": [
+        "E072"
+      ]
+    },
+    {
+      "fact_id": "N014",
+      "concept": "predicted_vehicle_frames",
+      "section": "Table 5",
+      "value": 1088,
+      "unit": "vehicle frame",
+      "numerator": null,
+      "denominator": null,
+      "sample_size": null,
+      "analysis_set": "bridge_run_20261002-170236-c53990",
+      "evidence_ids": [
+        "E072"
+      ]
+    },
+    {
+      "fact_id": "N015",
+      "concept": "valid_observed_speed",
+      "section": "4.3",
+      "value": 0,
+      "unit": "sample",
+      "numerator": null,
+      "denominator": null,
+      "sample_size": null,
+      "analysis_set": "bridge_run_20261002-170236-c53990",
+      "evidence_ids": [
+        "E072"
+      ]
+    },
+    {
+      "fact_id": "N016",
+      "concept": "valid_observed_speed",
+      "section": "Table 5",
+      "value": 0,
+      "unit": "sample",
+      "numerator": null,
+      "denominator": null,
+      "sample_size": null,
+      "analysis_set": "bridge_run_20261002-170236-c53990",
+      "evidence_ids": [
+        "E072"
+      ]
+    },
+    {
+      "fact_id": "N017",
+      "concept": "machine_events",
+      "section": "4.3",
+      "value": 0,
+      "unit": "event",
+      "numerator": null,
+      "denominator": null,
+      "sample_size": null,
+      "analysis_set": "bridge_run_20261002-170236-c53990",
+      "evidence_ids": [
+        "E072"
+      ]
+    },
+    {
+      "fact_id": "N018",
+      "concept": "machine_events",
+      "section": "Table 5",
+      "value": 0,
+      "unit": "event",
+      "numerator": null,
+      "denominator": null,
+      "sample_size": null,
+      "analysis_set": "bridge_run_20261002-170236-c53990",
+      "evidence_ids": [
+        "E072"
+      ]
+    },
+    {
+      "fact_id": "N019",
+      "concept": "interval_end",
+      "section": "4.3",
+      "value": 8.5,
+      "unit": "second",
+      "numerator": null,
+      "denominator": null,
+      "sample_size": null,
+      "analysis_set": "bridge_run_20261002-170236-c53990",
+      "evidence_ids": [
+        "E072"
+      ]
+    },
+    {
+      "fact_id": "N020",
+      "concept": "interval_end",
+      "section": "Table 5",
+      "value": 8.5,
+      "unit": "second",
+      "numerator": null,
+      "denominator": null,
+      "sample_size": null,
+      "analysis_set": "bridge_run_20261002-170236-c53990",
+      "evidence_ids": [
+        "E072"
+      ]
+    },
+    {
+      "fact_id": "N021",
+      "concept": "valid_speed_coverage",
+      "section": "Table 5",
+      "value": 0,
+      "unit": "percent",
+      "numerator": 0,
+      "denominator": 1074,
+      "sample_size": 1074,
+      "analysis_set": "observed_vehicle_frames",
+      "evidence_ids": [
+        "E072"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "method_id": "M001",
+      "name": "Descriptive summary of preserved bridge run CSV",
+      "analysis_intent": "descriptive",
+      "protocol_status": "post_hoc",
+      "outcome_ids": [
+        "O001"
+      ]
+    }
+  ],
+  "results": [
+    {
+      "result_id": "R001",
+      "method_id": "M001",
+      "outcome_id": "O001",
+      "analysis_intent": "descriptive",
+      "sample_size": 256,
+      "evidence_ids": [
+        "E072"
+      ],
+      "reported_sections": [
+        "4.3",
+        "Table 5",
+        "Figure 7"
+      ]
+    }
+  ]
+}

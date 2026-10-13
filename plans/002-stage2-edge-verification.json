@@ -1,0 +1,12 @@
+{
+  "result": "PASS",
+  "checks": [
+    "public_evaluator_dimension_guard",
+    "corrupt_selected_event_csv_is_rejected",
+    "download_revision_guard",
+    "legacy_missing_source_preserves_editable_draft_but_blocks_new_verification",
+    "boolean_timestamp_rejected",
+    "immutable_csvs_unchanged"
+  ],
+  "count": 6
+}

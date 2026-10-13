@@ -1,0 +1,667 @@
+[
+  {
+    "claim_id": "C001",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "interpretation_or_proposed_work"
+  },
+  {
+    "claim_id": "C002",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C003",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C004",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C005",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C006",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C007",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C008",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C009",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C010",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C011",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C012",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C013",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C014",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C015",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C016",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C017",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C018",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C019",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C020",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C021",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C022",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C023",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C024",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C025",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C026",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C027",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C028",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C029",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C030",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C031",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C032",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C033",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C034",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C035",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C036",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C037",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C038",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C039",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C040",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C041",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C042",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C043",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C044",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C045",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C046",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C047",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C048",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C049",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C050",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C051",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C052",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C053",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C054",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C055",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C056",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "interpretation_or_proposed_work"
+  },
+  {
+    "claim_id": "C057",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C058",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C059",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C060",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C061",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C062",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C063",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C064",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C065",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C066",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C067",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C068",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C069",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C070",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C071",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C072",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C073",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C074",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C075",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C076",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C077",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C078",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C079",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "interpretation_or_proposed_work"
+  },
+  {
+    "claim_id": "C080",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C081",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C082",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C083",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "interpretation_or_proposed_work"
+  },
+  {
+    "claim_id": "C084",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "interpretation_or_proposed_work"
+  },
+  {
+    "claim_id": "C085",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C086",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C087",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "interpretation_or_proposed_work"
+  },
+  {
+    "claim_id": "C088",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "interpretation_or_proposed_work"
+  },
+  {
+    "claim_id": "C089",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C090",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C091",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C092",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C093",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C094",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  },
+  {
+    "claim_id": "C095",
+    "hash_binding": "PASS",
+    "evidence_id_binding": "PASS",
+    "human_verification": "pending",
+    "claim_role": "descriptive_or_method"
+  }
+]

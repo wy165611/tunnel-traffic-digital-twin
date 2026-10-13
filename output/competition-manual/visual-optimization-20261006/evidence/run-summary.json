@@ -1,0 +1,20 @@
+{
+  "run_id": "20261002-170236-c53990",
+  "source_sha256": "3a247cda14c4bfd01d7d6a3a3db350b5154b9700e98c70ff014c9679d18ab1e6",
+  "identity_matches": true,
+  "statistics_rows": 256,
+  "interval_seconds": [
+    0.0,
+    8.5
+  ],
+  "vehicle_rows": 2162,
+  "observed_rows": 1074,
+  "predicted_rows": 1088,
+  "unique_track_ids": 28,
+  "max_active_tracks": 13,
+  "machine_crossings": 19,
+  "valid_observed_speed_samples": 0,
+  "machine_events": 0,
+  "calibrated": false,
+  "analysis": "descriptive machine output; no human truth"
+}

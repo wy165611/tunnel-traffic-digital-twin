@@ -1,0 +1,25 @@
+{
+  "checked_on": "2026-10-03",
+  "source": "Tool execution outputs in this authoring session; this file summarizes them and is not a raw log.",
+  "backend": {
+    "command": "TWIN_DATA_DIR=/private/tmp/twin-competition-validation-20261003 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q -p no:cacheprovider",
+    "passed": 88,
+    "failed": 0,
+    "elapsed_seconds": 12.67
+  },
+  "frontend": {
+    "command": "bundled Node --test frontend/tests/*.test.mjs",
+    "passed": 27,
+    "failed": 0
+  },
+  "runtime": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/check_runtime.py",
+    "http": "PASS",
+    "trusted_origin_idle_websocket": "PASS",
+    "graceful_shutdown": "PASS",
+    "isolated_data": "PASS",
+    "initial_sandbox_network_bind": "EPERM; authorized unsandboxed rerun passed"
+  },
+  "interpretation": "software regression and runtime smoke; no detection accuracy, real speed precision or tunnel acceptance inferred",
+  "human_verification": "pending"
+}

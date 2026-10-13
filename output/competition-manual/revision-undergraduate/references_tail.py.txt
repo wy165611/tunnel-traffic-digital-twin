@@ -1,0 +1,21 @@
+refs=[
+('[1] Veres M, Moussa M. Deep Learning for Intelligent Transportation Systems: A Survey of Emerging Trends[J]. IEEE Transactions on Intelligent Transportation Systems, 2020, 21(8): 3152-3168. DOI: 10.1109/TITS.2019.2929020.','https://doi.org/10.1109/TITS.2019.2929020'),
+('[2] Sochor J, Juránek R, Herout A. Traffic Surveillance Camera Calibration by 3D Model Bounding Box Alignment for Accurate Vehicle Speed Measurement[J]. Computer Vision and Image Understanding, 2017, 161: 87-98. DOI: 10.1016/j.cviu.2017.05.015.','https://doi.org/10.1016/j.cviu.2017.05.015'),
+('[3] Sochor J, Juránek R, Špaňhel J, et al. Comprehensive Data Set for Automatic Single Camera Visual Speed Measurement[J]. IEEE Transactions on Intelligent Transportation Systems, 2019, 20(5): 1633-1643. DOI: 10.1109/TITS.2018.2825609.','https://doi.org/10.1109/TITS.2018.2825609'),
+('[4] dronefreak. visdrone-yolo11n 模型卡[EB/OL]. [2026-10-03].','https://huggingface.co/dronefreak/visdrone-yolo11n'),
+('[5] Ultralytics. Ultralytics YOLO11 官方文档[EB/OL]. [2026-10-03].','https://docs.ultralytics.com/models/yolo11/'),
+('[6] Torchvision. ssdlite320_mobilenet_v3_large 官方文档[EB/OL]. [2026-10-03].','https://docs.pytorch.org/vision/stable/models/generated/torchvision.models.detection.ssdlite320_mobilenet_v3_large.html'),
+('[7] Zhu P, Wen L, Bian X, et al. Vision Meets Drones: A Challenge[EB/OL]. 2018. arXiv:1804.07437.','https://arxiv.org/abs/1804.07437'),
+('[8] Bewley A, Ge Z, Ott L, et al. Simple Online and Realtime Tracking[C]. ICIP, 2016. DOI: 10.1109/ICIP.2016.7533003.','https://doi.org/10.1109/ICIP.2016.7533003'),
+('[9] OpenCV. Geometric Image Transformations[EB/OL]. [2026-10-03].','https://docs.opencv.org/4.13.0/da/d54/group__imgproc__transform.html'),
+]
+refs.append(('[10] PIARC. Road Tunnels Manual: Video Automatic Incident Detection[EB/OL]. [2026-10-03].','https://tunnelsmanual.piarc.org/en/equipment-systems-monitoringincident-detection/automatic-incident-detection'))
+from docx.opc.constants import RELATIONSHIP_TYPE as RT
+for text,url in refs:
+    pa=doc.add_paragraph(text);pa.paragraph_format.first_line_indent=Pt(0);pa.paragraph_format.space_after=Pt(1)
+    for r in pa.runs:r.font.size=Pt(10.5)
+    link=OxmlElement('w:hyperlink');link.set(qn('r:id'),doc.part.relate_to(url,RT.HYPERLINK,is_external=True))
+    rr=OxmlElement('w:r');rp=OxmlElement('w:rPr');sz=OxmlElement('w:sz');sz.set(qn('w:val'),'21');rp.append(sz);rr.append(rp)
+    tt=OxmlElement('w:t');tt.set(qn('xml:space'),'preserve');tt.text=' 在线来源';rr.append(tt);link.append(rr);pa._p.append(link)
+
+

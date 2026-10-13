@@ -1,0 +1,22 @@
+{
+  "checks": [
+    "populated_event_report",
+    "cumulative_flow_not_summed",
+    "annotated_jpeg_coordinates",
+    "http_range_replay",
+    "review_saved",
+    "invalid_status_and_note_rejected",
+    "legacy_comparison_rejected",
+    "live_state_unchanged",
+    "changed_source_blocked_screenshot_preserved",
+    "review_survives_new_service",
+    "human_review_kept_separate",
+    "real_256_frame_report_matches_csv",
+    "real_uncalibrated_speed_null",
+    "real_six_lane_incomplete_windows"
+  ],
+  "count": 14,
+  "controlled_run": "20261002-162416-fcff4f",
+  "real_run": "20261002-162527-ef5968",
+  "result": "PASS"
+}

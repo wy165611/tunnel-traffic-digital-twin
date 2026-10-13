@@ -1,0 +1,97 @@
+{
+  "docx_sha256": "40d83a6f5a9fddfa82c749292c598af9e9fa2a6f73c4efc216f053015744b24c",
+  "pages": 15,
+  "figures": 8,
+  "native_editable_tables": 6,
+  "editable_equations": 0,
+  "algorithm_equations_removed": true,
+  "reference_count": 10,
+  "genuine_journal_papers": 3,
+  "superscript_citation_runs": 14,
+  "references_ordered_by_first_use": true,
+  "source_hash_mismatches": [],
+  "original_video_identity_rechecked": true,
+  "claim_hash_and_evidence_id_binding": "PASS",
+  "numeric_consistency": "PASS",
+  "layout_review": "PASS: all 15 final pages visually verified, no clipping, truncated tables or detached captions",
+  "render_directory": "/private/tmp/twin-undergraduate-qa3",
+  "human_submission_approval": "pending",
+  "file_size_bytes": 1066951,
+  "page_review": {
+    "1": {
+      "sha256": "23a120d4976e21cf4de0c808f1c969d4132580c0a0ddb5e48544ffd849dec2fc",
+      "method": "Final page pixel-identical to opened and visually inspected QA2 page",
+      "status": "PASS"
+    },
+    "2": {
+      "sha256": "5a7bf6f85efa13d1c93e98d5c73ec1d025b9f2773274534d511cd9941ddce567",
+      "method": "Final page pixel-identical to opened and visually inspected QA2 page",
+      "status": "PASS"
+    },
+    "3": {
+      "sha256": "d062da789791d3ffa829b0cc5ac868005588b8a8e6236a2f9c484d760ac4abd2",
+      "method": "Final page pixel-identical to opened and visually inspected QA2 page",
+      "status": "PASS"
+    },
+    "4": {
+      "sha256": "c2af7e61fdb4e9d390e4d61ec72b7e43200487c35e48f0a79824c63345a68581",
+      "method": "Final page pixel-identical to opened and visually inspected QA2 page",
+      "status": "PASS"
+    },
+    "5": {
+      "sha256": "611a42d9a87f434f7ea27944f38c01328ad2ebd684c38649a66e7ec69cb76675",
+      "method": "Final page pixel-identical to opened and visually inspected QA2 page",
+      "status": "PASS"
+    },
+    "6": {
+      "sha256": "83b15a4acb3146edc1f859a18bd99ef018ff2f1694cbc2473716de7098f3301a",
+      "method": "Final page pixel-identical to opened and visually inspected QA2 page",
+      "status": "PASS"
+    },
+    "7": {
+      "sha256": "e825439df042c36dc6ea26222e311d8e3a4ece75734088a3032afd1a1be58c1c",
+      "method": "Final page pixel-identical to opened and visually inspected QA2 page",
+      "status": "PASS"
+    },
+    "8": {
+      "sha256": "e9e723d1a171aa9f23b8179bf8ed776b351e053d36835b85686933bac1f3acbf",
+      "method": "Final page pixel-identical to opened and visually inspected QA2 page",
+      "status": "PASS"
+    },
+    "9": {
+      "sha256": "aa55fe695e3060f29a9e0cd871c06f966501685c83d56f5c9aa70f22630a4be5",
+      "method": "Final page pixel-identical to opened and visually inspected QA2 page",
+      "status": "PASS"
+    },
+    "10": {
+      "sha256": "0d0bd0060527936a4d00c470d639fe08ca29f541447ca4b3fa58f8b6c8254e31",
+      "method": "Final QA3 page opened and visually inspected",
+      "status": "PASS"
+    },
+    "11": {
+      "sha256": "f72c85eca1d6aa9423b7d589b45a72eae98ef39e012b5ca7e90f1450262173a3",
+      "method": "Final page pixel-identical to opened and visually inspected QA2 page",
+      "status": "PASS"
+    },
+    "12": {
+      "sha256": "86d16945d4b84a1a43afd8b454403e06903b38468e10b5739db9c33c2ffffc3d",
+      "method": "Final QA3 page opened and visually inspected",
+      "status": "PASS"
+    },
+    "13": {
+      "sha256": "891989b937715dc0f0236004fd9f77dc016ef445b79c17b8e0c00da5b4a78b2e",
+      "method": "Final QA3 page opened and visually inspected",
+      "status": "PASS"
+    },
+    "14": {
+      "sha256": "20cac44795f3cd186eab0e86752fc52a234f749105db2b0ce251042ff814c5f2",
+      "method": "Final QA3 page opened and visually inspected",
+      "status": "PASS"
+    },
+    "15": {
+      "sha256": "073c130043708eb6ed6418b4a66735d410ea4cf598582b545aa5f66f58edc9fe",
+      "method": "Final page pixel-identical to opened and visually inspected QA2 page",
+      "status": "PASS"
+    }
+  }
+}

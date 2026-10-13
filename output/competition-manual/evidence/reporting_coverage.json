@@ -1,0 +1,19 @@
+{
+  "document_type": "Chinese engineering competition project manual",
+  "clinical_guideline": "not_applicable; this is an engineering implementation and descriptive verification report",
+  "topics": {
+    "scope": "1.3",
+    "source_models": "2.2 and Table 2",
+    "methods": "2.1–2.6",
+    "parameters": "Table 3",
+    "software_validation": "4.3 and Table 4",
+    "descriptive_outputs": "4.4, Table 5 and Figure 8",
+    "independent_real_truth": "missing; explicitly disclosed in 4.4",
+    "limitations_and_next_experiments": "4.5 and Table 6",
+    "deployment_conditions": "5",
+    "human_approval": "pending",
+    "authorship": "team fields pending"
+  },
+  "submission_ready": false,
+  "note": "No checklist compliance certification or human approval is claimed."
+}

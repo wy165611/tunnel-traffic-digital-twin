@@ -1,0 +1,194 @@
+[
+  {
+    "name": "desktop",
+    "width": 1440,
+    "height": 960,
+    "bg": "#f7f0e3",
+    "columns": "287px 287px 287px 287px",
+    "controls": [
+      {
+        "height": 40.5,
+        "name": "导入视频"
+      },
+      {
+        "height": 40.5,
+        "name": "道路标定"
+      },
+      {
+        "height": 40.5,
+        "name": "开始分析"
+      },
+      {
+        "height": 40,
+        "name": "播放"
+      },
+      {
+        "height": 40,
+        "name": "重新分析，保留旧 CSV"
+      },
+      {
+        "height": 40,
+        "name": "0.5×1×2×"
+      }
+    ],
+    "pageWidth": 1440,
+    "railWidth": 196,
+    "sourceHeight": 52.5,
+    "tableScroll": [
+      {
+        "overflow": "auto",
+        "scrollWidth": 733,
+        "width": 733
+      },
+      {
+        "overflow": "auto",
+        "scrollWidth": 1194,
+        "width": 1194
+      }
+    ]
+  },
+  {
+    "name": "tablet",
+    "width": 1024,
+    "height": 768,
+    "bg": "#f7f0e3",
+    "columns": "440px 440px",
+    "controls": [
+      {
+        "height": 44,
+        "name": "导入视频"
+      },
+      {
+        "height": 44,
+        "name": "道路标定"
+      },
+      {
+        "height": 44,
+        "name": "开始分析"
+      },
+      {
+        "height": 44,
+        "name": "播放"
+      },
+      {
+        "height": 44,
+        "name": "重新分析，保留旧 CSV"
+      },
+      {
+        "height": 44,
+        "name": "0.5×1×2×"
+      }
+    ],
+    "pageWidth": 1024,
+    "railWidth": 80,
+    "sourceHeight": 52.5,
+    "tableScroll": [
+      {
+        "overflow": "auto",
+        "scrollWidth": 894,
+        "width": 894
+      },
+      {
+        "overflow": "auto",
+        "scrollWidth": 894,
+        "width": 894
+      }
+    ]
+  },
+  {
+    "name": "mobile",
+    "width": 390,
+    "height": 844,
+    "bg": "#f7f0e3",
+    "columns": "149px 149px",
+    "controls": [
+      {
+        "height": 44,
+        "name": "导入视频"
+      },
+      {
+        "height": 44,
+        "name": "道路标定"
+      },
+      {
+        "height": 44,
+        "name": "开始分析"
+      },
+      {
+        "height": 44,
+        "name": "播放"
+      },
+      {
+        "height": 44,
+        "name": "重新分析，保留旧 CSV"
+      },
+      {
+        "height": 44,
+        "name": "0.5×1×2×"
+      }
+    ],
+    "pageWidth": 390,
+    "railWidth": 58,
+    "sourceHeight": 111.5,
+    "tableScroll": [
+      {
+        "overflow": "auto",
+        "scrollWidth": 442,
+        "width": 306
+      },
+      {
+        "overflow": "auto",
+        "scrollWidth": 486,
+        "width": 306
+      }
+    ]
+  },
+  {
+    "name": "narrow",
+    "width": 320,
+    "height": 568,
+    "bg": "#f7f0e3",
+    "columns": "114px 114px",
+    "controls": [
+      {
+        "height": 44,
+        "name": "导入视频"
+      },
+      {
+        "height": 44,
+        "name": "道路标定"
+      },
+      {
+        "height": 44,
+        "name": "开始分析"
+      },
+      {
+        "height": 44,
+        "name": "播放"
+      },
+      {
+        "height": 44,
+        "name": "重新分析，保留旧 CSV"
+      },
+      {
+        "height": 44,
+        "name": "0.5×1×2×"
+      }
+    ],
+    "pageWidth": 320,
+    "railWidth": 58,
+    "sourceHeight": 136,
+    "tableScroll": [
+      {
+        "overflow": "auto",
+        "scrollWidth": 442,
+        "width": 236
+      },
+      {
+        "overflow": "auto",
+        "scrollWidth": 486,
+        "width": 236
+      }
+    ]
+  }
+]

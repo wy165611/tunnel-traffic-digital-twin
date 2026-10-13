@@ -1,0 +1,21 @@
+{
+  "checked_on": "2026-10-03",
+  "os": "macOS-26.6-arm64-arm-64bit-Mach-O",
+  "architecture": "arm64",
+  "python": "3.13.0",
+  "packages": {
+    "fastapi": "0.136.3",
+    "torch": "2.11.0",
+    "torchvision": "0.26.0",
+    "opencv-python": "4.13.0.92",
+    "ultralytics": "8.4.32",
+    "numpy": "2.2.6",
+    "scipy": "1.15.3"
+  },
+  "frontend": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "echarts": "^6.0.0",
+    "lucide-react": "^0.468.0"
+  }
+}

@@ -1,0 +1,735 @@
+{
+  "package": "基于视频感知的隧道交通数字孪生系统源码包",
+  "created_date": "2026-10-12",
+  "file_count_excluding_manifest": 144,
+  "files": [
+    {
+      "path": ".gitignore",
+      "size_bytes": 161,
+      "sha256": "930d2f1043a1c7370255ca85f215cd6d1e1c2615da542e315c239cb9ef131035"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "size_bytes": 10069,
+      "sha256": "64b7129e2ec97087e0b66773ebfacb39ec8a6c94430f272b33162c24c51b635c"
+    },
+    {
+      "path": "DESIGN.md",
+      "size_bytes": 5826,
+      "sha256": "9796f8d7413c456d078167696b0d11ce7b0ae6b76dbdab60b37d48f7e441e9c4"
+    },
+    {
+      "path": "README.md",
+      "size_bytes": 28155,
+      "sha256": "924fd02b0cc39d4086cc7abeea3838a17962845fafc7adc917511150bf66ed96"
+    },
+    {
+      "path": "TEST_REPORT.json",
+      "size_bytes": 744,
+      "sha256": "2c0aca28aa63d5616737543755905d58a8163d76eacda984e4468aa80b1fd95a"
+    },
+    {
+      "path": "backend/__init__.py",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend/annotations.py",
+      "size_bytes": 16913,
+      "sha256": "44cc84b5e44a6618b06075906f688d759fcd50a3c611f0f6ab26c4c410102250"
+    },
+    {
+      "path": "backend/api/__init__.py",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend/api/schemas.py",
+      "size_bytes": 4100,
+      "sha256": "341b832c81838a5da637d69028dd980d038f7c6adcbab47712a214b93de0fbf0"
+    },
+    {
+      "path": "backend/calibration/__init__.py",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend/calibration/homography.py",
+      "size_bytes": 1758,
+      "sha256": "c1abece0811383e1edd893e209f0d603e8e3c21045b98a920e9d57bc834c5c85"
+    },
+    {
+      "path": "backend/camera_templates.py",
+      "size_bytes": 8207,
+      "sha256": "8814fd093a5877f8a6650dc3cec9b86b372ae463bff76059578a261705aaa991"
+    },
+    {
+      "path": "backend/data/calibrations/3a247cda14c4bfd01d7d6a3a-scene.json",
+      "size_bytes": 2142,
+      "sha256": "5620954b4ce88c5a45d493667c70f33abab85ed31a5756f8e6cfe9cd6d7a446a"
+    },
+    {
+      "path": "backend/data/calibrations/50402aaca3607bdc2042a455-scene.json",
+      "size_bytes": 1521,
+      "sha256": "327d1c6b89b6549bcc235b3e36e04b939704d342d571cf80473d09052250f67f"
+    },
+    {
+      "path": "backend/evaluation.py",
+      "size_bytes": 13242,
+      "sha256": "10a058decc16fbdbe3dae6de426893c4d15ae7a8d6c89d3ebd8fed9a0f8f4fb7"
+    },
+    {
+      "path": "backend/events/__init__.py",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend/events/rules.py",
+      "size_bytes": 2722,
+      "sha256": "7a374ec3e1199f173e4cebbfe0da86a9f67c8c3e706ce024b87df09277e4ca06"
+    },
+    {
+      "path": "backend/evidence.py",
+      "size_bytes": 6447,
+      "sha256": "5908d1ce4e5c906d6400f19c80cd93345a7f83f3e251c98208f9698e650c4a4e"
+    },
+    {
+      "path": "backend/exporter.py",
+      "size_bytes": 4183,
+      "sha256": "65cd162acc2e44940e85da1aa8ffdbb9e8dda57849d655f95579eae5540115b1"
+    },
+    {
+      "path": "backend/main.py",
+      "size_bytes": 20925,
+      "sha256": "523b8da8fed5042d513fc088beb3b1483a3be0383cd38dbdfe3bd2b49a3aa1b6"
+    },
+    {
+      "path": "backend/processor.py",
+      "size_bytes": 9951,
+      "sha256": "53c7cc750522863e50a8030c90ae3c3b9ac594a8ac99a1b83dc43faf26c25e70"
+    },
+    {
+      "path": "backend/reports.py",
+      "size_bytes": 14075,
+      "sha256": "8d6cfc4d65b5f98e39af6150472f1f32496f45d1885e0f445ccd842e017946c2"
+    },
+    {
+      "path": "backend/security.py",
+      "size_bytes": 2518,
+      "sha256": "bcc036f82fab80ceccb45844d6f3214d5698e874e8131f5d8d0dd7ffc036eed6"
+    },
+    {
+      "path": "backend/service.py",
+      "size_bytes": 12916,
+      "sha256": "0a037afb6d622ad76fa76195a734b54b7fb6403619a323aa90a58d0a1838cd10"
+    },
+    {
+      "path": "backend/settings.py",
+      "size_bytes": 415,
+      "sha256": "bc9f658fb04c120cd3e867dfd725182f2a03d0feb57fd5251f1aa651eb290ecf"
+    },
+    {
+      "path": "backend/traffic/__init__.py",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend/traffic/counting_line.py",
+      "size_bytes": 1454,
+      "sha256": "ac87f581583131a5e931e545c8e24b06a40401e50e3a7306021babc9ef181a23"
+    },
+    {
+      "path": "backend/traffic/flow_counter.py",
+      "size_bytes": 2763,
+      "sha256": "56269f268619d8a6d3d662cd772084a2c28565d78cd9cd3f92eb423f4a6bc4e2"
+    },
+    {
+      "path": "backend/traffic/lane_detector.py",
+      "size_bytes": 344,
+      "sha256": "64ca602c68777672a5cced470ccd9d81730411346ccdd8d4bf8cb0211645b4eb"
+    },
+    {
+      "path": "backend/traffic/speed_estimator.py",
+      "size_bytes": 1171,
+      "sha256": "2b2aff6d84e91c49be3b01e2d5b76691e8209dea3ab8be6479ef95b1bfd1ecd1"
+    },
+    {
+      "path": "backend/traffic/traffic_metrics.py",
+      "size_bytes": 1208,
+      "sha256": "ad862d48955661acf55a48ac0497c863a80dbb92fe1f90e789d702e9d27b0c87"
+    },
+    {
+      "path": "backend/traffic/vehicle_state.py",
+      "size_bytes": 475,
+      "sha256": "5847eadcde6cbb55b41b3316292180cbca67869483c89a39543f0bc0aa1a08db"
+    },
+    {
+      "path": "backend/vision/__init__.py",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend/vision/detector.py",
+      "size_bytes": 4780,
+      "sha256": "d2d49c12ed835c6d2eda6e919b0c2fa278c582dfebe0c4d7cdeadc0135091f3a"
+    },
+    {
+      "path": "backend/vision/tracker.py",
+      "size_bytes": 3271,
+      "sha256": "4cb96f6c6e9ddef08a80956abe7f78d803098a441295363e850e47e4e5d4b428"
+    },
+    {
+      "path": "backend/vision/video_reader.py",
+      "size_bytes": 5495,
+      "sha256": "fb77e44c5927b57aab0f503747f617914f8b4151c9159738f817ed155a3a2554"
+    },
+    {
+      "path": "backend/vision/weights.py",
+      "size_bytes": 1011,
+      "sha256": "d3caa3f3b45f1fef7175849c8cea518888ed9ab46c448befb36a2736e6b6cff7"
+    },
+    {
+      "path": "config.yaml",
+      "size_bytes": 611,
+      "sha256": "01e831d4b971e1fcd710791f76c44540415acf083a3c94eb03cb4b17b4a90a98"
+    },
+    {
+      "path": "docs/Windows启动说明.md",
+      "size_bytes": 3661,
+      "sha256": "fb6a847de1a164979d7a1631af35be58ceb36fc53f12d96b68e9340fd394b8d2"
+    },
+    {
+      "path": "docs/Windows启动说明.pdf",
+      "size_bytes": 128334,
+      "sha256": "8374a709c30e67c4d91de87feac1f5eb73366efdcaf560942e813161fdfd09bf"
+    },
+    {
+      "path": "docs/accuracy-evaluation.md",
+      "size_bytes": 3595,
+      "sha256": "0b158e3119f080a2521a08eb2a90931a0df8ed45f431bb61d5799d99c3377960"
+    },
+    {
+      "path": "docs/automatic-flow.md",
+      "size_bytes": 2786,
+      "sha256": "fc0f7e3f5864a7c0356f82800497a4d82ebbc4f3df2acbf7d4a84f53746cdfd5"
+    },
+    {
+      "path": "docs/camera-templates.md",
+      "size_bytes": 4109,
+      "sha256": "4f8e98e81709650c51687249f43328c946fcfcca6f6dfc65657b58e960578250"
+    },
+    {
+      "path": "docs/design-review/README.md",
+      "size_bytes": 3692,
+      "sha256": "d4a2dfb94b121016500ebc744dad5d7841437584205be4562b9b9f16cd42f46f"
+    },
+    {
+      "path": "docs/design-review/desktop.jpg",
+      "size_bytes": 182342,
+      "sha256": "08bfdce1db1cb4b3c861aea34fee039f8cdf598e667a677084b0ae64a2c3e41e"
+    },
+    {
+      "path": "docs/design-review/mobile.jpg",
+      "size_bytes": 107044,
+      "sha256": "55cc5ed71c120c9959370bfae2894e28b255c71a996e15151234889d92babea6"
+    },
+    {
+      "path": "docs/features-analysis.md",
+      "size_bytes": 6463,
+      "sha256": "760f90808346c86c350abefe4920346f4f96e9981003aac8741b70b54f8da5a5"
+    },
+    {
+      "path": "docs/final-result.jpg",
+      "size_bytes": 97275,
+      "sha256": "14280a20cf01285f76830da938e5f5a0b42106f127c245c04c207200fd3dab74"
+    },
+    {
+      "path": "docs/linear-design/README.md",
+      "size_bytes": 4015,
+      "sha256": "b4efeff7c22efa03f667784ee6993090b9e268310d7585548e68cd6492415a67"
+    },
+    {
+      "path": "docs/linear-design/desktop-analysis.jpg",
+      "size_bytes": 98120,
+      "sha256": "7fd05bbb0484460a405c19ab87cbbc39b33cbb806d8139c57d5792cb3cad1fb2"
+    },
+    {
+      "path": "docs/linear-design/desktop-full.jpg",
+      "size_bytes": 302904,
+      "sha256": "4d06b818dd444be2000305964aa7094167d5dd86a42f640a93c7acd3f20ec4c2"
+    },
+    {
+      "path": "docs/linear-design/desktop.jpg",
+      "size_bytes": 102999,
+      "sha256": "92ea403b41f6b703de646cd8102d49283a14a879d629aa4be7985b7812db2854"
+    },
+    {
+      "path": "docs/linear-design/history-spacing-desktop.jpg",
+      "size_bytes": 63773,
+      "sha256": "a0c9b0cfae4272315d66f37fc635179d8ab5ba0f2d959cabf750b827e004c5ed"
+    },
+    {
+      "path": "docs/linear-design/history-spacing.jpg",
+      "size_bytes": 28709,
+      "sha256": "d5a8ba24508f3f9341bc035361728d19ebc8d7495be0415a13319f8932e9bd4d"
+    },
+    {
+      "path": "docs/linear-design/mobile-dialog.jpg",
+      "size_bytes": 28351,
+      "sha256": "cbe68024f948e1eee41f77c4a52e9e08fa17539549ddd56c04dd03a9789f73b1"
+    },
+    {
+      "path": "docs/linear-design/mobile-full.jpg",
+      "size_bytes": 211317,
+      "sha256": "d673e80cae2a6cc72bc6826e7c161dec0e6e7240934024073d1aee0092bb5273"
+    },
+    {
+      "path": "docs/linear-design/mobile-report.jpg",
+      "size_bytes": 36729,
+      "sha256": "8c50c9676f2b109cd3ba60f2eddabacda7c9332baa21a7de1f983b574f58419a"
+    },
+    {
+      "path": "docs/linear-design/mobile-settings.jpg",
+      "size_bytes": 31881,
+      "sha256": "71930cb9721389259faf8ec5d83ad06579d5378b36aead1ec98eb5394c28c8c0"
+    },
+    {
+      "path": "docs/linear-design/mobile-table.jpg",
+      "size_bytes": 40587,
+      "sha256": "8b9e150063b6ae001904848591dd53aa1475d675eca2a53f1d27066528ab8568"
+    },
+    {
+      "path": "docs/linear-design/mobile-template.jpg",
+      "size_bytes": 45061,
+      "sha256": "b907c165c5845c33c869b0fc91f43092689a0bf2465e40d1f15ae83ca80718ee"
+    },
+    {
+      "path": "docs/linear-design/mobile.jpg",
+      "size_bytes": 43078,
+      "sha256": "13872febe0da6232e7602d4aba04887f7a10d1f698681c2643c1486e420ef70b"
+    },
+    {
+      "path": "docs/linear-design/narrow.jpg",
+      "size_bytes": 25504,
+      "sha256": "6bab132c541b824eb8457cb767b00c90d69b3717600c7042d41a6945cbb5fd66"
+    },
+    {
+      "path": "docs/linear-design/tablet-full.jpg",
+      "size_bytes": 274670,
+      "sha256": "7fa0efe85bdf89b36da83a611345cf264ba9aa7915acd12813e06f6d1f620999"
+    },
+    {
+      "path": "docs/linear-design/tablet-settings.jpg",
+      "size_bytes": 46437,
+      "sha256": "bf35bdf5b351aaa1bb395966d7c35262ed1014c522de9430fd705f6ba55f56e7"
+    },
+    {
+      "path": "docs/linear-design/tablet.jpg",
+      "size_bytes": 61128,
+      "sha256": "f1b7712a37338e0971bbbc2f7f6d5c8047d3e78e80710c7d497ffd13fd54a573"
+    },
+    {
+      "path": "docs/linear-design/viewport-checks.json",
+      "size_bytes": 3448,
+      "sha256": "05a8e5a90944bbe6e7ad4b7256e6e0788b75c3c3f5d166fcefd780e1c3dac351"
+    },
+    {
+      "path": "docs/review-smoke-2026-10-02.json",
+      "size_bytes": 868,
+      "sha256": "a1ab7c9f891884c5f8192eec050e4edb4be5922b001a17efdc200a297409b51d"
+    },
+    {
+      "path": "docs/sidebar-navigation.md",
+      "size_bytes": 2690,
+      "sha256": "85ffddf6cbf19225096ac361617c071a1b63685f0121c44c64a7f73dbc87bced"
+    },
+    {
+      "path": "docs/system-preview.jpg",
+      "size_bytes": 157085,
+      "sha256": "dca0cf6f74c8791e16c10ae62be8c079909d2d97c3a849d345e57c6a05224290"
+    },
+    {
+      "path": "docs/twin-orientation.md",
+      "size_bytes": 2110,
+      "sha256": "9494882d9a6a33977fb28a4517bf92d6013010645733c93fcdc0dc840be895c9"
+    },
+    {
+      "path": "docs/visual-evaluation.md",
+      "size_bytes": 8273,
+      "sha256": "6188f1b9dde251c85d60c647f30efc829d650131a5118d44c6e7aaca6aa7357b"
+    },
+    {
+      "path": "examples/demo_scene.json",
+      "size_bytes": 2205,
+      "sha256": "4d7943374dec7cb21e0219143ee2a3466741bca7c0c97b7001dd04cf92b7b3cd"
+    },
+    {
+      "path": "examples/evaluation_truth.template.json",
+      "size_bytes": 203,
+      "sha256": "439534bf3ddd3c88644122bcdb31efad25cc555e818ca739745eedc89bfb4efa"
+    },
+    {
+      "path": "frontend/index.html",
+      "size_bytes": 601,
+      "sha256": "ba41309601edd2573e52df047ff53e8b2428d6028f3f1faab372997af9b5c6eb"
+    },
+    {
+      "path": "frontend/package-lock.json",
+      "size_bytes": 63313,
+      "sha256": "f57f1723c13063736cc9a59594c4b7e341f5c9c8da76a106ef82721fc98e1458"
+    },
+    {
+      "path": "frontend/package.json",
+      "size_bytes": 531,
+      "sha256": "c39195699bddfc0747cff63e1d7b231922948ac7abed8d3c3863b29cf152abf2"
+    },
+    {
+      "path": "frontend/public/favicon.svg",
+      "size_bytes": 276,
+      "sha256": "dcd84ba5e082c8f62e8b6a8a838f7b86dd4b27aa050732de3f0042a8a8816410"
+    },
+    {
+      "path": "frontend/src/App.tsx",
+      "size_bytes": 19641,
+      "sha256": "49d61c70331151f9b8b36891112ebf378ac2152fa029bd85a21ca776a9b618f8"
+    },
+    {
+      "path": "frontend/src/api.ts",
+      "size_bytes": 722,
+      "sha256": "1dd6fc2330052732a0fb3c769789f72336a071aaf6a155da969f24f79d1f44ca"
+    },
+    {
+      "path": "frontend/src/components/AnalysisChart.tsx",
+      "size_bytes": 1770,
+      "sha256": "5efa5424e447305226b19e391bf01a939e550aeded1f8a48cbd22961f0be0090"
+    },
+    {
+      "path": "frontend/src/components/AnnotationDialog.tsx",
+      "size_bytes": 22691,
+      "sha256": "8a02b2f9875b9877173fe5abda4973fa28e223f9105b2347c2a328fd82381056"
+    },
+    {
+      "path": "frontend/src/components/BrandMark.tsx",
+      "size_bytes": 328,
+      "sha256": "40c407198fb3928acf374e1b2f09e60a0681c2ec779fc68488e19b77d1cb281c"
+    },
+    {
+      "path": "frontend/src/components/CalibrationPanel.tsx",
+      "size_bytes": 7692,
+      "sha256": "d397972176477a38af99da54697a4d27cd54e9bbf27c3fa07c404f4eeb57cb38"
+    },
+    {
+      "path": "frontend/src/components/CameraTemplatesDialog.tsx",
+      "size_bytes": 8525,
+      "sha256": "60e1ca14a8baf5b7ebcf09882bfb7e8f83fbffb6fbe3f7256df3680ec2527fa3"
+    },
+    {
+      "path": "frontend/src/components/Charts.tsx",
+      "size_bytes": 3887,
+      "sha256": "9e689200fc0bee55413e0caef8d1659dc81373868d2f36c7eedabfab9b7e8a0f"
+    },
+    {
+      "path": "frontend/src/components/Dashboard.tsx",
+      "size_bytes": 1498,
+      "sha256": "b9058b9ec431eb3accf4233dd6c7bf0f56802e34c1f450af1b0d64258bd23e98"
+    },
+    {
+      "path": "frontend/src/components/DataExportPanel.tsx",
+      "size_bytes": 5887,
+      "sha256": "ffd346d5a9013254d6a8f589c1fa36bfe36c44537522396f55161291de02a993"
+    },
+    {
+      "path": "frontend/src/components/DigitalTwin.tsx",
+      "size_bytes": 5927,
+      "sha256": "d1415202ed9313103dc26e78ab3db3476196fdff0b3d9d61812344e743f4aef5"
+    },
+    {
+      "path": "frontend/src/components/EventPanel.tsx",
+      "size_bytes": 1443,
+      "sha256": "36d422f9e16a724c141add59749642045e1ebff1d5aa08a198348ea70546b224"
+    },
+    {
+      "path": "frontend/src/components/EvidenceDialog.tsx",
+      "size_bytes": 5580,
+      "sha256": "a06b2e22a056e9868c793cc016007d7f003c7b73f7c76c3824c666b2f1cffa28"
+    },
+    {
+      "path": "frontend/src/components/ImportDialog.tsx",
+      "size_bytes": 2441,
+      "sha256": "8cf7bf5972ffbc5b1e7c55af165efb35393a761bfdef99f48b4e06c07832c064"
+    },
+    {
+      "path": "frontend/src/components/LaneTrends.tsx",
+      "size_bytes": 2745,
+      "sha256": "feeca8b49c0c2b2d5c6d0a4f49b9523670a85480646f5ee501db65cea7d43e56"
+    },
+    {
+      "path": "frontend/src/components/ReportDialog.tsx",
+      "size_bytes": 8852,
+      "sha256": "40066cb4a5a6ad61677e5011739f5f198ae27c40405cab554c5914048f336062"
+    },
+    {
+      "path": "frontend/src/components/RoadOverlay.tsx",
+      "size_bytes": 2817,
+      "sha256": "f333c08462733d8a5763585a64205c5fff7d3a27c4e8b4b3d471d87d12086444"
+    },
+    {
+      "path": "frontend/src/components/RunPlayer.tsx",
+      "size_bytes": 4256,
+      "sha256": "dc0013a0e353c166df9e1e659cf04093c977eeee272319e4eb4d69da846fb6ea"
+    },
+    {
+      "path": "frontend/src/components/Sidebar.tsx",
+      "size_bytes": 5469,
+      "sha256": "8b2450cfdb96e5aee8da110d681e5592fb95cea125b3a640e4419459dbcdbcc0"
+    },
+    {
+      "path": "frontend/src/components/VideoView.tsx",
+      "size_bytes": 4360,
+      "sha256": "4895c56e4490bffea863fc2ecae46da4013a36f7e6dbbdabc48a46879236c749"
+    },
+    {
+      "path": "frontend/src/hooks/useDecodedSnapshot.ts",
+      "size_bytes": 844,
+      "sha256": "aecd2a96bfaa8d7c847df9a7caebc7a05ad2e2b4935f5293433bff3366e54407"
+    },
+    {
+      "path": "frontend/src/hooks/useSectionNavigation.ts",
+      "size_bytes": 3288,
+      "sha256": "68ae5efa6d0f29cd8a5a8630f6d0fbdadf613a0b82378129729c19619980b19c"
+    },
+    {
+      "path": "frontend/src/main.tsx",
+      "size_bytes": 218,
+      "sha256": "e34b50223ac942759bc00c81a3d886fa77fc39645c31a32bd14841cbaceb2300"
+    },
+    {
+      "path": "frontend/src/styles.css",
+      "size_bytes": 38955,
+      "sha256": "ad6526b802c83f11ca451a7d696261a48c4a05a0d498e5a2874383ba10f1614b"
+    },
+    {
+      "path": "frontend/src/theme.ts",
+      "size_bytes": 1001,
+      "sha256": "7cc4eb811bc3321b4989509bd500417c6e5c283f0ca0e82f972f24de3f5e1156"
+    },
+    {
+      "path": "frontend/src/types/index.ts",
+      "size_bytes": 6975,
+      "sha256": "2ad7c1ac9e1c9568c5d761a9795778d3c2c927132b8489f966bd4bb21205187e"
+    },
+    {
+      "path": "frontend/src/utils/analysisData.ts",
+      "size_bytes": 736,
+      "sha256": "e934c85ad874e3b79432ad97cc7b5973523228cfb7c5e8f411cf6a26c946f6f1"
+    },
+    {
+      "path": "frontend/src/utils/canvasLabel.ts",
+      "size_bytes": 947,
+      "sha256": "239ca9854d8e499dc8439a9d9ced5af7885b5c03c4b110ecf9638fb1303067b1"
+    },
+    {
+      "path": "frontend/src/utils/manualAnalysis.ts",
+      "size_bytes": 12396,
+      "sha256": "1be0b6bbcb4192365342f2109d83cc5e2a282fe7b22ca6056e48ad194ded50ef"
+    },
+    {
+      "path": "frontend/src/utils/snapshotState.ts",
+      "size_bytes": 2878,
+      "sha256": "40eb9f16165d8b476e2e817e4528558a95b59a959b2f50be646f32e8d639c184"
+    },
+    {
+      "path": "frontend/src/utils/twinGeometry.ts",
+      "size_bytes": 3537,
+      "sha256": "bca3594a3b4e456735e755fe4199770239d0e799a9ade389a7407061fc5d8e9b"
+    },
+    {
+      "path": "frontend/tests/analysisData.test.mjs",
+      "size_bytes": 1799,
+      "sha256": "c7f53d17592fa1992f266c7fa44cb8ac8906122b5aaa019dcd33b5ce0e782b3b"
+    },
+    {
+      "path": "frontend/tests/canvasLabel.test.mjs",
+      "size_bytes": 1288,
+      "sha256": "af2cedad80e7945ff44177b1972b80b6f495a43415698c0c3a1dc12b5ff9ea2a"
+    },
+    {
+      "path": "frontend/tests/manualAnalysis.test.mjs",
+      "size_bytes": 8416,
+      "sha256": "92f7c153c7a5d5dad0de73bcdda4ea670e26792ac112ae44fcb130ba8a45501d"
+    },
+    {
+      "path": "frontend/tests/snapshotState.test.mjs",
+      "size_bytes": 6415,
+      "sha256": "9360d5d0d27b0941c7afb32a011552c57aff9ecdf4cd8fff88a9d389a721001a"
+    },
+    {
+      "path": "frontend/tests/twinGeometry.test.mjs",
+      "size_bytes": 3614,
+      "sha256": "a1b8441681018ad3fbef0291694031d0086b5ce21a20c06c79a14bd8a3d6acc0"
+    },
+    {
+      "path": "frontend/tests/visualTheme.test.mjs",
+      "size_bytes": 1749,
+      "sha256": "714b949f8fa1b7177c2f6867bb0dc33ff4a5e72f0931409389225e69d0e842d5"
+    },
+    {
+      "path": "frontend/tsconfig.json",
+      "size_bytes": 291,
+      "sha256": "54dfc5440ca6375db6c587e78e902009ad0128952cc50855ed8afb5ac5ebba32"
+    },
+    {
+      "path": "frontend/vite.config.ts",
+      "size_bytes": 369,
+      "sha256": "d123de433239f7aceaac6dac586b0e4950137b7746272e134554989fb07fdcec"
+    },
+    {
+      "path": "models.json",
+      "size_bytes": 1277,
+      "sha256": "adc03af2b72803e9661e444c1b060337606abd4e815c7cb1f80edc9b335b0677"
+    },
+    {
+      "path": "pytest.ini",
+      "size_bytes": 42,
+      "sha256": "6c6ccf864e8f2d2e0223ee8e39bfde660c12435aa37d81e2b14000a6bee15003"
+    },
+    {
+      "path": "requirements-locked-macos-py313.txt",
+      "size_bytes": 1160,
+      "sha256": "3b12ab12f4983aea13c69d243d2bd3bbe6f3c1038b595efb62a2d80b5045b242"
+    },
+    {
+      "path": "requirements-verified.txt",
+      "size_bytes": 265,
+      "sha256": "0a7ca5f9169e91712f99345f7bc08ad60b1d8cfad6474c6cb391c19e9ce98666"
+    },
+    {
+      "path": "requirements.txt",
+      "size_bytes": 222,
+      "sha256": "254b20c6f7c3f8a6870a4362cffb6f2cebbe041ee635e0cb43c7ce6f18ae0a58"
+    },
+    {
+      "path": "scripts/analyze.py",
+      "size_bytes": 3480,
+      "sha256": "02ecff0ebb61e58c8d8e62c0c455b84cafef1e95feba274417f893a1748c44e3"
+    },
+    {
+      "path": "scripts/check_runtime.py",
+      "size_bytes": 3173,
+      "sha256": "e71167bcfa0a9b42ecbd5fa88c845bd0cc8e7b8a01130cb0d10361d6f87fe1c4"
+    },
+    {
+      "path": "scripts/dev.sh",
+      "size_bytes": 239,
+      "sha256": "3753e01f589e2f8b8d4c855a0eaf5132c9d925a7612da74307991ea44f214093"
+    },
+    {
+      "path": "scripts/download_models.py",
+      "size_bytes": 2142,
+      "sha256": "a15fb7cd7f6562db603e9192f6b426967ba1bed80fc4d809fb335328a866af29"
+    },
+    {
+      "path": "scripts/evaluate.py",
+      "size_bytes": 1075,
+      "sha256": "bb1a7b88714472a9505ff63a9b8df8a2f62940c68b2ef930b4b2f9198e454e96"
+    },
+    {
+      "path": "scripts/lock_dependencies.py",
+      "size_bytes": 1841,
+      "sha256": "3ef6a56d7316f6895e9675bb9966153a8b7fa3cc8fd807ee2268caaf6308c44a"
+    },
+    {
+      "path": "scripts/prepare_demo.py",
+      "size_bytes": 1478,
+      "sha256": "dc1c0befc52924f9251945ee645b222864ef8533b4bc896c1e6aaf4c3ed3eed9"
+    },
+    {
+      "path": "scripts/setup-windows.ps1",
+      "size_bytes": 3098,
+      "sha256": "df508791442cd45814fcad866c8cb31103ec7b00a1e88d840a5da86a431afc99"
+    },
+    {
+      "path": "scripts/setup.sh",
+      "size_bytes": 1247,
+      "sha256": "a61bb31403f2e87ec6fdec22b0b2161a3d64cd0d8788d21c9a770c5e2d138de2"
+    },
+    {
+      "path": "scripts/smoke_video.py",
+      "size_bytes": 4091,
+      "sha256": "8b133e8e9067d3d48cb982d82cb7f0f7c5e5a14345ad51bc794b68245a2c619b"
+    },
+    {
+      "path": "start-windows.bat",
+      "size_bytes": 806,
+      "sha256": "233b7235a3585732219b8676efa7298b3aef1e3a790e4cd9e02205ecb6132665"
+    },
+    {
+      "path": "start.sh",
+      "size_bytes": 481,
+      "sha256": "91e52fac9498f0eebe8cb65bc39f0f7b8f6027bf54b5abdc9e08d2d35b4a8693"
+    },
+    {
+      "path": "tests/conftest.py",
+      "size_bytes": 347,
+      "sha256": "abe76ca8cb35c4a1c2bd49a808a6aba293e7495c2925b0233d91ffbf8276ba42"
+    },
+    {
+      "path": "tests/test_analysis_features.py",
+      "size_bytes": 13364,
+      "sha256": "aa7af6bfbd4f6baec6431b3b60a472f323c0d7c99afe80ed53b5b45c48a73d86"
+    },
+    {
+      "path": "tests/test_annotations.py",
+      "size_bytes": 12096,
+      "sha256": "bace8be6a822564e48cab2cc78b7a5a1c6c1cd54a92d264566075a389e568d5c"
+    },
+    {
+      "path": "tests/test_api.py",
+      "size_bytes": 14533,
+      "sha256": "35396ccad82cd1c47dbeaa95ec9039e862b8ccd4d47a2dff84b00d9e32a94532"
+    },
+    {
+      "path": "tests/test_camera_templates.py",
+      "size_bytes": 9853,
+      "sha256": "e9fa0a4d256f4f5c143948cfed18ced9a6be374eb6e98278048502785069bd68"
+    },
+    {
+      "path": "tests/test_cli.py",
+      "size_bytes": 1710,
+      "sha256": "6490853ae688a00fdb1bc5e6107cb38fc6fcd9eaac0ac2329aedca1a570060ea"
+    },
+    {
+      "path": "tests/test_core.py",
+      "size_bytes": 6558,
+      "sha256": "fd19a77895dc914cba9dab1f26dd9296251b11fa5fd4cc5efe4e29a13f92b68b"
+    },
+    {
+      "path": "tests/test_counting_line.py",
+      "size_bytes": 1754,
+      "sha256": "ccfab1241ddb9231800f3dab60c6bbc2e76ba60666e14ba58ed90bcb54ce5dae"
+    },
+    {
+      "path": "tests/test_evaluation.py",
+      "size_bytes": 3137,
+      "sha256": "b995efacb098302de6b6d8cd2e3bd4a7f0d2195627b9b8630038ecbb21339776"
+    },
+    {
+      "path": "tests/test_review_regressions.py",
+      "size_bytes": 6088,
+      "sha256": "e03ffbd0e7e8e5ca42542093edc6145eeeacf4675688698861e1b94b0be96a6e"
+    },
+    {
+      "path": "tests/test_video_timing.py",
+      "size_bytes": 2383,
+      "sha256": "c0e1d9195ce3874ca37b64d172579f532d84a934a40d9ae3e745dc15cd6c8879"
+    }
+  ],
+  "excluded_local_runtime_data": [
+    "virtual environments",
+    "node_modules and frontend build output",
+    "model weights",
+    "videos",
+    "analysis runs",
+    "generated screenshots and caches"
+  ]
+}

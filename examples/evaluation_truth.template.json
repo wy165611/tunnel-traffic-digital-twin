@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "verified": false,
+  "annotator": "",
+  "video_identity": "替换为统计段 run.json 中的哈希",
+  "interval": [0, 5],
+  "crossings": [],
+  "speeds": [],
+  "events": []
+}

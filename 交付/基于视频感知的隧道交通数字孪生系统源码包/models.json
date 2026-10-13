@@ -1,0 +1,26 @@
+[
+  {
+    "filename": "visdrone-yolo11n.pt",
+    "url": "https://huggingface.co/dronefreak/visdrone-yolo11n/resolve/main/best.pt",
+    "name": "VisDrone YOLO11n (publisher pretrained; no local training)",
+    "source": "https://huggingface.co/dronefreak/visdrone-yolo11n",
+    "license": "AGPL-3.0; VisDrone non-commercial dataset conditions",
+    "sha256": "97d78d933f46d693f68817fca253c728444aafcec92be42c86ad703ed67d40d5"
+  },
+  {
+    "filename": "yolo11n.pt",
+    "url": "https://github.com/ultralytics/assets/releases/download/v8.3.0/yolo11n.pt",
+    "name": "Official COCO YOLO11n",
+    "source": "https://docs.ultralytics.com/models/yolo11/",
+    "license": "AGPL-3.0",
+    "sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1"
+  },
+  {
+    "filename": "checkpoints/ssdlite320_mobilenet_v3_large_coco-a79551df.pth",
+    "url": "https://download.pytorch.org/models/ssdlite320_mobilenet_v3_large_coco-a79551df.pth",
+    "name": "Official COCO SSD MobileNetV3",
+    "source": "https://docs.pytorch.org/vision/stable/models/generated/torchvision.models.detection.ssdlite320_mobilenet_v3_large.html",
+    "license": "Torchvision BSD-3-Clause; weights source terms",
+    "sha256": "a79551df90c79834bcd3bb3845ef9d966b5449a3a9b2833ae8404778ca5d65d2"
+  }
+]

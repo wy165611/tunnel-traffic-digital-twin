@@ -1,0 +1,176 @@
+[
+  {
+    "number": 1,
+    "kind": "figure",
+    "asset": "fig1-architecture.png",
+    "caption": "系统总体架构  依据当前源码绘制",
+    "processing": "Source-derived conceptual diagram, explicitly labeled as such; no measured value asserted.",
+    "evidence": [
+      "E015",
+      "E005",
+      "E016"
+    ],
+    "asset_sha256": "08e9378e33a3e30bd0cfb73427d0ff9bb0bcbfbe81fbe4eb96e300d796aed7f0",
+    "rights_status": "Local user-provided project material; external redistribution/competition permissions pending team confirmation."
+  },
+  {
+    "number": 1,
+    "kind": "table",
+    "title": "系统模块及功能",
+    "native_word_table": true,
+    "evidence": [
+      "E005",
+      "E018",
+      "E019",
+      "E021"
+    ]
+  },
+  {
+    "number": 2,
+    "kind": "table",
+    "title": "预训练模型来源与选型依据",
+    "native_word_table": true,
+    "evidence": [
+      "E003",
+      "E006",
+      "E001"
+    ]
+  },
+  {
+    "number": 2,
+    "kind": "figure",
+    "asset": "fig2-pipeline.png",
+    "caption": "视频感知与交通分析流程  观测门控区分检测与预测",
+    "processing": "Source-derived conceptual diagram, explicitly labeled as such; no measured value asserted.",
+    "evidence": [
+      "E005",
+      "E007"
+    ],
+    "asset_sha256": "7b414caf502a42e06eee21c8a0ea127d08ad7de6d0ad8c4647a573683ea65263",
+    "rights_status": "Local user-provided project material; external redistribution/competition permissions pending team confirmation."
+  },
+  {
+    "number": 3,
+    "kind": "figure",
+    "asset": "fig3-calibration.png",
+    "caption": "四点道路标定与坐标映射  概念示意，非实测道路",
+    "processing": "Source-derived conceptual diagram, explicitly labeled as such; no measured value asserted.",
+    "evidence": [
+      "E010"
+    ],
+    "asset_sha256": "e18b426f4c3760791ab157ca432e17a575a1ee1e7e2fe69f0834472256deb363",
+    "rights_status": "Local user-provided project material; external redistribution/competition permissions pending team confirmation."
+  },
+  {
+    "number": 4,
+    "kind": "figure",
+    "asset": "fig4-twin.png",
+    "caption": "桥梁视频与二维孪生同帧对照  实际界面及同一ID局部放大，未标定",
+    "processing": "Original screenshot pixels cropped; two ID 1 insets enlarged 3x with Lanczos, aspect ratios preserved; descriptive labels added outside original pixels.",
+    "evidence": [
+      "E066",
+      "E032"
+    ],
+    "asset_sha256": "c88b49dad7458fd7132cfd884d9c52fb66b9a87537d0e2401985ed39f359df65",
+    "rights_status": "Local user-provided project material; external redistribution/competition permissions pending team confirmation."
+  },
+  {
+    "number": 3,
+    "kind": "table",
+    "title": "关键参数单位与启用条件",
+    "native_word_table": true,
+    "evidence": [
+      "E004",
+      "E014",
+      "E011",
+      "E012"
+    ]
+  },
+  {
+    "number": 5,
+    "kind": "figure",
+    "asset": "fig5-evidence.png",
+    "caption": "异常事件证据与人工复核流程  依据源码绘制",
+    "processing": "Source-derived conceptual diagram, explicitly labeled as such; no measured value asserted.",
+    "evidence": [
+      "E019",
+      "E021"
+    ],
+    "asset_sha256": "75ae815dd672d4c9cc4da4ae4c35899c85e70a1c8d23e6d591de86c526f46a6c",
+    "rights_status": "Local user-provided project material; external redistribution/competition permissions pending team confirmation."
+  },
+  {
+    "number": 6,
+    "kind": "figure",
+    "asset": "fig6-report.png",
+    "caption": "桥梁报告指标区  实际界面，19次机器过线",
+    "processing": "Original screenshot crop of interval and cumulative machine count cards.",
+    "evidence": [
+      "E067"
+    ],
+    "asset_sha256": "6bc129ec0daf878ac301e21a89f16a8c930fbdf599fad8e163da773fa4494730",
+    "rights_status": "Local user-provided project material; external redistribution/competition permissions pending team confirmation."
+  },
+  {
+    "number": 7,
+    "kind": "figure",
+    "asset": "fig7-evaluation.png",
+    "caption": "人工评测结果区  受控流程验收，非真实精度实验",
+    "processing": "Original controlled-test screenshot crop; explicit synthetic-label disclaimer outside pixels.",
+    "evidence": [
+      "E068",
+      "E036"
+    ],
+    "asset_sha256": "4540f5283fd7f965cefea0d2f50a16f0d102701b3eb5f927fb83366e09a6f045",
+    "rights_status": "Local user-provided project material; external redistribution/competition permissions pending team confirmation."
+  },
+  {
+    "number": 4,
+    "kind": "table",
+    "title": "功能验证与实际运行证据",
+    "native_word_table": true,
+    "evidence": [
+      "E033",
+      "E058",
+      "E037",
+      "E060",
+      "E063"
+    ]
+  },
+  {
+    "number": 8,
+    "kind": "figure",
+    "asset": "fig8-traffic.png",
+    "caption": "真实桥梁运行CSV交通曲线  全部统计帧，未经人工真值核验",
+    "processing": "All 256 CSV rows plotted in original time order; no smoothing or data fabrication.",
+    "evidence": [
+      "E060"
+    ],
+    "asset_sha256": "3a42a975ba2d8628e1810d12f894c8d4bdb27fb98002d271339f83038b61fe94",
+    "rights_status": "Local user-provided project material; external redistribution/competition permissions pending team confirmation."
+  },
+  {
+    "number": 5,
+    "kind": "table",
+    "title": "真实桥梁运行结果及统计口径",
+    "native_word_table": true,
+    "evidence": [
+      "E062",
+      "E060",
+      "E063",
+      "E061"
+    ]
+  },
+  {
+    "number": 6,
+    "kind": "table",
+    "title": "已完成工作与待验证事项",
+    "native_word_table": true,
+    "evidence": [
+      "E029",
+      "E030",
+      "E033",
+      "E035"
+    ]
+  }
+]

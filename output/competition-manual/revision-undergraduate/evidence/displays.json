@@ -1,0 +1,176 @@
+[
+  {
+    "number": 1,
+    "kind": "table",
+    "title": "使用需求与作品功能的对应关系",
+    "native_word_table": true,
+    "evidence": [
+      "E028",
+      "E030",
+      "E031"
+    ]
+  },
+  {
+    "number": 1,
+    "kind": "figure",
+    "asset": "fig1-architecture.png",
+    "caption": "系统总体架构  依据当前源码绘制",
+    "processing": "Retained source-derived architecture diagram",
+    "evidence": [
+      "E005",
+      "E015",
+      "E023"
+    ],
+    "asset_sha256": "08e9378e33a3e30bd0cfb73427d0ff9bb0bcbfbe81fbe4eb96e300d796aed7f0",
+    "rights_status": "User-provided project materials; competition redistribution rights remain for team confirmation"
+  },
+  {
+    "number": 2,
+    "kind": "figure",
+    "asset": "fig2-pipeline.png",
+    "caption": "作品使用与研究验证流程  根据已实现功能绘制",
+    "processing": "New source-derived user and research workflow diagram; no experimental results generated",
+    "evidence": [
+      "E001",
+      "E028",
+      "E030"
+    ],
+    "asset_sha256": "9a9335a451fd3597c3cd9c102e3c6c9810c74cff622e91d0d05dba5a89289652",
+    "rights_status": "User-provided project materials; competition redistribution rights remain for team confirmation"
+  },
+  {
+    "number": 2,
+    "kind": "table",
+    "title": "预训练模型来源与方案选择",
+    "native_word_table": true,
+    "evidence": [
+      "E003",
+      "E006",
+      "E001"
+    ]
+  },
+  {
+    "number": 3,
+    "kind": "figure",
+    "asset": "fig3-calibration.png",
+    "caption": "道路位置映射的含义  概念示意，尺寸须独立实测",
+    "processing": "Retained conceptual diagram; not a real scene calibration",
+    "evidence": [
+      "E010"
+    ],
+    "asset_sha256": "e18b426f4c3760791ab157ca432e17a575a1ee1e7e2fe69f0834472256deb363",
+    "rights_status": "User-provided project materials; competition redistribution rights remain for team confirmation"
+  },
+  {
+    "number": 4,
+    "kind": "figure",
+    "asset": "fig4-twin.png",
+    "caption": "桥梁视频与二维孪生同帧对照  实际界面及同一ID放大，未标定",
+    "processing": "Retained crop of actual screenshot with original ID 1 insets enlarged; no factual alteration",
+    "evidence": [
+      "E066",
+      "E032"
+    ],
+    "asset_sha256": "c88b49dad7458fd7132cfd884d9c52fb66b9a87537d0e2401985ed39f359df65",
+    "rights_status": "User-provided project materials; competition redistribution rights remain for team confirmation"
+  },
+  {
+    "number": 5,
+    "kind": "figure",
+    "asset": "fig5-evidence.png",
+    "caption": "异常提示到证据复核的流程  依据当前实现绘制",
+    "processing": "Retained source-derived evidence workflow",
+    "evidence": [
+      "E019",
+      "E028"
+    ],
+    "asset_sha256": "75ae815dd672d4c9cc4da4ae4c35899c85e70a1c8d23e6d591de86c526f46a6c",
+    "rights_status": "User-provided project materials; competition redistribution rights remain for team confirmation"
+  },
+  {
+    "number": 6,
+    "kind": "figure",
+    "asset": "fig6-report.png",
+    "caption": "历史报告的区间与计数指标  实际界面，19次机器过线",
+    "processing": "Retained actual report screenshot crop",
+    "evidence": [
+      "E067"
+    ],
+    "asset_sha256": "6bc129ec0daf878ac301e21a89f16a8c930fbdf599fad8e163da773fa4494730",
+    "rights_status": "User-provided project materials; competition redistribution rights remain for team confirmation"
+  },
+  {
+    "number": 3,
+    "kind": "table",
+    "title": "作品设计特色及验证依据",
+    "native_word_table": true,
+    "evidence": [
+      "E051",
+      "E005",
+      "E019",
+      "E021",
+      "E033"
+    ]
+  },
+  {
+    "number": 4,
+    "kind": "table",
+    "title": "研究环节与可检查的成果材料",
+    "native_word_table": true,
+    "evidence": [
+      "E001",
+      "E029",
+      "E033",
+      "E062"
+    ]
+  },
+  {
+    "number": 7,
+    "kind": "figure",
+    "asset": "fig8-traffic.png",
+    "caption": "真实桥梁运行的交通曲线  来自全部CSV统计帧，未经人工真值核验",
+    "processing": "Retained plot of all 256 actual CSV rows; no smoothing; no independent truth",
+    "evidence": [
+      "E060"
+    ],
+    "asset_sha256": "3a42a975ba2d8628e1810d12f894c8d4bdb27fb98002d271339f83038b61fe94",
+    "rights_status": "User-provided project materials; competition redistribution rights remain for team confirmation"
+  },
+  {
+    "number": 5,
+    "kind": "table",
+    "title": "真实桥梁运行结果及含义",
+    "native_word_table": true,
+    "evidence": [
+      "E062",
+      "E063",
+      "E061",
+      "E072"
+    ]
+  },
+  {
+    "number": 8,
+    "kind": "figure",
+    "asset": "fig7-evaluation.png",
+    "caption": "人工评测的保存与结果展示  受控验收，非真实交通精度实验",
+    "processing": "Retained controlled-test screenshot with explicit constructed-label disclaimer",
+    "evidence": [
+      "E068",
+      "E036"
+    ],
+    "asset_sha256": "4540f5283fd7f965cefea0d2f50a16f0d102701b3eb5f927fb83366e09a6f045",
+    "rights_status": "User-provided project materials; competition redistribution rights remain for team confirmation"
+  },
+  {
+    "number": 6,
+    "kind": "table",
+    "title": "应用阶段与推广条件",
+    "native_word_table": true,
+    "evidence": [
+      "E008",
+      "E015",
+      "E029",
+      "E035"
+    ]
+  }
+]

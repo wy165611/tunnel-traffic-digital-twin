@@ -1,0 +1,502 @@
+{
+  "status": "COMPLETE",
+  "created_at": "2026-10-02T14:25:07.442639+00:00",
+  "baseline": "2dc36aee1f826e6e80a3fd26cb3cb7f3bfca9a29",
+  "worktree": "/var/folders/5m/y0fkpf0n46dd1v12njpz8xhw0000gn/T/twin-stage2-4gmxw8ge/implementation",
+  "original": "/Users/wanghaoxin/Desktop/基于视频感知的隧道交通数字孪生系统",
+  "backup_directory": "/private/tmp/twin-stage2-delivery-backup-4e_rirsv",
+  "sources": [
+    {
+      "path": "CHANGELOG.md",
+      "operation": "replace",
+      "original_sha256": "b9035219932fc11797e7b1faa5d854720807e5ea1fbbe6746e6eeb63e3f18341",
+      "new_sha256": "c0c0fc5cf6f81b618f494099cab314ad7ad47b1fdd1c14dec5dd1c1bbca1cd6c",
+      "bytes": 9205
+    },
+    {
+      "path": "README.md",
+      "operation": "replace",
+      "original_sha256": "ff3025ce64d0061ae399c1fe0216bc40a7add7a52d0f53340e14543704cbc373",
+      "new_sha256": "00c99e55f3bece856f8315d393e2c28963ecb92a0a2147d3e04f8e27fb161674",
+      "bytes": 27783
+    },
+    {
+      "path": "backend/annotations.py",
+      "operation": "create",
+      "original_sha256": null,
+      "new_sha256": "44cc84b5e44a6618b06075906f688d759fcd50a3c611f0f6ab26c4c410102250",
+      "bytes": 16913
+    },
+    {
+      "path": "backend/api/schemas.py",
+      "operation": "replace",
+      "original_sha256": "76fad5c93e22dffe444dd963730b4528443b3b9ae11bb7d68a5dfd913a5764b2",
+      "new_sha256": "341b832c81838a5da637d69028dd980d038f7c6adcbab47712a214b93de0fbf0",
+      "bytes": 4100
+    },
+    {
+      "path": "backend/camera_templates.py",
+      "operation": "create",
+      "original_sha256": null,
+      "new_sha256": "8814fd093a5877f8a6650dc3cec9b86b372ae463bff76059578a261705aaa991",
+      "bytes": 8207
+    },
+    {
+      "path": "backend/evaluation.py",
+      "operation": "replace",
+      "original_sha256": "e25d7aa6533dfe559a1c04b6600c438e8802bfecfd4658562f2805b65517046d",
+      "new_sha256": "10a058decc16fbdbe3dae6de426893c4d15ae7a8d6c89d3ebd8fed9a0f8f4fb7",
+      "bytes": 13242
+    },
+    {
+      "path": "backend/main.py",
+      "operation": "replace",
+      "original_sha256": "58ecd4bbe99637a9185645b41dfa3f472835af08dd573e46edd786d3741929c2",
+      "new_sha256": "523b8da8fed5042d513fc088beb3b1483a3be0383cd38dbdfe3bd2b49a3aa1b6",
+      "bytes": 20925
+    },
+    {
+      "path": "backend/service.py",
+      "operation": "replace",
+      "original_sha256": "0de65efdd293d9f6afb251e955443e4b7c6c5cf41a47d087eae33af67ee55155",
+      "new_sha256": "0a037afb6d622ad76fa76195a734b54b7fb6403619a323aa90a58d0a1838cd10",
+      "bytes": 12916
+    },
+    {
+      "path": "docs/camera-templates.md",
+      "operation": "create",
+      "original_sha256": null,
+      "new_sha256": "4f8e98e81709650c51687249f43328c946fcfcca6f6dfc65657b58e960578250",
+      "bytes": 4109
+    },
+    {
+      "path": "docs/visual-evaluation.md",
+      "operation": "create",
+      "original_sha256": null,
+      "new_sha256": "6188f1b9dde251c85d60c647f30efc829d650131a5118d44c6e7aaca6aa7357b",
+      "bytes": 8273
+    },
+    {
+      "path": "frontend/src/App.tsx",
+      "operation": "replace",
+      "original_sha256": "06ea36817516c4da5aaf389e3dce984c7fd7cf5a01baa5873a64d03ee0b49124",
+      "new_sha256": "f4422421ff8928bcc08b69a7c491c144a19557da89f011aedc9dce682fddf97c",
+      "bytes": 19352
+    },
+    {
+      "path": "frontend/src/components/AnnotationDialog.tsx",
+      "operation": "create",
+      "original_sha256": null,
+      "new_sha256": "8a02b2f9875b9877173fe5abda4973fa28e223f9105b2347c2a328fd82381056",
+      "bytes": 22691
+    },
+    {
+      "path": "frontend/src/components/CameraTemplatesDialog.tsx",
+      "operation": "create",
+      "original_sha256": null,
+      "new_sha256": "aed167d20d4eb2cc60a089e93cac153887a9ef6b0e85e5a9d64707b3a1100003",
+      "bytes": 8457
+    },
+    {
+      "path": "frontend/src/components/DataExportPanel.tsx",
+      "operation": "replace",
+      "original_sha256": "b5b6ee4391a6ce73e0314546c18d6124a628f4df455c4e6a18dd4fb4b748eba6",
+      "new_sha256": "ce00d85d2f730af48a6ecf18c53634474e7516cb2d6da9dc34cded7e369b1cc6",
+      "bytes": 5868
+    },
+    {
+      "path": "frontend/src/components/RoadOverlay.tsx",
+      "operation": "create",
+      "original_sha256": null,
+      "new_sha256": "2f7f0c553820e86098d7b8ea67ec9116292c38d7e7b9e4123397a7dc8aca23e7",
+      "bytes": 2724
+    },
+    {
+      "path": "frontend/src/components/RunPlayer.tsx",
+      "operation": "create",
+      "original_sha256": null,
+      "new_sha256": "dc0013a0e353c166df9e1e659cf04093c977eeee272319e4eb4d69da846fb6ea",
+      "bytes": 4256
+    },
+    {
+      "path": "frontend/src/components/Sidebar.tsx",
+      "operation": "replace",
+      "original_sha256": "d8a06ee292379ccdfc65ab7693c5b2e1d75d7081622053862b3921ae537253d8",
+      "new_sha256": "8b2450cfdb96e5aee8da110d681e5592fb95cea125b3a640e4419459dbcdbcc0",
+      "bytes": 5469
+    },
+    {
+      "path": "frontend/src/styles.css",
+      "operation": "replace",
+      "original_sha256": "dbf86045ad4af62011070f8efbfb62492afd69e8a9a0ce89262d1b0926b92d2e",
+      "new_sha256": "98ef8b395f2810ba27632dc44cbc72a926503e95054203b5068cc510d1caf10d",
+      "bytes": 33243
+    },
+    {
+      "path": "frontend/src/types/index.ts",
+      "operation": "replace",
+      "original_sha256": "6c90fb36cb47b92c16ba3d05d2d74aa8642f5ba268639676d743ef8784b0e1e6",
+      "new_sha256": "2ad7c1ac9e1c9568c5d761a9795778d3c2c927132b8489f966bd4bb21205187e",
+      "bytes": 6975
+    },
+    {
+      "path": "frontend/src/utils/manualAnalysis.ts",
+      "operation": "create",
+      "original_sha256": null,
+      "new_sha256": "1be0b6bbcb4192365342f2109d83cc5e2a282fe7b22ca6056e48ad194ded50ef",
+      "bytes": 12396
+    },
+    {
+      "path": "frontend/tests/manualAnalysis.test.mjs",
+      "operation": "create",
+      "original_sha256": null,
+      "new_sha256": "92f7c153c7a5d5dad0de73bcdda4ea670e26792ac112ae44fcb130ba8a45501d",
+      "bytes": 8416
+    },
+    {
+      "path": "tests/test_annotations.py",
+      "operation": "create",
+      "original_sha256": null,
+      "new_sha256": "bace8be6a822564e48cab2cc78b7a5a1c6c1cd54a92d264566075a389e568d5c",
+      "bytes": 12096
+    },
+    {
+      "path": "tests/test_camera_templates.py",
+      "operation": "create",
+      "original_sha256": null,
+      "new_sha256": "e9fa0a4d256f4f5c143948cfed18ced9a6be374eb6e98278048502785069bd68",
+      "bytes": 9853
+    }
+  ],
+  "original_dist": {
+    "assets/charts-BX03oU_4.js": {
+      "sha256": "d6feb38a169df701ab8d96b73c7de40e4cc873f0e4d41f3029f5c0035a4d8aec",
+      "bytes": 545149
+    },
+    "assets/index-Bcy6hqQ6.css": {
+      "sha256": "1b384d90288096142fd2cfdad6c229ffe1412371624d06371c66cd019c642a7c",
+      "bytes": 27087
+    },
+    "assets/index-CxOgphhC.js": {
+      "sha256": "da9353929add6dc9291510981c8a275def5d119dfb4f5c399b1aa2e0859d7715",
+      "bytes": 310214
+    },
+    "favicon.svg": {
+      "sha256": "bce275f93c02db0aeb0360e988fe03889b028ce958aa5e65ed12c1211a49348e",
+      "bytes": 276
+    },
+    "index.html": {
+      "sha256": "9fb84c730b0771e76f8cfe929b2feb87138f239409ec5a6a4fd8e7a92d418b4a",
+      "bytes": 776
+    }
+  },
+  "new_dist": {
+    "assets/charts-BX03oU_4.js": {
+      "sha256": "d6feb38a169df701ab8d96b73c7de40e4cc873f0e4d41f3029f5c0035a4d8aec",
+      "bytes": 545149
+    },
+    "assets/index-0C9Aowil.css": {
+      "sha256": "5bf90e4dc1083b530bf21b9d89a705c70da4766f542e6721fc3c2fdf405201cc",
+      "bytes": 29350
+    },
+    "assets/index-CwGdHUmc.js": {
+      "sha256": "b87d78c342e3a84b70f2679aea44b1e3537ff7bbcd24fdf8b0cb86807915b762",
+      "bytes": 352198
+    },
+    "favicon.svg": {
+      "sha256": "bce275f93c02db0aeb0360e988fe03889b028ce958aa5e65ed12c1211a49348e",
+      "bytes": 276
+    },
+    "index.html": {
+      "sha256": "64d26d05896e22fd6fb5eb21fd8e7f97b7cf9dff7025c4e1710983b84ba330ef",
+      "bytes": 776
+    }
+  },
+  "source_verification": [
+    {
+      "path": "CHANGELOG.md",
+      "sha256": "c0c0fc5cf6f81b618f494099cab314ad7ad47b1fdd1c14dec5dd1c1bbca1cd6c",
+      "matches": true
+    },
+    {
+      "path": "README.md",
+      "sha256": "00c99e55f3bece856f8315d393e2c28963ecb92a0a2147d3e04f8e27fb161674",
+      "matches": true
+    },
+    {
+      "path": "backend/annotations.py",
+      "sha256": "44cc84b5e44a6618b06075906f688d759fcd50a3c611f0f6ab26c4c410102250",
+      "matches": true
+    },
+    {
+      "path": "backend/api/schemas.py",
+      "sha256": "341b832c81838a5da637d69028dd980d038f7c6adcbab47712a214b93de0fbf0",
+      "matches": true
+    },
+    {
+      "path": "backend/camera_templates.py",
+      "sha256": "8814fd093a5877f8a6650dc3cec9b86b372ae463bff76059578a261705aaa991",
+      "matches": true
+    },
+    {
+      "path": "backend/evaluation.py",
+      "sha256": "10a058decc16fbdbe3dae6de426893c4d15ae7a8d6c89d3ebd8fed9a0f8f4fb7",
+      "matches": true
+    },
+    {
+      "path": "backend/main.py",
+      "sha256": "523b8da8fed5042d513fc088beb3b1483a3be0383cd38dbdfe3bd2b49a3aa1b6",
+      "matches": true
+    },
+    {
+      "path": "backend/service.py",
+      "sha256": "0a037afb6d622ad76fa76195a734b54b7fb6403619a323aa90a58d0a1838cd10",
+      "matches": true
+    },
+    {
+      "path": "docs/camera-templates.md",
+      "sha256": "4f8e98e81709650c51687249f43328c946fcfcca6f6dfc65657b58e960578250",
+      "matches": true
+    },
+    {
+      "path": "docs/visual-evaluation.md",
+      "sha256": "6188f1b9dde251c85d60c647f30efc829d650131a5118d44c6e7aaca6aa7357b",
+      "matches": true
+    },
+    {
+      "path": "frontend/src/App.tsx",
+      "sha256": "f4422421ff8928bcc08b69a7c491c144a19557da89f011aedc9dce682fddf97c",
+      "matches": true
+    },
+    {
+      "path": "frontend/src/components/AnnotationDialog.tsx",
+      "sha256": "8a02b2f9875b9877173fe5abda4973fa28e223f9105b2347c2a328fd82381056",
+      "matches": true
+    },
+    {
+      "path": "frontend/src/components/CameraTemplatesDialog.tsx",
+      "sha256": "aed167d20d4eb2cc60a089e93cac153887a9ef6b0e85e5a9d64707b3a1100003",
+      "matches": true
+    },
+    {
+      "path": "frontend/src/components/DataExportPanel.tsx",
+      "sha256": "ce00d85d2f730af48a6ecf18c53634474e7516cb2d6da9dc34cded7e369b1cc6",
+      "matches": true
+    },
+    {
+      "path": "frontend/src/components/RoadOverlay.tsx",
+      "sha256": "2f7f0c553820e86098d7b8ea67ec9116292c38d7e7b9e4123397a7dc8aca23e7",
+      "matches": true
+    },
+    {
+      "path": "frontend/src/components/RunPlayer.tsx",
+      "sha256": "dc0013a0e353c166df9e1e659cf04093c977eeee272319e4eb4d69da846fb6ea",
+      "matches": true
+    },
+    {
+      "path": "frontend/src/components/Sidebar.tsx",
+      "sha256": "8b2450cfdb96e5aee8da110d681e5592fb95cea125b3a640e4419459dbcdbcc0",
+      "matches": true
+    },
+    {
+      "path": "frontend/src/styles.css",
+      "sha256": "98ef8b395f2810ba27632dc44cbc72a926503e95054203b5068cc510d1caf10d",
+      "matches": true
+    },
+    {
+      "path": "frontend/src/types/index.ts",
+      "sha256": "2ad7c1ac9e1c9568c5d761a9795778d3c2c927132b8489f966bd4bb21205187e",
+      "matches": true
+    },
+    {
+      "path": "frontend/src/utils/manualAnalysis.ts",
+      "sha256": "1be0b6bbcb4192365342f2109d83cc5e2a282fe7b22ca6056e48ad194ded50ef",
+      "matches": true
+    },
+    {
+      "path": "frontend/tests/manualAnalysis.test.mjs",
+      "sha256": "92f7c153c7a5d5dad0de73bcdda4ea670e26792ac112ae44fcb130ba8a45501d",
+      "matches": true
+    },
+    {
+      "path": "tests/test_annotations.py",
+      "sha256": "bace8be6a822564e48cab2cc78b7a5a1c6c1cd54a92d264566075a389e568d5c",
+      "matches": true
+    },
+    {
+      "path": "tests/test_camera_templates.py",
+      "sha256": "e9fa0a4d256f4f5c143948cfed18ced9a6be374eb6e98278048502785069bd68",
+      "matches": true
+    }
+  ],
+  "dist_verification": [
+    {
+      "path": "assets/charts-BX03oU_4.js",
+      "sha256": "d6feb38a169df701ab8d96b73c7de40e4cc873f0e4d41f3029f5c0035a4d8aec",
+      "matches": true
+    },
+    {
+      "path": "assets/index-0C9Aowil.css",
+      "sha256": "5bf90e4dc1083b530bf21b9d89a705c70da4766f542e6721fc3c2fdf405201cc",
+      "matches": true
+    },
+    {
+      "path": "assets/index-CwGdHUmc.js",
+      "sha256": "b87d78c342e3a84b70f2679aea44b1e3537ff7bbcd24fdf8b0cb86807915b762",
+      "matches": true
+    },
+    {
+      "path": "favicon.svg",
+      "sha256": "bce275f93c02db0aeb0360e988fe03889b028ce958aa5e65ed12c1211a49348e",
+      "matches": true
+    },
+    {
+      "path": "index.html",
+      "sha256": "64d26d05896e22fd6fb5eb21fd8e7f97b7cf9dff7025c4e1710983b84ba330ef",
+      "matches": true
+    }
+  ],
+  "restore_mapping": [
+    {
+      "target": "/Users/wanghaoxin/Desktop/基于视频感知的隧道交通数字孪生系统/CHANGELOG.md",
+      "action": "replace_file",
+      "backup": "/private/tmp/twin-stage2-delivery-backup-4e_rirsv/original_sources/CHANGELOG.md",
+      "sha256": "b9035219932fc11797e7b1faa5d854720807e5ea1fbbe6746e6eeb63e3f18341"
+    },
+    {
+      "target": "/Users/wanghaoxin/Desktop/基于视频感知的隧道交通数字孪生系统/README.md",
+      "action": "replace_file",
+      "backup": "/private/tmp/twin-stage2-delivery-backup-4e_rirsv/original_sources/README.md",
+      "sha256": "ff3025ce64d0061ae399c1fe0216bc40a7add7a52d0f53340e14543704cbc373"
+    },
+    {
+      "target": "/Users/wanghaoxin/Desktop/基于视频感知的隧道交通数字孪生系统/backend/annotations.py",
+      "action": "remove_created_file",
+      "backup": null
+    },
+    {
+      "target": "/Users/wanghaoxin/Desktop/基于视频感知的隧道交通数字孪生系统/backend/api/schemas.py",
+      "action": "replace_file",
+      "backup": "/private/tmp/twin-stage2-delivery-backup-4e_rirsv/original_sources/backend/api/schemas.py",
+      "sha256": "76fad5c93e22dffe444dd963730b4528443b3b9ae11bb7d68a5dfd913a5764b2"
+    },
+    {
+      "target": "/Users/wanghaoxin/Desktop/基于视频感知的隧道交通数字孪生系统/backend/camera_templates.py",
+      "action": "remove_created_file",
+      "backup": null
+    },
+    {
+      "target": "/Users/wanghaoxin/Desktop/基于视频感知的隧道交通数字孪生系统/backend/evaluation.py",
+      "action": "replace_file",
+      "backup": "/private/tmp/twin-stage2-delivery-backup-4e_rirsv/original_sources/backend/evaluation.py",
+      "sha256": "e25d7aa6533dfe559a1c04b6600c438e8802bfecfd4658562f2805b65517046d"
+    },
+    {
+      "target": "/Users/wanghaoxin/Desktop/基于视频感知的隧道交通数字孪生系统/backend/main.py",
+      "action": "replace_file",
+      "backup": "/private/tmp/twin-stage2-delivery-backup-4e_rirsv/original_sources/backend/main.py",
+      "sha256": "58ecd4bbe99637a9185645b41dfa3f472835af08dd573e46edd786d3741929c2"
+    },
+    {
+      "target": "/Users/wanghaoxin/Desktop/基于视频感知的隧道交通数字孪生系统/backend/service.py",
+      "action": "replace_file",
+      "backup": "/private/tmp/twin-stage2-delivery-backup-4e_rirsv/original_sources/backend/service.py",
+      "sha256": "0de65efdd293d9f6afb251e955443e4b7c6c5cf41a47d087eae33af67ee55155"
+    },
+    {
+      "target": "/Users/wanghaoxin/Desktop/基于视频感知的隧道交通数字孪生系统/docs/camera-templates.md",
+      "action": "remove_created_file",
+      "backup": null
+    },
+    {
+      "target": "/Users/wanghaoxin/Desktop/基于视频感知的隧道交通数字孪生系统/docs/visual-evaluation.md",
+      "action": "remove_created_file",
+      "backup": null
+    },
+    {
+      "target": "/Users/wanghaoxin/Desktop/基于视频感知的隧道交通数字孪生系统/frontend/src/App.tsx",
+      "action": "replace_file",
+      "backup": "/private/tmp/twin-stage2-delivery-backup-4e_rirsv/original_sources/frontend/src/App.tsx",
+      "sha256": "06ea36817516c4da5aaf389e3dce984c7fd7cf5a01baa5873a64d03ee0b49124"
+    },
+    {
+      "target": "/Users/wanghaoxin/Desktop/基于视频感知的隧道交通数字孪生系统/frontend/src/components/AnnotationDialog.tsx",
+      "action": "remove_created_file",
+      "backup": null
+    },
+    {
+      "target": "/Users/wanghaoxin/Desktop/基于视频感知的隧道交通数字孪生系统/frontend/src/components/CameraTemplatesDialog.tsx",
+      "action": "remove_created_file",
+      "backup": null
+    },
+    {
+      "target": "/Users/wanghaoxin/Desktop/基于视频感知的隧道交通数字孪生系统/frontend/src/components/DataExportPanel.tsx",
+      "action": "replace_file",
+      "backup": "/private/tmp/twin-stage2-delivery-backup-4e_rirsv/original_sources/frontend/src/components/DataExportPanel.tsx",
+      "sha256": "b5b6ee4391a6ce73e0314546c18d6124a628f4df455c4e6a18dd4fb4b748eba6"
+    },
+    {
+      "target": "/Users/wanghaoxin/Desktop/基于视频感知的隧道交通数字孪生系统/frontend/src/components/RoadOverlay.tsx",
+      "action": "remove_created_file",
+      "backup": null
+    },
+    {
+      "target": "/Users/wanghaoxin/Desktop/基于视频感知的隧道交通数字孪生系统/frontend/src/components/RunPlayer.tsx",
+      "action": "remove_created_file",
+      "backup": null
+    },
+    {
+      "target": "/Users/wanghaoxin/Desktop/基于视频感知的隧道交通数字孪生系统/frontend/src/components/Sidebar.tsx",
+      "action": "replace_file",
+      "backup": "/private/tmp/twin-stage2-delivery-backup-4e_rirsv/original_sources/frontend/src/components/Sidebar.tsx",
+      "sha256": "d8a06ee292379ccdfc65ab7693c5b2e1d75d7081622053862b3921ae537253d8"
+    },
+    {
+      "target": "/Users/wanghaoxin/Desktop/基于视频感知的隧道交通数字孪生系统/frontend/src/styles.css",
+      "action": "replace_file",
+      "backup": "/private/tmp/twin-stage2-delivery-backup-4e_rirsv/original_sources/frontend/src/styles.css",
+      "sha256": "dbf86045ad4af62011070f8efbfb62492afd69e8a9a0ce89262d1b0926b92d2e"
+    },
+    {
+      "target": "/Users/wanghaoxin/Desktop/基于视频感知的隧道交通数字孪生系统/frontend/src/types/index.ts",
+      "action": "replace_file",
+      "backup": "/private/tmp/twin-stage2-delivery-backup-4e_rirsv/original_sources/frontend/src/types/index.ts",
+      "sha256": "6c90fb36cb47b92c16ba3d05d2d74aa8642f5ba268639676d743ef8784b0e1e6"
+    },
+    {
+      "target": "/Users/wanghaoxin/Desktop/基于视频感知的隧道交通数字孪生系统/frontend/src/utils/manualAnalysis.ts",
+      "action": "remove_created_file",
+      "backup": null
+    },
+    {
+      "target": "/Users/wanghaoxin/Desktop/基于视频感知的隧道交通数字孪生系统/frontend/tests/manualAnalysis.test.mjs",
+      "action": "remove_created_file",
+      "backup": null
+    },
+    {
+      "target": "/Users/wanghaoxin/Desktop/基于视频感知的隧道交通数字孪生系统/tests/test_annotations.py",
+      "action": "remove_created_file",
+      "backup": null
+    },
+    {
+      "target": "/Users/wanghaoxin/Desktop/基于视频感知的隧道交通数字孪生系统/tests/test_camera_templates.py",
+      "action": "remove_created_file",
+      "backup": null
+    },
+    {
+      "target": "/Users/wanghaoxin/Desktop/基于视频感知的隧道交通数字孪生系统/frontend/dist",
+      "action": "replace_entire_directory",
+      "backup": "/private/tmp/twin-stage2-delivery-backup-4e_rirsv/original_dist"
+    }
+  ],
+  "completed_at": "2026-10-02T14:25:07.510769+00:00",
+  "source_count": 23,
+  "dist_file_count": 5,
+  "conflicts": [],
+  "post_delivery_audit": {
+    "unchanged_baseline_files_verified": 127,
+    "unrelated_file_mismatches": [],
+    "temporary_original_artifacts": [],
+    "original_server_started": false
+  }
+}

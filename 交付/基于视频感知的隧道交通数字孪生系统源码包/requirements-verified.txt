@@ -1,0 +1,13 @@
+# 本机验收版本；requirements.txt 用于兼容安装
+fastapi==0.136.3
+uvicorn==0.47.0
+python-multipart==0.0.29
+numpy==2.2.6
+scipy==1.15.3
+opencv-python==4.13.0.92
+torch==2.11.0
+torchvision==0.26.0
+ultralytics==8.4.32
+PyYAML==6.0.3
+pytest==9.0.3
+httpx==0.28.1

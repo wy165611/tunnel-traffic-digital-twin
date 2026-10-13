@@ -1,0 +1,20 @@
+{
+  "date": "2026-10-03",
+  "request": "Retain original evidence but emphasize undergraduate research, background, design contribution and application value",
+  "original_docx_sha256": "6940583e8a1bfaeb6e798cc8f7078b1e53ebe1e216b871dfae021be486261ff3",
+  "changes": [
+    "Rewrite abstract and background around need and research questions",
+    "Replace algorithm derivations with concise function principles",
+    "Expand design contributions with problem, implementation and evidence",
+    "Add undergraduate research process and inspectable outputs",
+    "Add concrete teaching tasks and phased tunnel application plan",
+    "Rebuild native tables around needs, contribution and research practice",
+    "Replace algorithm-heavy flow with user and research workflow",
+    "Retain real interface, controlled-test disclaimer and actual CSV curve",
+    "Retain genuine papers and superscript citations; add PIARC primary source"
+  ],
+  "experiments_added": false,
+  "source_data_modified": false,
+  "team_contributions_inferred": false,
+  "human_verification": "pending"
+}

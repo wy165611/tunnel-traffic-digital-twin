@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.playwright-cli/
+node_modules/
+frontend/dist/
+backend/data/models/
+backend/data/videos/
+backend/data/runs/
+.DS_Store
+*.log
+*.pid
+*.tsbuildinfo

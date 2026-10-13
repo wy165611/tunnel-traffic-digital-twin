@@ -1,0 +1,1321 @@
+{
+  "schema_version": "1.0",
+  "sources": [
+    {
+      "evidence_id": "E001",
+      "path": "README.md",
+      "sha256": "00c99e55f3bece856f8315d393e2c28963ecb92a0a2147d3e04f8e27fb161674",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E002",
+      "path": "CHANGELOG.md",
+      "sha256": "c0c0fc5cf6f81b618f494099cab314ad7ad47b1fdd1c14dec5dd1c1bbca1cd6c",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E003",
+      "path": "models.json",
+      "sha256": "adc03af2b72803e9661e444c1b060337606abd4e815c7cb1f80edc9b335b0677",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E004",
+      "path": "config.yaml",
+      "sha256": "01e831d4b971e1fcd710791f76c44540415acf083a3c94eb03cb4b17b4a90a98",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E005",
+      "path": "backend/processor.py",
+      "sha256": "53c7cc750522863e50a8030c90ae3c3b9ac594a8ac99a1b83dc43faf26c25e70",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E006",
+      "path": "backend/vision/detector.py",
+      "sha256": "d2d49c12ed835c6d2eda6e919b0c2fa278c582dfebe0c4d7cdeadc0135091f3a",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E007",
+      "path": "backend/vision/tracker.py",
+      "sha256": "4cb96f6c6e9ddef08a80956abe7f78d803098a441295363e850e47e4e5d4b428",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E008",
+      "path": "backend/vision/video_reader.py",
+      "sha256": "fb77e44c5927b57aab0f503747f617914f8b4151c9159738f817ed155a3a2554",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E009",
+      "path": "backend/vision/weights.py",
+      "sha256": "d3caa3f3b45f1fef7175849c8cea518888ed9ab46c448befb36a2736e6b6cff7",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E010",
+      "path": "backend/calibration/homography.py",
+      "sha256": "c1abece0811383e1edd893e209f0d603e8e3c21045b98a920e9d57bc834c5c85",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E011",
+      "path": "backend/traffic/speed_estimator.py",
+      "sha256": "2b2aff6d84e91c49be3b01e2d5b76691e8209dea3ab8be6479ef95b1bfd1ecd1",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E012",
+      "path": "backend/traffic/flow_counter.py",
+      "sha256": "56269f268619d8a6d3d662cd772084a2c28565d78cd9cd3f92eb423f4a6bc4e2",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E013",
+      "path": "backend/traffic/traffic_metrics.py",
+      "sha256": "ad862d48955661acf55a48ac0497c863a80dbb92fe1f90e789d702e9d27b0c87",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E014",
+      "path": "backend/events/rules.py",
+      "sha256": "7a374ec3e1199f173e4cebbfe0da86a9f67c8c3e706ce024b87df09277e4ca06",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E015",
+      "path": "backend/service.py",
+      "sha256": "0a037afb6d622ad76fa76195a734b54b7fb6403619a323aa90a58d0a1838cd10",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E016",
+      "path": "backend/main.py",
+      "sha256": "523b8da8fed5042d513fc088beb3b1483a3be0383cd38dbdfe3bd2b49a3aa1b6",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E017",
+      "path": "backend/exporter.py",
+      "sha256": "65cd162acc2e44940e85da1aa8ffdbb9e8dda57849d655f95579eae5540115b1",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E018",
+      "path": "backend/reports.py",
+      "sha256": "8d6cfc4d65b5f98e39af6150472f1f32496f45d1885e0f445ccd842e017946c2",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E019",
+      "path": "backend/evidence.py",
+      "sha256": "5908d1ce4e5c906d6400f19c80cd93345a7f83f3e251c98208f9698e650c4a4e",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E020",
+      "path": "backend/camera_templates.py",
+      "sha256": "8814fd093a5877f8a6650dc3cec9b86b372ae463bff76059578a261705aaa991",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E021",
+      "path": "backend/annotations.py",
+      "sha256": "44cc84b5e44a6618b06075906f688d759fcd50a3c611f0f6ab26c4c410102250",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E022",
+      "path": "backend/evaluation.py",
+      "sha256": "10a058decc16fbdbe3dae6de426893c4d15ae7a8d6c89d3ebd8fed9a0f8f4fb7",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E023",
+      "path": "frontend/src/App.tsx",
+      "sha256": "f4422421ff8928bcc08b69a7c491c144a19557da89f011aedc9dce682fddf97c",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E024",
+      "path": "frontend/src/components/DigitalTwin.tsx",
+      "sha256": "0d61a4dba5d6fda50e4842ce438a8cdee03e10565d9e1bc6c96d25a0955a3b4c",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E025",
+      "path": "frontend/src/components/VideoView.tsx",
+      "sha256": "c08fe4ed58f2602d30c1096a30407fc1ecbdb87d9b0209e7cd8d543a8e7f9798",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E026",
+      "path": "frontend/src/utils/snapshotState.ts",
+      "sha256": "40eb9f16165d8b476e2e817e4528558a95b59a959b2f50be646f32e8d639c184",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E027",
+      "path": "frontend/src/utils/twinGeometry.ts",
+      "sha256": "bca3594a3b4e456735e755fe4199770239d0e799a9ade389a7407061fc5d8e9b",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E028",
+      "path": "docs/features-analysis.md",
+      "sha256": "760f90808346c86c350abefe4920346f4f96e9981003aac8741b70b54f8da5a5",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E029",
+      "path": "docs/accuracy-evaluation.md",
+      "sha256": "0b158e3119f080a2521a08eb2a90931a0df8ed45f431bb61d5799d99c3377960",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E030",
+      "path": "docs/visual-evaluation.md",
+      "sha256": "6188f1b9dde251c85d60c647f30efc829d650131a5118d44c6e7aaca6aa7357b",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E031",
+      "path": "docs/camera-templates.md",
+      "sha256": "4f8e98e81709650c51687249f43328c946fcfcca6f6dfc65657b58e960578250",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E032",
+      "path": "docs/twin-orientation.md",
+      "sha256": "76fc8e12c72609aa88dabe4a2b227e128c631591c8631b8ecaabdea178b7c853",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E033",
+      "path": "plans/002-verification.md",
+      "sha256": "6251802cf9506e65f782c8cadc041ed43e96c56fc939f629e82afa433ef87a31",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E034",
+      "path": "plans/2026-10-02-feature-verification.md",
+      "sha256": "277f4ef7cdc4fbe2a5743ac5439329d39a81e3916780df50508a43c9723d7e9e",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E035",
+      "path": "plans/2026-10-02-implementation-status.md",
+      "sha256": "01df9858d713bf269633bd833904866270344b49b48b81421341f143d79a53f9",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E036",
+      "path": "plans/002-browser-result.json",
+      "sha256": "a61ec5b1c696bda2de26e4cd54bbbdf6c86c1141e9841117d8759c4b359916a7",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E037",
+      "path": "docs/review-smoke-2026-10-02.json",
+      "sha256": "a1ab7c9f891884c5f8192eec050e4edb4be5922b001a17efdc200a297409b51d",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E038",
+      "path": "tests/conftest.py",
+      "sha256": "abe76ca8cb35c4a1c2bd49a808a6aba293e7495c2925b0233d91ffbf8276ba42",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E039",
+      "path": "tests/test_core.py",
+      "sha256": "fd19a77895dc914cba9dab1f26dd9296251b11fa5fd4cc5efe4e29a13f92b68b",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E040",
+      "path": "tests/test_review_regressions.py",
+      "sha256": "e03ffbd0e7e8e5ca42542093edc6145eeeacf4675688698861e1b94b0be96a6e",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E041",
+      "path": "tests/test_counting_line.py",
+      "sha256": "ccfab1241ddb9231800f3dab60c6bbc2e76ba60666e14ba58ed90bcb54ce5dae",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E042",
+      "path": "tests/test_evaluation.py",
+      "sha256": "b995efacb098302de6b6d8cd2e3bd4a7f0d2195627b9b8630038ecbb21339776",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E043",
+      "path": "tests/test_annotations.py",
+      "sha256": "bace8be6a822564e48cab2cc78b7a5a1c6c1cd54a92d264566075a389e568d5c",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E044",
+      "path": "tests/test_analysis_features.py",
+      "sha256": "aa7af6bfbd4f6baec6431b3b60a472f323c0d7c99afe80ed53b5b45c48a73d86",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E045",
+      "path": "tests/test_camera_templates.py",
+      "sha256": "e9fa0a4d256f4f5c143948cfed18ced9a6be374eb6e98278048502785069bd68",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E046",
+      "path": "tests/test_api.py",
+      "sha256": "35396ccad82cd1c47dbeaa95ec9039e862b8ccd4d47a2dff84b00d9e32a94532",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E047",
+      "path": "tests/test_cli.py",
+      "sha256": "6490853ae688a00fdb1bc5e6107cb38fc6fcd9eaac0ac2329aedca1a570060ea",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E048",
+      "path": "tests/test_video_timing.py",
+      "sha256": "c0e1d9195ce3874ca37b64d172579f532d84a934a40d9ae3e745dc15cd6c8879",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E049",
+      "path": "frontend/tests/manualAnalysis.test.mjs",
+      "sha256": "92f7c153c7a5d5dad0de73bcdda4ea670e26792ac112ae44fcb130ba8a45501d",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E050",
+      "path": "frontend/tests/analysisData.test.mjs",
+      "sha256": "c7f53d17592fa1992f266c7fa44cb8ac8906122b5aaa019dcd33b5ce0e782b3b",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E051",
+      "path": "frontend/tests/snapshotState.test.mjs",
+      "sha256": "ad4813efda5e0758a5505f837f33006b5b9f1da51463072772e1a0eee1080eb0",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E052",
+      "path": "frontend/tests/twinGeometry.test.mjs",
+      "sha256": "a1b8441681018ad3fbef0291694031d0086b5ce21a20c06c79a14bd8a3d6acc0",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E053",
+      "path": "scripts/prepare_demo.py",
+      "sha256": "dc1c0befc52924f9251945ee645b222864ef8533b4bc896c1e6aaf4c3ed3eed9",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E054",
+      "path": "scripts/download_models.py",
+      "sha256": "afbe20c059dc8c24e84072e09f994026ae771013ab150d8137f5cff0f82e2f44",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E055",
+      "path": "scripts/smoke_video.py",
+      "sha256": "8b133e8e9067d3d48cb982d82cb7f0f7c5e5a14345ad51bc794b68245a2c619b",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E056",
+      "path": "scripts/lock_dependencies.py",
+      "sha256": "3ef6a56d7316f6895e9675bb9966153a8b7fa3cc8fd807ee2268caaf6308c44a",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E057",
+      "path": "scripts/evaluate.py",
+      "sha256": "bb1a7b88714472a9505ff63a9b8df8a2f62940c68b2ef930b4b2f9198e454e96",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E058",
+      "path": "scripts/check_runtime.py",
+      "sha256": "e71167bcfa0a9b42ecbd5fa88c845bd0cc8e7b8a01130cb0d10361d6f87fe1c4",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E059",
+      "path": "scripts/analyze.py",
+      "sha256": "02ecff0ebb61e58c8d8e62c0c455b84cafef1e95feba274417f893a1748c44e3",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E060",
+      "path": "backend/data/runs/20261002-170236-c53990/traffic_statistics.csv",
+      "sha256": "28d75f592c8e3ee8e09fcb354b9525590aa760eebbfc48d885b35c377a5459a5",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E061",
+      "path": "backend/data/runs/20261002-170236-c53990/events.csv",
+      "sha256": "5d448f784f65852742b010d5bb3ad66a9c96464995b295e13fda195354669540",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E062",
+      "path": "backend/data/runs/20261002-170236-c53990/run.json",
+      "sha256": "e5dda45f7c815ea8d01cd1258fed2a0877fc59fcf4edcabbe5499c6bee336a8c",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E063",
+      "path": "backend/data/runs/20261002-170236-c53990/vehicles.csv",
+      "sha256": "adf4ab5eb3fbd76ead45824387139580eb3488574d9f97d7118a8f31469bb8f2",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E064",
+      "path": "backend/data/runs/20261002-170236-c53990/lane_statistics.csv",
+      "sha256": "09e08a071b49ab36653179d32bd0b5c7661cccc7aa7cf2c1333b9d660f9e622a",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E065",
+      "path": "backend/traffic/lane_detector.py",
+      "sha256": "64ca602c68777672a5cced470ccd9d81730411346ccdd8d4bf8cb0211645b4eb",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E066",
+      "path": "output/playwright/twin-horizontal.png",
+      "sha256": "181bddb54ff8fb71033b2f8853d3125032faffd988d85df68b3231223d741042",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E067",
+      "path": "plans/features-report-desktop.jpg",
+      "sha256": "b709053684d9a12188048fdd253213aef3321c1a6c6410d0ce9e89462716f4f2",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E068",
+      "path": "plans/002-evaluation-result.jpg",
+      "sha256": "98c982607af707ad386fca82a3aa0e574025f0090860b7d8a0f625c452fbeae6",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E069",
+      "path": "frontend/package.json",
+      "sha256": "c39195699bddfc0747cff63e1d7b231922948ac7abed8d3c3863b29cf152abf2",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E070",
+      "path": "output/competition-manual/evidence/environment.json",
+      "sha256": "619ede64ae4d630ec30a8c60c324066bd3e7dacab8574cc9d2a9fa5ee47d27ad",
+      "locator": "source text or original pixels",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E071",
+      "path": "output/competition-manual/evidence/validation-20261003.json",
+      "sha256": "6bbd45d678911727adf16ae99d5c2d4fa6bf23e3c5e0954124a444906ba3a3f4",
+      "locator": "source text or original pixels",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E072",
+      "path": "output/competition-manual/evidence/run-summary.json",
+      "sha256": "24628d96c96ebd24654325dbb59a18c1959461bf833790f7e46e823f01ca034b",
+      "locator": "source text or original pixels",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E073",
+      "path": "output/competition-manual/evidence/bibliographic-records.json",
+      "sha256": "e602c1ed63a9aa566f11c1d52d21e6936f49bd36bb4b44c602a4d56640e4a95e",
+      "locator": "source text or original pixels",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E074",
+      "path": "plans/002-real-video-verification.json",
+      "sha256": "8702339f5bacbd1ea0c773531015a316027b3c4c9e9c9ece473eb4d8ce8638ba",
+      "locator": "source text or original pixels",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E075",
+      "path": "docs/design-review/README.md",
+      "sha256": "d4a2dfb94b121016500ebc744dad5d7841437584205be4562b9b9f16cd42f46f",
+      "locator": "source text or original pixels",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E076",
+      "path": "https://ieeexplore.ieee.org/document/8771378",
+      "title": "Deep Learning for Intelligent Transportation Systems: A Survey of Emerging Trends",
+      "doi": "10.1109/TITS.2019.2929020",
+      "bibliographic_metadata": {
+        "number": 1,
+        "authors": "Veres M; Moussa M",
+        "title": "Deep Learning for Intelligent Transportation Systems: A Survey of Emerging Trends",
+        "publication_type": "journal",
+        "year": "2020",
+        "venue": "IEEE Transactions on Intelligent Transportation Systems",
+        "volume": "21",
+        "issue": "8",
+        "pages": "3152-3168",
+        "doi": "10.1109/TITS.2019.2929020",
+        "opened_primary_url": "https://ieeexplore.ieee.org/document/8771378",
+        "published_url": "https://doi.org/10.1109/TITS.2019.2929020",
+        "support_locator": "abstract; problem-specific spatiotemporal challenges",
+        "assistant_checked_on": "2026-10-03",
+        "human_verification": "pending",
+        "bibliographic_registration": "https://api.crossref.org/works/10.1109/TITS.2019.2929020"
+      },
+      "locator": "abstract; problem-specific spatiotemporal challenges",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E077",
+      "path": "https://arxiv.org/abs/1702.06451",
+      "title": "Traffic Surveillance Camera Calibration by 3D Model Bounding Box Alignment for Accurate Vehicle Speed Measurement",
+      "doi": "10.1016/j.cviu.2017.05.015",
+      "bibliographic_metadata": {
+        "number": 2,
+        "authors": "Sochor J; Juránek R; Herout A",
+        "title": "Traffic Surveillance Camera Calibration by 3D Model Bounding Box Alignment for Accurate Vehicle Speed Measurement",
+        "publication_type": "journal",
+        "year": "2017",
+        "venue": "Computer Vision and Image Understanding",
+        "volume": "161",
+        "issue": "",
+        "pages": "87-98",
+        "doi": "10.1016/j.cviu.2017.05.015",
+        "opened_primary_url": "https://arxiv.org/abs/1702.06451",
+        "published_url": "https://doi.org/10.1016/j.cviu.2017.05.015",
+        "support_locator": "author abstract; automatic scale inference; not implemented here",
+        "assistant_checked_on": "2026-10-03",
+        "human_verification": "pending",
+        "bibliographic_registration": "https://api.crossref.org/works/10.1016/j.cviu.2017.05.015"
+      },
+      "locator": "author abstract; automatic scale inference; not implemented here",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E078",
+      "path": "https://arxiv.org/abs/1702.06441",
+      "title": "Comprehensive Data Set for Automatic Single Camera Visual Speed Measurement",
+      "doi": "10.1109/TITS.2018.2825609",
+      "bibliographic_metadata": {
+        "number": 3,
+        "authors": "Sochor J; Juránek R; Špaňhel J; et al.",
+        "title": "Comprehensive Data Set for Automatic Single Camera Visual Speed Measurement",
+        "publication_type": "journal",
+        "year": "2019",
+        "venue": "IEEE Transactions on Intelligent Transportation Systems",
+        "volume": "20",
+        "issue": "5",
+        "pages": "1633-1643",
+        "doi": "10.1109/TITS.2018.2825609",
+        "opened_primary_url": "https://arxiv.org/abs/1702.06441",
+        "published_url": "https://doi.org/10.1109/TITS.2018.2825609",
+        "support_locator": "author abstract; independent LiDAR optical-gate and GPS speed truth",
+        "assistant_checked_on": "2026-10-03",
+        "human_verification": "pending",
+        "bibliographic_registration": "https://api.crossref.org/works/10.1109/TITS.2018.2825609"
+      },
+      "locator": "author abstract; independent LiDAR optical-gate and GPS speed truth",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E079",
+      "path": "https://huggingface.co/dronefreak/visdrone-yolo11n",
+      "title": "visdrone-yolo11n model card",
+      "doi": "",
+      "bibliographic_metadata": {
+        "number": 4,
+        "authors": "dronefreak",
+        "title": "visdrone-yolo11n model card",
+        "publication_type": "model_card",
+        "year": "",
+        "venue": "",
+        "volume": "",
+        "issue": "",
+        "pages": "",
+        "doi": "",
+        "opened_primary_url": "https://huggingface.co/dronefreak/visdrone-yolo11n",
+        "published_url": "",
+        "support_locator": "publisher weight identity; no model-card metrics borrowed",
+        "assistant_checked_on": "2026-10-03",
+        "human_verification": "pending"
+      },
+      "locator": "publisher weight identity; no model-card metrics borrowed",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E080",
+      "path": "https://docs.ultralytics.com/models/yolo11/",
+      "title": "Ultralytics YOLO11",
+      "doi": "",
+      "bibliographic_metadata": {
+        "number": 5,
+        "authors": "Ultralytics",
+        "title": "Ultralytics YOLO11",
+        "publication_type": "documentation",
+        "year": "",
+        "venue": "",
+        "volume": "",
+        "issue": "",
+        "pages": "",
+        "doi": "",
+        "opened_primary_url": "https://docs.ultralytics.com/models/yolo11/",
+        "published_url": "",
+        "support_locator": "model family and official pretrained weight",
+        "assistant_checked_on": "2026-10-03",
+        "human_verification": "pending"
+      },
+      "locator": "model family and official pretrained weight",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E081",
+      "path": "https://docs.pytorch.org/vision/stable/models/generated/torchvision.models.detection.ssdlite320_mobilenet_v3_large.html",
+      "title": "ssdlite320_mobilenet_v3_large",
+      "doi": "",
+      "bibliographic_metadata": {
+        "number": 6,
+        "authors": "Torchvision",
+        "title": "ssdlite320_mobilenet_v3_large",
+        "publication_type": "documentation",
+        "year": "",
+        "venue": "",
+        "volume": "",
+        "issue": "",
+        "pages": "",
+        "doi": "",
+        "opened_primary_url": "https://docs.pytorch.org/vision/stable/models/generated/torchvision.models.detection.ssdlite320_mobilenet_v3_large.html",
+        "published_url": "",
+        "support_locator": "COCO weights and architecture",
+        "assistant_checked_on": "2026-10-03",
+        "human_verification": "pending"
+      },
+      "locator": "COCO weights and architecture",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E082",
+      "path": "https://arxiv.org/abs/1804.07437",
+      "title": "Vision Meets Drones: A Challenge",
+      "doi": "10.48550/arXiv.1804.07437",
+      "bibliographic_metadata": {
+        "number": 7,
+        "authors": "Zhu P; Wen L; Bian X; et al.",
+        "title": "Vision Meets Drones: A Challenge",
+        "publication_type": "preprint",
+        "year": "2018",
+        "venue": "",
+        "volume": "",
+        "issue": "",
+        "pages": "",
+        "doi": "10.48550/arXiv.1804.07437",
+        "opened_primary_url": "https://arxiv.org/abs/1804.07437",
+        "published_url": "",
+        "support_locator": "aerial detection/tracking setting",
+        "assistant_checked_on": "2026-10-03",
+        "human_verification": "pending"
+      },
+      "locator": "aerial detection/tracking setting",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E083",
+      "path": "https://arxiv.org/abs/1602.00763",
+      "title": "Simple Online and Realtime Tracking",
+      "doi": "10.1109/ICIP.2016.7533003",
+      "bibliographic_metadata": {
+        "number": 8,
+        "authors": "Bewley A; Ge Z; Ott L; et al.",
+        "title": "Simple Online and Realtime Tracking",
+        "publication_type": "conference",
+        "year": "2016",
+        "venue": "ICIP",
+        "volume": "",
+        "issue": "",
+        "pages": "",
+        "doi": "10.1109/ICIP.2016.7533003",
+        "opened_primary_url": "https://arxiv.org/abs/1602.00763",
+        "published_url": "https://doi.org/10.1109/ICIP.2016.7533003",
+        "support_locator": "Kalman and Hungarian association",
+        "assistant_checked_on": "2026-10-03",
+        "human_verification": "pending"
+      },
+      "locator": "Kalman and Hungarian association",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E084",
+      "path": "https://docs.opencv.org/4.13.0/da/d54/group__imgproc__transform.html",
+      "title": "Geometric Image Transformations",
+      "doi": "",
+      "bibliographic_metadata": {
+        "number": 9,
+        "authors": "OpenCV",
+        "title": "Geometric Image Transformations",
+        "publication_type": "documentation",
+        "year": "",
+        "venue": "",
+        "volume": "",
+        "issue": "",
+        "pages": "",
+        "doi": "",
+        "opened_primary_url": "https://docs.opencv.org/4.13.0/da/d54/group__imgproc__transform.html",
+        "published_url": "",
+        "support_locator": "getPerspectiveTransform and perspectiveTransform",
+        "assistant_checked_on": "2026-10-03",
+        "human_verification": "pending"
+      },
+      "locator": "getPerspectiveTransform and perspectiveTransform",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E085",
+      "path": "https://itsnet.cn/wenjianxiazai/181.html",
+      "title": "第十届中国研究生智慧城市技术与创意设计大赛 附件2 作品说明书格式要求",
+      "locator": "official 2026-03-19 attachment image; six-page requirement overridden for this local expanded deliverable by user",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E086",
+      "path": "/Users/wanghaoxin/Desktop/智能交通大赛/智能交通大赛作品说明书.pdf",
+      "sha256": "89b8783d96b27c35d4edd3ad67046634da253cf114afe5eb0112833282f328c2",
+      "locator": "7-page reference; 6 main-text pages plus declaration",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    },
+    {
+      "evidence_id": "E087",
+      "path": "/private/tmp/twin-doc-reference/official-format.png",
+      "sha256": "993886829f6d06a64fd4c0074c07c7d68f38709fe32b9cd59f198f61d0cc0185",
+      "locator": "official attachment image inspected",
+      "verification": {
+        "source_opened": true,
+        "status": "unverified",
+        "verified_by": "",
+        "verified_on": ""
+      },
+      "assistant_inspected_on": "2026-10-03",
+      "human_verification": "pending"
+    }
+  ],
+  "submission_ready": false,
+  "note": "Local evidence opened and checked by Codex; no accountable human verification is claimed."
+}

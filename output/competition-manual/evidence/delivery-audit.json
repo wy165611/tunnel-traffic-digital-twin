@@ -1,0 +1,27 @@
+{
+  "docx_sha256": "a440cff9f975534a2bbaf676b6c47b6eb61a50d4e852b85f6930574650e89ee6",
+  "pages": 16,
+  "figures": 8,
+  "native_editable_tables": 6,
+  "native_editable_equations": 2,
+  "superscript_citation_runs": 12,
+  "reference_numbers": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "file_size_bytes": 1037949,
+  "input_source_hash_mismatches": [],
+  "original_video_identity_rechecked": true,
+  "unit_sample_consistency": "PASS",
+  "layout_review": "PASS: all 16 pages visually inspected at original resolution; no clipping, table truncation or detached figure captions",
+  "human_submission_approval": "pending",
+  "layout_review_directory": "/private/tmp/twin-expanded-qa2",
+  "final_checklist": "证据来源与待补材料清单.txt"
+}

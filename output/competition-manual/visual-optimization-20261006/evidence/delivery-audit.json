@@ -1,0 +1,89 @@
+{
+  "date": "2026-10-06",
+  "docx_sha256": "077ea7af801da6c7d81046f27fcaccc9978ad7379bfb03b3a5dd1b161765869d",
+  "pages": 16,
+  "figures": 8,
+  "native_editable_tables": 6,
+  "reference_count": 10,
+  "journal_papers": 3,
+  "superscript_citation_runs": 14,
+  "citations_ordered_by_first_use": true,
+  "claim_bindings": "PASS",
+  "numeric_consistency": "PASS",
+  "current_input_hash_mismatches": [],
+  "preexisting_source_changes_since_previous_revision": [
+    {
+      "path": "README.md",
+      "previous_sha256": "00c99e55f3bece856f8315d393e2c28963ecb92a0a2147d3e04f8e27fb161674",
+      "current_sha256": "ff479689e68e6508b16ea15d2c915e5aeb9441eb3c280768fe0f80d30aab1acc"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "previous_sha256": "c0c0fc5cf6f81b618f494099cab314ad7ad47b1fdd1c14dec5dd1c1bbca1cd6c",
+      "current_sha256": "64b7129e2ec97087e0b66773ebfacb39ec8a6c94430f272b33162c24c51b635c"
+    },
+    {
+      "path": "frontend/src/App.tsx",
+      "previous_sha256": "f4422421ff8928bcc08b69a7c491c144a19557da89f011aedc9dce682fddf97c",
+      "current_sha256": "49d61c70331151f9b8b36891112ebf378ac2152fa029bd85a21ca776a9b618f8"
+    },
+    {
+      "path": "frontend/src/components/DigitalTwin.tsx",
+      "previous_sha256": "0d61a4dba5d6fda50e4842ce438a8cdee03e10565d9e1bc6c96d25a0955a3b4c",
+      "current_sha256": "d1415202ed9313103dc26e78ab3db3476196fdff0b3d9d61812344e743f4aef5"
+    },
+    {
+      "path": "frontend/src/components/VideoView.tsx",
+      "previous_sha256": "c08fe4ed58f2602d30c1096a30407fc1ecbdb87d9b0209e7cd8d543a8e7f9798",
+      "current_sha256": "4895c56e4490bffea863fc2ecae46da4013a36f7e6dbbdabc48a46879236c749"
+    },
+    {
+      "path": "frontend/tests/snapshotState.test.mjs",
+      "previous_sha256": "ad4813efda5e0758a5505f837f33006b5b9f1da51463072772e1a0eee1080eb0",
+      "current_sha256": "9360d5d0d27b0941c7afb32a011552c57aff9ecdf4cd8fff88a9d389a721001a"
+    }
+  ],
+  "previous_docx_preserved": true,
+  "source_video_identity_rechecked": true,
+  "new_experiments": false,
+  "render_directory": "/private/tmp/twin-visual-qa4",
+  "visual_review": "PASS: inspected all 16 final page PNGs at original resolution; no text or table clipping, broken glyphs, image-caption separation or label overlap",
+  "human_verification": "pending",
+  "file_size_bytes": 2012287,
+  "visual_reviewed_pages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16
+  ],
+  "rendered_page_sha256": {
+    "page-1.png": "c4a246ba75f323dd50de671f844be13ab1bfda824628dbdcb3fccc11d6c6cf60",
+    "page-10.png": "5c03a21fd9b1b26b18c1811c83e138116fce1b26ad57b00421fbe52a674a3d9e",
+    "page-11.png": "5b99a70e2954532430e8a937843865b795a9386169234f1584523aa310249f31",
+    "page-12.png": "c4a82e816e056f7cddd85ca6a8d853c06831881900ac0fa1e2123a5746d4b041",
+    "page-13.png": "09feebd9498388b2469680c3f670f618dea02d9d8dd9ae9a12f2bfc9fbdb4573",
+    "page-14.png": "63540683d52697021706cdd714bd8a0d6f060cb974b1a1751968046020172fce",
+    "page-15.png": "9d8d297bf3e5b9876ed002555312ba3edb6b3d5b0d08a42385687dbe33c919a6",
+    "page-16.png": "ed617fe11f944adc2a7856b9e6e72d34c3da628a717427ae2a52eab129d42e16",
+    "page-2.png": "566b67d5d8f9adfd21ba2eece089e6466f1ee5e4e964b32775a2365d42e2c8f7",
+    "page-3.png": "773203bbe01a98b8dd9e926d6285ca823e25e70d0630704495a07f1a50ccfac7",
+    "page-4.png": "14fe85305752f78846145a17e3fd7402d920f22209bb12647ce6ce930c4f07a1",
+    "page-5.png": "a5cd4769a6c618b32c685fd90dd1e46c7d1218cb3aacb7310ae9d43371ff0966",
+    "page-6.png": "ea7f6406dadddbb2248d1cf9c3977b27a37b10e45142a00b75fbaa503b0d869d",
+    "page-7.png": "6ee73e33d69d0ee6f969c7dc6d42a2739db074b2680c7717ae319560a305674a",
+    "page-8.png": "4703337fd45aaf7147235e1fb5d57d6a06958b31463830f1fc89687148706723",
+    "page-9.png": "9773ee9314bc6f7d239bf8bbecf725cfef7689b3fef081fee9dc2d68e31facc1"
+  }
+}

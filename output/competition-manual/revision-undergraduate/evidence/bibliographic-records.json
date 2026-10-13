@@ -1,0 +1,2058 @@
+[
+  {
+    "indexed": {
+      "date-parts": [
+        [
+          2026,
+          9,
+          26
+        ]
+      ],
+      "date-time": "2026-09-26T15:21:28Z",
+      "timestamp": 1790436088808,
+      "version": "4.1.0"
+    },
+    "reference-count": 122,
+    "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+    "issue": "8",
+    "license": [
+      {
+        "start": {
+          "date-parts": [
+            [
+              2020,
+              8,
+              1
+            ]
+          ],
+          "date-time": "2020-08-01T00:00:00Z",
+          "timestamp": 1596240000000
+        },
+        "content-version": "vor",
+        "delay-in-days": 0,
+        "URL": "https://ieeexplore.ieee.org/Xplorehelp/downloads/license-information/Crown.html"
+      },
+      {
+        "start": {
+          "date-parts": [
+            [
+              2020,
+              8,
+              1
+            ]
+          ],
+          "date-time": "2020-08-01T00:00:00Z",
+          "timestamp": 1596240000000
+        },
+        "content-version": "stm-asf",
+        "delay-in-days": 0,
+        "URL": "https://doi.org/10.15223/policy-029"
+      },
+      {
+        "start": {
+          "date-parts": [
+            [
+              2020,
+              8,
+              1
+            ]
+          ],
+          "date-time": "2020-08-01T00:00:00Z",
+          "timestamp": 1596240000000
+        },
+        "content-version": "stm-asf",
+        "delay-in-days": 0,
+        "URL": "https://doi.org/10.15223/policy-037"
+      }
+    ],
+    "funder": [
+      {
+        "DOI": "10.13039/501100000038",
+        "name": "Natural Sciences and Engineering Research Council of Canada",
+        "doi-asserted-by": "publisher",
+        "id": [
+          {
+            "id": "10.13039/501100000038",
+            "id-type": "DOI",
+            "asserted-by": "publisher"
+          }
+        ]
+      }
+    ],
+    "content-domain": {
+      "domain": [],
+      "crossmark-restriction": false
+    },
+    "short-container-title": [
+      "IEEE Trans. Intell. Transport. Syst."
+    ],
+    "published-print": {
+      "date-parts": [
+        [
+          2020,
+          8
+        ]
+      ]
+    },
+    "DOI": "10.1109/tits.2019.2929020",
+    "type": "journal-article",
+    "created": {
+      "date-parts": [
+        [
+          2019,
+          7,
+          24
+        ]
+      ],
+      "date-time": "2019-07-24T19:56:21Z",
+      "timestamp": 1563998181000
+    },
+    "page": "3152-3168",
+    "source": "Crossref",
+    "is-referenced-by-count": 349,
+    "title": [
+      "Deep Learning for Intelligent Transportation Systems: A Survey of Emerging Trends"
+    ],
+    "prefix": "10.1109",
+    "volume": "21",
+    "author": [
+      {
+        "ORCID": "https://orcid.org/0000-0001-6881-747X",
+        "authenticated-orcid": false,
+        "given": "Matthew",
+        "family": "Veres",
+        "sequence": "first",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Medhat",
+        "family": "Moussa",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      }
+    ],
+    "member": "263",
+    "reference": [
+      {
+        "key": "ref39",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1162/neco.1997.9.8.1735"
+      },
+      {
+        "key": "ref38",
+        "doi-asserted-by": "crossref",
+        "first-page": "504",
+        "DOI": "10.1126/science.1127647",
+        "article-title": "Reducing the dimensionality of data with neural networks",
+        "volume": "313",
+        "author": "hinton",
+        "year": "2006",
+        "journal-title": "Science"
+      },
+      {
+        "key": "ref33",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/ICCV.2015.169"
+      },
+      {
+        "key": "ref32",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/CDC.2017.8264610"
+      },
+      {
+        "key": "ref31",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1609/aaai.v33i01.33013656"
+      },
+      {
+        "key": "ref30",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1080/15472450.2018.1491003"
+      },
+      {
+        "key": "ref37",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1162/neco.2006.18.7.1527"
+      },
+      {
+        "key": "ref36",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/CVPR.2016.90"
+      },
+      {
+        "key": "ref35",
+        "author": "goodfellow",
+        "year": "2016",
+        "journal-title": "Deep Learning"
+      },
+      {
+        "key": "ref34",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/CVPR.2014.81"
+      },
+      {
+        "key": "ref28",
+        "article-title": "Adaptive traffic signal control: Deep reinforcement learning algorithm with experience replay and target network",
+        "author": "gao",
+        "year": "2017",
+        "journal-title": "arXiv 1705 02755"
+      },
+      {
+        "key": "ref27",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/JSEN.2017.2737825"
+      },
+      {
+        "key": "ref29",
+        "article-title": "Using a deep reinforcement learning agent for traffic signal control",
+        "author": "genders",
+        "year": "2016",
+        "journal-title": "arXiv 1611 01142"
+      },
+      {
+        "key": "ref20",
+        "first-page": "338",
+        "article-title": "Learning deep representation from big and heterogeneous data for traffic accident inference",
+        "author": "chen",
+        "year": "2016",
+        "journal-title": "Proc AAAI"
+      },
+      {
+        "key": "ref22",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/34.1000236"
+      },
+      {
+        "key": "ref21",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.3115/v1/D14-1179"
+      },
+      {
+        "key": "ref24",
+        "article-title": "BERT: Pre-training of deep bidirectional transformers for language understanding",
+        "author": "devlin",
+        "year": "2018",
+        "journal-title": "arXiv 1810 04805"
+      },
+      {
+        "key": "ref23",
+        "first-page": "40",
+        "article-title": "Artificial neural networks applied to taxi destination prediction",
+        "volume": "1526",
+        "author": "de brébisson",
+        "year": "2015",
+        "journal-title": "Proc Int Conf ECML PKDD Discovery Challenge"
+      },
+      {
+        "key": "ref101",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/ITSC.2017.8317908"
+      },
+      {
+        "key": "ref26",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1007/978-3-319-57454-7_13"
+      },
+      {
+        "key": "ref100",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/ACCESS.2017.2769666"
+      },
+      {
+        "key": "ref25",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.trc.2016.09.015"
+      },
+      {
+        "key": "ref50",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.trc.2017.10.016"
+      },
+      {
+        "key": "ref51",
+        "first-page": "6351",
+        "article-title": "Learning combinatorial optimization algorithms over graphs",
+        "author": "khalil",
+        "year": "2017",
+        "journal-title": "Proc Adv Neural Inf Process Syst"
+      },
+      {
+        "key": "ref59",
+        "article-title": "The surprising creativity of digital evolution: A collection of anecdotes from the evolutionary computation and artificial life research communities",
+        "author": "lehman",
+        "year": "2018",
+        "journal-title": "arXiv 1803 03453"
+      },
+      {
+        "key": "ref58",
+        "first-page": "1",
+        "article-title": "Time-series extreme event forecasting with neural networks at uber",
+        "author": "laptev",
+        "year": "2017",
+        "journal-title": "Proc Int Conf Mach Learn"
+      },
+      {
+        "key": "ref57",
+        "first-page": "1097",
+        "article-title": "ImageNet classification with deep convolutional neural networks",
+        "author": "krizhevsky",
+        "year": "2012",
+        "journal-title": "Proc Adv Neural Inf Process Syst"
+      },
+      {
+        "key": "ref56",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/ITSC.2018.8569450"
+      },
+      {
+        "key": "ref55",
+        "first-page": "128",
+        "article-title": "Recent development and applications of SUMO-simulation of urban mobility",
+        "volume": "5",
+        "author": "krajzewicz",
+        "year": "2012",
+        "journal-title": "Int J Adv Syst Meas"
+      },
+      {
+        "key": "ref54",
+        "first-page": "1",
+        "article-title": "Attention, learn to solve routing problems!",
+        "author": "kool",
+        "year": "2019",
+        "journal-title": "Proc Int Conf Learn Represent"
+      },
+      {
+        "key": "ref53",
+        "first-page": "1789",
+        "article-title": "Collaborative multiagent reinforcement learning by payoff propagation",
+        "volume": "7",
+        "author": "kok",
+        "year": "2006",
+        "journal-title": "J Mach Learn Res"
+      },
+      {
+        "key": "ref52",
+        "first-page": "1",
+        "article-title": "Semi-supervised classification with graph convolutional networks",
+        "author": "kipf",
+        "year": "2017",
+        "journal-title": "Proc Int Conf Learn Represent (ICLR)"
+      },
+      {
+        "key": "ref40",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/TITS.2014.2311123"
+      },
+      {
+        "key": "ref4",
+        "year": "2018",
+        "journal-title": "NYC Taxi & Limosine Commision TLC Trip Record Data"
+      },
+      {
+        "key": "ref3",
+        "year": "2018",
+        "journal-title": "Canadian Motor Vehicle Traffic Collision Statistics 2016"
+      },
+      {
+        "key": "ref6",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1007/s11263-018-1070-x"
+      },
+      {
+        "key": "ref5",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/CVPR.2016.110"
+      },
+      {
+        "key": "ref8",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1145/3219819.3219874"
+      },
+      {
+        "key": "ref7",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/MTITS.2017.8005605"
+      },
+      {
+        "key": "ref49",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/TITS.2018.2882861"
+      },
+      {
+        "key": "ref9",
+        "first-page": "1",
+        "article-title": "Neural machine translation by jointly learning to align and translate",
+        "author": "bahdanau",
+        "year": "2015",
+        "journal-title": "Proc Int Conf Learn Represent (ICLR)"
+      },
+      {
+        "key": "ref46",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1145/1592761.1592783"
+      },
+      {
+        "key": "ref45",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/BigData.2018.8622481"
+      },
+      {
+        "key": "ref48",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/CVPR.2014.298"
+      },
+      {
+        "key": "ref47",
+        "first-page": "1",
+        "article-title": "Learning to remember rare events",
+        "author": "kaiser",
+        "year": "2017",
+        "journal-title": "Proc Int Conf Learn Represent (ICLR)"
+      },
+      {
+        "key": "ref42",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.18653/v1/D16-1082"
+      },
+      {
+        "key": "ref41",
+        "article-title": "Bidirectional LSTM-CRF models for sequence tagging",
+        "author": "huang",
+        "year": "2015",
+        "journal-title": "arXiv 1508 01991"
+      },
+      {
+        "key": "ref44",
+        "first-page": "192",
+        "article-title": "TrajectoryNet: An embedded GPS trajectory representation for point-based classification using recurrent neural networks",
+        "author": "jiang",
+        "year": "2017",
+        "journal-title": "Proc 27th Annu Int Conf Comput Sci Softw Eng"
+      },
+      {
+        "key": "ref43",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1080/15472450.2017.1394192"
+      },
+      {
+        "key": "ref73",
+        "first-page": "1",
+        "article-title": "Playing Atari with deep reinforcement learning",
+        "author": "mnih",
+        "year": "2013",
+        "journal-title": "NIPS Deep Learning Workshop"
+      },
+      {
+        "key": "ref72",
+        "author": "mellina",
+        "year": "2017",
+        "journal-title": "Introducing Similarity Search at Flickr"
+      },
+      {
+        "key": "ref71",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.3390/s17040818"
+      },
+      {
+        "key": "ref70",
+        "first-page": "865",
+        "article-title": "Traffic flow prediction with big data: A deep learning approach",
+        "volume": "16",
+        "author": "lv",
+        "year": "2015",
+        "journal-title": "IEEE Trans Intell Transp Syst"
+      },
+      {
+        "key": "ref76",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/ITSC.2018.8569301"
+      },
+      {
+        "key": "ref77",
+        "year": "2019",
+        "journal-title": "Welcome to PeMS"
+      },
+      {
+        "key": "ref74",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/TITS.2013.2262376"
+      },
+      {
+        "key": "ref75",
+        "first-page": "9861",
+        "article-title": "Reinforcement learning for solving the vehicle routing problem",
+        "author": "nazari",
+        "year": "2018",
+        "journal-title": "Advances in neural information processing systems"
+      },
+      {
+        "key": "ref78",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/SSCI.2017.8285332"
+      },
+      {
+        "key": "ref79",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/MSP.2017.2738401"
+      },
+      {
+        "key": "ref60",
+        "first-page": "173",
+        "article-title": "Learning hand-eye coordination for robotic grasping with large-scale data collection",
+        "author": "levine",
+        "year": "2016",
+        "journal-title": "Proc Int Symp Exp Robot"
+      },
+      {
+        "key": "ref62",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/TVT.2019.2893173"
+      },
+      {
+        "key": "ref61",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/SmartWorld.2018.00041"
+      },
+      {
+        "key": "ref63",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1145/3219819.3220033"
+      },
+      {
+        "key": "ref64",
+        "first-page": "1",
+        "article-title": "Diffusion convolutional recurrent neural network: Data-driven traffic forecasting",
+        "author": "li",
+        "year": "2018",
+        "journal-title": "Proc Int Conf Learn Represent"
+      },
+      {
+        "key": "ref65",
+        "first-page": "1",
+        "article-title": "Gated graph sequence neural networks",
+        "author": "li",
+        "year": "2016",
+        "journal-title": "Proc Int Conf Learn Represent (ICLR)"
+      },
+      {
+        "key": "ref66",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/TVT.2018.2890726"
+      },
+      {
+        "key": "ref67",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1145/3219819.3219993"
+      },
+      {
+        "key": "ref68",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/ISKE.2017.8258799"
+      },
+      {
+        "key": "ref2",
+        "year": "2016",
+        "journal-title": "Concorde TSP Solver"
+      },
+      {
+        "key": "ref69",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/BigComp.2018.00021"
+      },
+      {
+        "key": "ref1",
+        "year": "2018",
+        "journal-title": "ECML/PKDD 15 Taxi Trajectory Prediction (I)"
+      },
+      {
+        "key": "ref109",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/IJCNN.2017.7966345"
+      },
+      {
+        "key": "ref95",
+        "first-page": "2692",
+        "article-title": "Pointer networks",
+        "author": "vinyals",
+        "year": "2015",
+        "journal-title": "Proc Adv Neural Inf Process Syst"
+      },
+      {
+        "key": "ref108",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/IVS.2018.8500517"
+      },
+      {
+        "key": "ref94",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1145/1390156.1390294"
+      },
+      {
+        "key": "ref107",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1145/3219819.3219824"
+      },
+      {
+        "key": "ref93",
+        "first-page": "5998",
+        "article-title": "Attention is all you need",
+        "author": "vaswani",
+        "year": "2017",
+        "journal-title": "Proc Adv Neural Inf Process Syst"
+      },
+      {
+        "key": "ref106",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/LCN.2018.8638038"
+      },
+      {
+        "key": "ref92",
+        "first-page": "1",
+        "article-title": "Coordinated deep reinforcement learners for traffic light control",
+        "volume": "16",
+        "author": "van der pol",
+        "year": "2016",
+        "journal-title": "Learning Inference and Control of Multi-Agent Syst Workshop (NIPS)"
+      },
+      {
+        "key": "ref105",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/TITS.2017.2755684"
+      },
+      {
+        "key": "ref91",
+        "article-title": "WaveNet: A generative model for raw audio",
+        "author": "van den oord",
+        "year": "2016",
+        "journal-title": "arXiv 1609 03499"
+      },
+      {
+        "key": "ref104",
+        "first-page": "802",
+        "article-title": "Convolutional LSTM network: A machine learning approach for precipitation nowcasting",
+        "author": "shi",
+        "year": "2015",
+        "journal-title": "Proc Adv Neural Inf Process Syst"
+      },
+      {
+        "key": "ref90",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/ITSC.2016.7795689"
+      },
+      {
+        "key": "ref103",
+        "article-title": "Flow: Architecture and benchmarking for reinforcement learning in traffic control",
+        "author": "wu",
+        "year": "2017",
+        "journal-title": "arXiv 1710 05465"
+      },
+      {
+        "key": "ref102",
+        "author": "wen",
+        "year": "2017",
+        "journal-title": "amod-abm"
+      },
+      {
+        "key": "ref111",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1145/3068287"
+      },
+      {
+        "key": "ref112",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1137/1.9781611974973.87"
+      },
+      {
+        "key": "ref110",
+        "first-page": "1",
+        "article-title": "Deep multi-view spatial&#x2013;temporal network for taxi demand prediction",
+        "author": "yao",
+        "year": "2018",
+        "journal-title": "Proc 32nd AAAI Conf Artif Intell"
+      },
+      {
+        "key": "ref98",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1145/3219819.3219900"
+      },
+      {
+        "key": "ref99",
+        "first-page": "1995",
+        "article-title": "Dueling network architectures for deep reinforcement learning",
+        "author": "wang",
+        "year": "2016",
+        "journal-title": "Proc Int Conf Mach Learn"
+      },
+      {
+        "key": "ref96",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/ICDE.2002.994784"
+      },
+      {
+        "key": "ref97",
+        "author": "wang",
+        "year": "2018",
+        "journal-title": "When Will You Arrive? Estimating Travel Time Based on Deep Neural Networks"
+      },
+      {
+        "key": "ref10",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1007/978-3-642-11688-9_18"
+      },
+      {
+        "key": "ref11",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1145/3097983.3098056"
+      },
+      {
+        "key": "ref12",
+        "author": "barbaresso",
+        "year": "2014",
+        "journal-title": "USDOT&#x2019;s Intelligent Transportation Systems (ITS) ITS Strategic Plan 2015&#x2013;2019"
+      },
+      {
+        "key": "ref13",
+        "article-title": "Neural combinatorial optimization with reinforcement learning",
+        "author": "bello",
+        "year": "2016",
+        "journal-title": "arXiv 1611 09940"
+      },
+      {
+        "key": "ref14",
+        "first-page": "153",
+        "article-title": "Greedy layer-wise training of deep networks",
+        "author": "bengio",
+        "year": "2007",
+        "journal-title": "Proc Adv Neural Inf Process Syst"
+      },
+      {
+        "key": "ref15",
+        "first-page": "359",
+        "article-title": "Using dynamic time warping to find patterns in time series",
+        "author": "berndt",
+        "year": "1994",
+        "journal-title": "Proc Int'l Conf Knowledge Discovery and Data Mining"
+      },
+      {
+        "key": "ref118",
+        "first-page": "32",
+        "article-title": "GeoLife: A collaborative social networking service among user, location and trajectory",
+        "volume": "33",
+        "author": "zheng",
+        "year": "2010",
+        "journal-title": "IEEE Data Eng Bull"
+      },
+      {
+        "key": "ref16",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.eswa.2019.01.001"
+      },
+      {
+        "key": "ref82",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.neunet.2014.09.003"
+      },
+      {
+        "key": "ref117",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/ICCV.2015.179"
+      },
+      {
+        "key": "ref17",
+        "article-title": "Mixture density networks",
+        "author": "bishop",
+        "year": "1994"
+      },
+      {
+        "key": "ref81",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1007/s11263-015-0816-y"
+      },
+      {
+        "key": "ref18",
+        "article-title": "OpenAI gym",
+        "author": "brockman",
+        "year": "2016",
+        "journal-title": "arXiv 1606 01540 [cs]"
+      },
+      {
+        "key": "ref84",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/TENCON.2016.7848343"
+      },
+      {
+        "key": "ref119",
+        "article-title": "Graph neural networks: A review of methods and applications",
+        "author": "zhou",
+        "year": "2018",
+        "journal-title": "arXiv 1812 08434"
+      },
+      {
+        "key": "ref19",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/PERCOMW.2018.8480119"
+      },
+      {
+        "key": "ref83",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1038/nature16961"
+      },
+      {
+        "key": "ref114",
+        "article-title": "GaAN: Gated attention networks for learning on large and spatiotemporal graphs",
+        "author": "zhang",
+        "year": "2018",
+        "journal-title": "arXiv 1803 07294"
+      },
+      {
+        "key": "ref113",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.24963/ijcai.2018/508"
+      },
+      {
+        "key": "ref116",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/TITS.2011.2158001"
+      },
+      {
+        "key": "ref80",
+        "first-page": "91",
+        "article-title": "Faster R-CNN: Towards real-time object detection with region proposal networks",
+        "author": "ren",
+        "year": "2015",
+        "journal-title": "Proc Adv Neural Inf Process Syst"
+      },
+      {
+        "key": "ref115",
+        "first-page": "1",
+        "article-title": "Deep spatio-temporal residual networks for citywide crowd flows prediction",
+        "author": "zhang",
+        "year": "2017",
+        "journal-title": "Proc 21st AAAI Conf Artif Intell"
+      },
+      {
+        "key": "ref120",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/TITS.2018.2815678"
+      },
+      {
+        "key": "ref89",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1371/journal.pone.0172395"
+      },
+      {
+        "key": "ref121",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/SCC.2016.68"
+      },
+      {
+        "key": "ref122",
+        "first-page": "1433",
+        "article-title": "Maximum entropy inverse reinforcement learning",
+        "volume": "3",
+        "author": "ziebart",
+        "year": "2008",
+        "journal-title": "Proc 23rd Conf Artif Intell"
+      },
+      {
+        "key": "ref85",
+        "first-page": "1929",
+        "article-title": "Dropout: A simple way to prevent neural networks from overfitting",
+        "volume": "15",
+        "author": "srivastava",
+        "year": "2014",
+        "journal-title": "J Mach Learn Res"
+      },
+      {
+        "key": "ref86",
+        "first-page": "3104",
+        "article-title": "Sequence to sequence learning with neural networks",
+        "author": "sutskever",
+        "year": "2014",
+        "journal-title": "Proc Adv Neural Inf Process Syst"
+      },
+      {
+        "key": "ref87",
+        "author": "sutton",
+        "year": "2018",
+        "journal-title": "Reinforcement Learning An Introduction"
+      },
+      {
+        "key": "ref88",
+        "first-page": "2154",
+        "article-title": "Value iteration networks",
+        "author": "tamar",
+        "year": "2016",
+        "journal-title": "Proc Adv Neural Inf Process Syst"
+      }
+    ],
+    "container-title": [
+      "IEEE Transactions on Intelligent Transportation Systems"
+    ],
+    "original-title": [],
+    "link": [
+      {
+        "URL": "http://xplorestaging.ieee.org/ielx7/6979/9151912/08771378.pdf?arnumber=8771378",
+        "content-type": "unspecified",
+        "content-version": "vor",
+        "intended-application": "similarity-checking"
+      }
+    ],
+    "deposited": {
+      "date-parts": [
+        [
+          2022,
+          4,
+          27
+        ]
+      ],
+      "date-time": "2022-04-27T16:02:24Z",
+      "timestamp": 1651075344000
+    },
+    "score": 1,
+    "resource": {
+      "primary": {
+        "URL": "https://ieeexplore.ieee.org/document/8771378/"
+      }
+    },
+    "subtitle": [],
+    "short-title": [],
+    "issued": {
+      "date-parts": [
+        [
+          2020,
+          8
+        ]
+      ]
+    },
+    "references-count": 122,
+    "journal-issue": {
+      "issue": "8"
+    },
+    "URL": "https://doi.org/10.1109/tits.2019.2929020",
+    "relation": {},
+    "ISSN": [
+      "1524-9050",
+      "1558-0016"
+    ],
+    "issn-type": [
+      {
+        "value": "1524-9050",
+        "type": "print"
+      },
+      {
+        "value": "1558-0016",
+        "type": "electronic"
+      }
+    ],
+    "subject": [],
+    "published": {
+      "date-parts": [
+        [
+          2020,
+          8
+        ]
+      ]
+    }
+  },
+  {
+    "indexed": {
+      "date-parts": [
+        [
+          2026,
+          9,
+          29
+        ]
+      ],
+      "date-time": "2026-09-29T17:22:07Z",
+      "timestamp": 1790702527227,
+      "version": "4.1.0"
+    },
+    "reference-count": 25,
+    "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+    "issue": "5",
+    "license": [
+      {
+        "start": {
+          "date-parts": [
+            [
+              2019,
+              5,
+              1
+            ]
+          ],
+          "date-time": "2019-05-01T00:00:00Z",
+          "timestamp": 1556668800000
+        },
+        "content-version": "vor",
+        "delay-in-days": 0,
+        "URL": "https://ieeexplore.ieee.org/Xplorehelp/downloads/license-information/IEEE.html"
+      },
+      {
+        "start": {
+          "date-parts": [
+            [
+              2019,
+              5,
+              1
+            ]
+          ],
+          "date-time": "2019-05-01T00:00:00Z",
+          "timestamp": 1556668800000
+        },
+        "content-version": "stm-asf",
+        "delay-in-days": 0,
+        "URL": "https://doi.org/10.15223/policy-029"
+      },
+      {
+        "start": {
+          "date-parts": [
+            [
+              2019,
+              5,
+              1
+            ]
+          ],
+          "date-time": "2019-05-01T00:00:00Z",
+          "timestamp": 1556668800000
+        },
+        "content-version": "stm-asf",
+        "delay-in-days": 0,
+        "URL": "https://doi.org/10.15223/policy-037"
+      }
+    ],
+    "funder": [
+      {
+        "name": "Ministry of Education, Youth and Sports of the Czech Republic from the National Programme of Sustainability (NPU II), through the Project IT4Innovations Excellence in Science",
+        "award": [
+          "LQ1602"
+        ],
+        "award-info": [
+          {
+            "award-number": [
+              "LQ1602"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Brno City Municipality through the Brno Ph.D. Talent Scholarship"
+      }
+    ],
+    "content-domain": {
+      "domain": [],
+      "crossmark-restriction": false
+    },
+    "short-container-title": [
+      "IEEE Trans. Intell. Transport. Syst."
+    ],
+    "published-print": {
+      "date-parts": [
+        [
+          2019,
+          5
+        ]
+      ]
+    },
+    "DOI": "10.1109/tits.2018.2825609",
+    "type": "journal-article",
+    "created": {
+      "date-parts": [
+        [
+          2018,
+          5,
+          8
+        ]
+      ],
+      "date-time": "2018-05-08T14:53:08Z",
+      "timestamp": 1525791188000
+    },
+    "page": "1633-1643",
+    "source": "Crossref",
+    "is-referenced-by-count": 71,
+    "title": [
+      "Comprehensive Data Set for Automatic Single Camera Visual Speed Measurement"
+    ],
+    "prefix": "10.1109",
+    "volume": "20",
+    "author": [
+      {
+        "ORCID": "https://orcid.org/0000-0002-1604-4097",
+        "authenticated-orcid": false,
+        "given": "Jakub",
+        "family": "Sochor",
+        "sequence": "first",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Roman",
+        "family": "Juranek",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0003-2980-5614",
+        "authenticated-orcid": false,
+        "given": "Jakub",
+        "family": "Spanhel",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Lukas",
+        "family": "Marsik",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Adam",
+        "family": "Siroky",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0003-2143-9314",
+        "authenticated-orcid": false,
+        "given": "Adam",
+        "family": "Herout",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "ORCID": "https://orcid.org/0000-0001-7969-5877",
+        "authenticated-orcid": false,
+        "given": "Pavel",
+        "family": "Zemcik",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      }
+    ],
+    "member": "263",
+    "reference": [
+      {
+        "key": "ref10",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/ICACSIS.2013.6761617"
+      },
+      {
+        "key": "ref11",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/ICACSIS.2013.6761567"
+      },
+      {
+        "key": "ref12",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.5244/C.28.42"
+      },
+      {
+        "key": "ref13",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.ijleo.2013.06.036"
+      },
+      {
+        "key": "ref14",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/ICASSP.2014.6854869"
+      },
+      {
+        "key": "ref15",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/ECTICon.2015.7207027"
+      },
+      {
+        "key": "ref16",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1017/CBO9780511811685"
+      },
+      {
+        "key": "ref17",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/TITS.2014.2352854"
+      },
+      {
+        "key": "ref18",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1117/1.2714991"
+      },
+      {
+        "key": "ref19",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/IVS.2005.1505199"
+      },
+      {
+        "key": "ref4",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/TITS.2013.2294646"
+      },
+      {
+        "key": "ref3",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/TITS.2015.2441051"
+      },
+      {
+        "key": "ref6",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/6979.880967"
+      },
+      {
+        "key": "ref5",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/TITS.2003.821213"
+      },
+      {
+        "key": "ref8",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/WACV.2007.7"
+      },
+      {
+        "key": "ref7",
+        "first-page": "332",
+        "article-title": "Automatic estimation of vehicle speed from uncalibrated video sequences",
+        "author": "grammatikopoulos",
+        "year": "2005",
+        "journal-title": "Proc Int Symp Mod Technol Edu Prof Pract Geodesy Rel Fields"
+      },
+      {
+        "key": "ref2",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1007/s11042-013-1545-2"
+      },
+      {
+        "key": "ref9",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/ICIP.2008.4711870"
+      },
+      {
+        "key": "ref1",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/TITS.2015.2437998"
+      },
+      {
+        "key": "ref20",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1016/j.neucom.2015.09.132"
+      },
+      {
+        "key": "ref22",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1115/1.3662552"
+      },
+      {
+        "key": "ref21",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1007/978-3-319-31204-0_51"
+      },
+      {
+        "key": "ref24",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.5244/C.27.90"
+      },
+      {
+        "key": "ref23",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.1109/ICPR.2004.1333992"
+      },
+      {
+        "key": "ref25",
+        "doi-asserted-by": "publisher",
+        "DOI": "10.2307/2309088"
+      }
+    ],
+    "container-title": [
+      "IEEE Transactions on Intelligent Transportation Systems"
+    ],
+    "original-title": [],
+    "link": [
+      {
+        "URL": "http://xplorestaging.ieee.org/ielx7/6979/8703754/08356199.pdf?arnumber=8356199",
+        "content-type": "unspecified",
+        "content-version": "vor",
+        "intended-application": "similarity-checking"
+      }
+    ],
+    "deposited": {
+      "date-parts": [
+        [
+          2022,
+          7,
+          13
+        ]
+      ],
+      "date-time": "2022-07-13T17:12:48Z",
+      "timestamp": 1657732368000
+    },
+    "score": 1,
+    "resource": {
+      "primary": {
+        "URL": "https://ieeexplore.ieee.org/document/8356199/"
+      }
+    },
+    "subtitle": [],
+    "short-title": [],
+    "issued": {
+      "date-parts": [
+        [
+          2019,
+          5
+        ]
+      ]
+    },
+    "references-count": 25,
+    "journal-issue": {
+      "issue": "5"
+    },
+    "URL": "https://doi.org/10.1109/tits.2018.2825609",
+    "relation": {},
+    "ISSN": [
+      "1524-9050",
+      "1558-0016"
+    ],
+    "issn-type": [
+      {
+        "value": "1524-9050",
+        "type": "print"
+      },
+      {
+        "value": "1558-0016",
+        "type": "electronic"
+      }
+    ],
+    "subject": [],
+    "published": {
+      "date-parts": [
+        [
+          2019,
+          5
+        ]
+      ]
+    }
+  },
+  {
+    "indexed": {
+      "date-parts": [
+        [
+          2026,
+          9,
+          1
+        ]
+      ],
+      "date-time": "2026-09-01T16:19:20Z",
+      "timestamp": 1788279560334,
+      "version": "build-2803163510"
+    },
+    "reference-count": 51,
+    "publisher": "Elsevier BV",
+    "license": [
+      {
+        "start": {
+          "date-parts": [
+            [
+              2017,
+              8,
+              1
+            ]
+          ],
+          "date-time": "2017-08-01T00:00:00Z",
+          "timestamp": 1501545600000
+        },
+        "content-version": "tdm",
+        "delay-in-days": 0,
+        "URL": "https://www.elsevier.com/tdm/userlicense/1.0/"
+      }
+    ],
+    "content-domain": {
+      "domain": [
+        "elsevier.com",
+        "sciencedirect.com"
+      ],
+      "crossmark-restriction": true
+    },
+    "short-container-title": [
+      "Computer Vision and Image Understanding"
+    ],
+    "published-print": {
+      "date-parts": [
+        [
+          2017,
+          8
+        ]
+      ]
+    },
+    "DOI": "10.1016/j.cviu.2017.05.015",
+    "type": "journal-article",
+    "created": {
+      "date-parts": [
+        [
+          2017,
+          6,
+          2
+        ]
+      ],
+      "date-time": "2017-06-02T11:06:05Z",
+      "timestamp": 1496401565000
+    },
+    "page": "87-98",
+    "update-policy": "https://doi.org/10.1016/elsevier_cm_policy",
+    "source": "Crossref",
+    "is-referenced-by-count": 113,
+    "special_numbering": "C",
+    "title": [
+      "Traffic surveillance camera calibration by 3D model bounding box alignment for accurate vehicle speed measurement"
+    ],
+    "prefix": "10.1016",
+    "volume": "161",
+    "author": [
+      {
+        "given": "Jakub",
+        "family": "Sochor",
+        "sequence": "first",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Roman",
+        "family": "Juránek",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      },
+      {
+        "given": "Adam",
+        "family": "Herout",
+        "sequence": "additional",
+        "affiliation": [],
+        "role": [
+          {
+            "vocabulary": "crossref",
+            "role": "author"
+          }
+        ]
+      }
+    ],
+    "member": "78",
+    "reference": [
+      {
+        "key": "10.1016/j.cviu.2017.05.015_bib0001",
+        "series-title": "Intelligent Vehicles Symposium",
+        "first-page": "777",
+        "article-title": "A novel technique to dynamically measure vehicle speed using uncalibrated roadway cameras",
+        "author": "Cathey",
+        "year": "2005"
+      },
+      {
+        "issue": "5",
+        "key": "10.1016/j.cviu.2017.05.015_sbref0002",
+        "doi-asserted-by": "crossref",
+        "first-page": "576",
+        "DOI": "10.1016/j.cviu.2010.11.018",
+        "article-title": "Reliable camera pose and calibration from a small set of point and line correspondences: a probabilistic approach",
+        "volume": "115",
+        "author": "Chaperon",
+        "year": "2011",
+        "journal-title": "Comput. Vision Image Understanding"
+      },
+      {
+        "issue": "1",
+        "key": "10.1016/j.cviu.2017.05.015_bib0003",
+        "doi-asserted-by": "crossref",
+        "first-page": "38",
+        "DOI": "10.1006/cviu.1995.1004",
+        "article-title": "Active shape models-their training and application",
+        "volume": "61",
+        "author": "Cootes",
+        "year": "1995",
+        "journal-title": "Comput. Vision Image Understanding"
+      },
+      {
+        "issue": "2",
+        "key": "10.1016/j.cviu.2017.05.015_bib0004",
+        "doi-asserted-by": "crossref",
+        "first-page": "98",
+        "DOI": "10.1109/6979.880967",
+        "article-title": "An algorithm to estimate mean traffic speed using uncalibrated cameras",
+        "volume": "1",
+        "author": "Dailey",
+        "year": "2000",
+        "journal-title": "IEEE Trans. Intell. Transp. Syst."
+      },
+      {
+        "key": "10.1016/j.cviu.2017.05.015_bib0005",
+        "series-title": "Computer Vision and Pattern Recognition, 2005. CVPR 2005. IEEE Computer Society Conference on",
+        "first-page": "886",
+        "article-title": "Histograms of oriented gradients for human detection",
+        "volume": "1",
+        "author": "Dalal",
+        "year": "2005"
+      },
+      {
+        "key": "10.1016/j.cviu.2017.05.015_bib0006",
+        "series-title": "Electrical Engineering/Electronics, Computer, Telecommunications and Information Technology (ECTI-CON), 2015 12th International Conference on",
+        "first-page": "1",
+        "article-title": "A simple camera calibration method for vehicle velocity estimation",
+        "author": "Do",
+        "year": "2015"
+      },
+      {
+        "issue": "8",
+        "key": "10.1016/j.cviu.2017.05.015_bib0007",
+        "doi-asserted-by": "crossref",
+        "first-page": "1532",
+        "DOI": "10.1109/TPAMI.2014.2300479",
+        "article-title": "Fast feature pyramids for object detection",
+        "volume": "36",
+        "author": "Dollár",
+        "year": "2014",
+        "journal-title": "IEEE Trans. Pattern Anal. Mach. Intell."
+      },
+      {
+        "key": "10.1016/j.cviu.2017.05.015_bib0008",
+        "series-title": "Proceedings of the British Machine Vision Conference",
+        "article-title": "Real projective plane mapping for detection of orthogonal vanishing points",
+        "author": "Dubská",
+        "year": "2013"
+      },
+      {
+        "issue": "3",
+        "key": "10.1016/j.cviu.2017.05.015_bib0009",
+        "doi-asserted-by": "crossref",
+        "first-page": "1162",
+        "DOI": "10.1109/TITS.2014.2352854",
+        "article-title": "Fully automatic roadside camera calibration for traffic surveillance",
+        "volume": "16",
+        "author": "Dubská",
+        "year": "2015",
+        "journal-title": "Intell. Transp. Syst. IEEE Trans."
+      },
+      {
+        "key": "10.1016/j.cviu.2017.05.015_bib0010",
+        "series-title": "BMVC",
+        "article-title": "Automatic camera calibration for traffic understanding",
+        "author": "Dubská",
+        "year": "2014"
+      },
+      {
+        "issue": "99",
+        "key": "10.1016/j.cviu.2017.05.015_bib0011",
+        "first-page": "1",
+        "article-title": "Fine-grained vehicle model recognition using a coarse-to-fine convolutional neural network architecture",
+        "volume": "PP",
+        "author": "Fang",
+        "year": "2016",
+        "journal-title": "IEEE Trans. Intell. Transp. Syst."
+      },
+      {
+        "issue": "9",
+        "key": "10.1016/j.cviu.2017.05.015_bib0012",
+        "doi-asserted-by": "crossref",
+        "first-page": "1627",
+        "DOI": "10.1109/TPAMI.2009.167",
+        "article-title": "Object detection with discriminatively trained part-based models",
+        "volume": "32",
+        "author": "Felzenszwalb",
+        "year": "2010",
+        "journal-title": "IEEE Trans. Pattern Anal. Mach. Intell."
+      },
+      {
+        "issue": "10",
+        "key": "10.1016/j.cviu.2017.05.015_bib0013",
+        "doi-asserted-by": "crossref",
+        "first-page": "2967",
+        "DOI": "10.1117/1.1606458",
+        "article-title": "Camera calibration from road lane markings",
+        "volume": "42",
+        "author": "Fung",
+        "year": "2003",
+        "journal-title": "Opt. Eng."
+      },
+      {
+        "key": "10.1016/j.cviu.2017.05.015_bib0014",
+        "series-title": "The IEEE Conference on Computer Vision and Pattern Recognition (CVPR)",
+        "article-title": "Compact bilinear pooling",
+        "author": "Gao",
+        "year": "2016"
+      },
+      {
+        "key": "10.1016/j.cviu.2017.05.015_bib0015",
+        "series-title": "Computer Vision and Pattern Recognition",
+        "article-title": "Rich feature hierarchies for accurate object detection and semantic segmentation",
+        "author": "Girshick",
+        "year": "2014"
+      },
+      {
+        "key": "10.1016/j.cviu.2017.05.015_bib0016",
+        "series-title": "Proceedings of International Symposium on Modern Technologies, Education and Professional Practice in Geodesy and Related Fields",
+        "first-page": "332",
+        "article-title": "Automatic estimation of vehicle speed from uncalibrated video sequences",
+        "author": "Grammatikopoulos",
+        "year": "2005"
+      },
+      {
+        "issue": "3",
+        "key": "10.1016/j.cviu.2017.05.015_bib0017",
+        "doi-asserted-by": "crossref",
+        "DOI": "10.1117/1.2714991",
+        "article-title": "New method for overcoming ill-conditioning in vanishing-point-based camera calibration",
+        "volume": "46",
+        "author": "He",
+        "year": "2007",
+        "journal-title": "Opt. Eng."
+      },
+      {
+        "key": "10.1016/j.cviu.2017.05.015_bib0018",
+        "series-title": "IEEE Workshop on Applications of Computer Vision, WACV",
+        "article-title": "A novel algorithm for estimating vehicle speed from two consecutive images",
+        "author": "He",
+        "year": "2007"
+      },
+      {
+        "key": "10.1016/j.cviu.2017.05.015_bib0019",
+        "series-title": "IEEE WACV",
+        "article-title": "Car make and model recognition using 3D curve alignment",
+        "author": "Hsiao",
+        "year": "2014"
+      },
+      {
+        "key": "10.1016/j.cviu.2017.05.015_bib0020",
+        "series-title": "The IEEE International Conference on Computer Vision (ICCV)",
+        "article-title": "Real-time pose estimation piggybacked on object detection",
+        "author": "Juránek",
+        "year": "2015"
+      },
+      {
+        "issue": "82 (Series D)",
+        "key": "10.1016/j.cviu.2017.05.015_bib0021",
+        "doi-asserted-by": "crossref",
+        "first-page": "35",
+        "DOI": "10.1115/1.3662552",
+        "article-title": "A new approach to linear filtering and prediction problems",
+        "author": "Kalman",
+        "year": "1960",
+        "journal-title": "Trans. ASME – J. Basic Eng."
+      },
+      {
+        "key": "10.1016/j.cviu.2017.05.015_bib0022",
+        "series-title": "IEEE Conference on Computer Vision and Pattern Recognition (CVPR)",
+        "article-title": "Fine-grained recognition without part annotations",
+        "author": "Krause",
+        "year": "2015"
+      },
+      {
+        "key": "10.1016/j.cviu.2017.05.015_bib0023",
+        "series-title": "ICCV Workshop 3dRR-13",
+        "article-title": "3D object representations for fine-grained categorization",
+        "author": "Krause",
+        "year": "2013"
+      },
+      {
+        "key": "10.1016/j.cviu.2017.05.015_bib0024",
+        "series-title": "Advances in Neural Information Processing Systems 25",
+        "first-page": "1097",
+        "article-title": "Imagenet classification with deep convolutional neural networks",
+        "author": "Krizhevsky",
+        "year": "2012"
+      },
+      {
+        "issue": "1",
+        "key": "10.1016/j.cviu.2017.05.015_bib0025",
+        "doi-asserted-by": "crossref",
+        "first-page": "289",
+        "DOI": "10.1016/j.ijleo.2013.06.036",
+        "article-title": "Vehicle speed measurement based on gray constraint optical flow algorithm",
+        "volume": "125",
+        "author": "Lan",
+        "year": "2014",
+        "journal-title": "Optik - Int. J. LightElectron Opt."
+      },
+      {
+        "key": "10.1016/j.cviu.2017.05.015_bib0026",
+        "series-title": "Computer Vision and Pattern Recognition, 2009. CVPR 2009. IEEE Conference on",
+        "first-page": "218",
+        "article-title": "A robust parametric method for bias field estimation and segmentation of mr images",
+        "author": "Li",
+        "year": "2009"
+      },
+      {
+        "key": "10.1016/j.cviu.2017.05.015_bib0027",
+        "series-title": "International Conference on Computer Vision (ICCV)",
+        "article-title": "Bilinear cnn models for fine-grained visual recognition",
+        "author": "Lin",
+        "year": "2015"
+      },
+      {
+        "key": "10.1016/j.cviu.2017.05.015_bib0028",
+        "series-title": "ECCV",
+        "article-title": "Jointly optimizing 3D model fitting and fine-grained classification",
+        "author": "Lin",
+        "year": "2014"
+      },
+      {
+        "key": "10.1016/j.cviu.2017.05.015_bib0029",
+        "series-title": "ECCV 2012",
+        "first-page": "172",
+        "article-title": "Dog breed classification using part localization",
+        "volume": "7572",
+        "author": "Liu",
+        "year": "2012"
+      },
+      {
+        "key": "10.1016/j.cviu.2017.05.015_bib0030",
+        "series-title": "SSD: Single shot multibox detector. European Conference on Computer Vision",
+        "author": "Liu",
+        "year": "2016"
+      },
+      {
+        "key": "10.1016/j.cviu.2017.05.015_bib0031",
+        "series-title": "The IEEE Conference on Computer Vision and Pattern Recognition (CVPR)",
+        "article-title": "Fully convolutional networks for semantic segmentation",
+        "author": "Long",
+        "year": "2015"
+      },
+      {
+        "key": "10.1016/j.cviu.2017.05.015_bib0032",
+        "series-title": "Computer Vision, 1999. The Proceedings of the Seventh IEEE International Conference on",
+        "first-page": "1150",
+        "article-title": "Object recognition from local scale-invariant features",
+        "volume": "2",
+        "author": "Lowe",
+        "year": "1999"
+      },
+      {
+        "key": "10.1016/j.cviu.2017.05.015_bib0033",
+        "series-title": "Acoustics, Speech and Signal Processing (ICASSP), 2014 IEEE International Conference on",
+        "first-page": "6563",
+        "article-title": "Vehicle speed estimation by license plate detection and tracking",
+        "author": "Luvizon",
+        "year": "2014"
+      },
+      {
+        "issue": "99",
+        "key": "10.1016/j.cviu.2017.05.015_bib0034",
+        "doi-asserted-by": "crossref",
+        "first-page": "1",
+        "DOI": "10.1109/TITS.2016.2606369",
+        "article-title": "A video-based system for vehicle speed measurement in urban roadways",
+        "volume": "PP",
+        "author": "Luvizon",
+        "year": "2016",
+        "journal-title": "IEEE Trans. Intell. Transp. Syst."
+      },
+      {
+        "key": "10.1016/j.cviu.2017.05.015_bib0035",
+        "series-title": "Image Processing, 2008. ICIP 2008. 15th IEEE International Conference on",
+        "first-page": "777",
+        "article-title": "Estimation of vehicle velocity and traffic intensity using rectified images",
+        "author": "Maduro",
+        "year": "2008"
+      },
+      {
+        "key": "10.1016/j.cviu.2017.05.015_bib0036",
+        "series-title": "Advanced Computer Science and Information Systems (ICACSIS), 2013 International Conference on",
+        "first-page": "451",
+        "article-title": "Improved vehicle speed estimation using Gaussian mixture model and hole filling algorithm",
+        "author": "Nurhadiyatna",
+        "year": "2013"
+      },
+      {
+        "key": "10.1016/j.cviu.2017.05.015_bib0037",
+        "series-title": "IEEE WACV",
+        "article-title": "3-D model based vehicle recognition",
+        "author": "Prokaj",
+        "year": "2009"
+      },
+      {
+        "key": "10.1016/j.cviu.2017.05.015_bib0038",
+        "series-title": "Advances in Neural Information Processing Systems (NIPS)",
+        "article-title": "Faster R-CNN: towards real-time object detection with region proposal networks",
+        "author": "Ren",
+        "year": "2015"
+      },
+      {
+        "issue": "2",
+        "key": "10.1016/j.cviu.2017.05.015_bib0039",
+        "doi-asserted-by": "crossref",
+        "first-page": "90",
+        "DOI": "10.1109/TITS.2003.821213",
+        "article-title": "Dynamic camera calibration of roadside traffic management cameras for vehicle speed estimation",
+        "volume": "4",
+        "author": "Schoepflin",
+        "year": "2003",
+        "journal-title": "Intell. Transp. Syst. IEEE Trans."
+      },
+      {
+        "key": "10.1016/j.cviu.2017.05.015_bib0040",
+        "series-title": "1994 Proceedings of IEEE Conference on Computer Vision and Pattern Recognition",
+        "first-page": "593",
+        "article-title": "Good features to track",
+        "author": "Shi",
+        "year": "1994"
+      },
+      {
+        "key": "10.1016/j.cviu.2017.05.015_bib0041",
+        "series-title": "International Conference on Computer Vision (ICCV)",
+        "article-title": "Neural activation constellations: unsupervised part model discovery with convolutional networks",
+        "author": "Simon",
+        "year": "2015"
+      },
+      {
+        "key": "10.1016/j.cviu.2017.05.015_bib0042",
+        "series-title": "Advanced Computer Science and Information Systems (ICACSIS), 2013 International Conference on",
+        "first-page": "149",
+        "article-title": "Vehicle counting and speed measurement using headlight detection",
+        "author": "Sina",
+        "year": "2013"
+      },
+      {
+        "key": "10.1016/j.cviu.2017.05.015_bib0043",
+        "series-title": "The IEEE Conference on Computer Vision and Pattern Recognition (CVPR)",
+        "article-title": "BoxCars: 3D boxes as CNN input for improved fine-grained vehicle recognition",
+        "author": "Sochor",
+        "year": "2016"
+      },
+      {
+        "key": "10.1016/j.cviu.2017.05.015_sbref0044",
+        "article-title": "BrnoCompSpeed: review of traffic camera calibration and a comprehensive dataset for monocular speed measurement",
+        "author": "Sochor",
+        "year": "2016",
+        "journal-title": "Intell. Transp. Syst. IEEE Trans."
+      },
+      {
+        "key": "10.1016/j.cviu.2017.05.015_bib0045",
+        "series-title": "Technical Report",
+        "article-title": "Detection and Tracking of Point Features",
+        "author": "Tomasi",
+        "year": "1991"
+      },
+      {
+        "key": "10.1016/j.cviu.2017.05.015_bib0046",
+        "series-title": "The IEEE Conference on Computer Vision and Pattern Recognition (CVPR)",
+        "article-title": "Object contour detection with a fully convolutional encoder-decoder network",
+        "author": "Yang",
+        "year": "2016"
+      },
+      {
+        "key": "10.1016/j.cviu.2017.05.015_bib0047",
+        "doi-asserted-by": "crossref",
+        "first-page": "222",
+        "DOI": "10.1016/j.neucom.2015.09.132",
+        "article-title": "An accurate and practical calibration method for roadside camera using two vanishing points",
+        "volume": "204",
+        "author": "You",
+        "year": "2016",
+        "journal-title": "Neurocomputing"
+      },
+      {
+        "issue": "5",
+        "key": "10.1016/j.cviu.2017.05.015_sbref0048",
+        "doi-asserted-by": "crossref",
+        "first-page": "643",
+        "DOI": "10.1016/j.cviu.2008.01.006",
+        "article-title": "Automatic camera calibration of broadcast tennis video with applications to 3D virtual content insertion and ball detection and tracking",
+        "volume": "113",
+        "author": "Yu",
+        "year": "2009",
+        "journal-title": "Comput. Vision Image Understanding"
+      },
+      {
+        "issue": "11",
+        "key": "10.1016/j.cviu.2017.05.015_bib0049",
+        "doi-asserted-by": "crossref",
+        "first-page": "1330",
+        "DOI": "10.1109/34.888718",
+        "article-title": "A flexible new technique for camera calibration",
+        "volume": "22",
+        "author": "Zhang",
+        "year": "2000",
+        "journal-title": "IEEE Trans. Pattern Anal. Mach. Intell."
+      },
+      {
+        "issue": "3",
+        "key": "10.1016/j.cviu.2017.05.015_bib0050",
+        "doi-asserted-by": "crossref",
+        "first-page": "518",
+        "DOI": "10.1109/TCSVT.2012.2210670",
+        "article-title": "Practical camera calibration from moving objects for traffic scene surveillance",
+        "volume": "23",
+        "author": "Zhang",
+        "year": "2013",
+        "journal-title": "IEEE Trans. Circuits Syst. Video Technol."
+      },
+      {
+        "key": "10.1016/j.cviu.2017.05.015_bib0051",
+        "doi-asserted-by": "crossref",
+        "first-page": "831",
+        "DOI": "10.1109/TITS.2013.2288353",
+        "article-title": "A practical roadside camera calibration method based on least squares optimization",
+        "volume": "15",
+        "author": "Zheng",
+        "year": "2014",
+        "journal-title": "IEEE Trans. Intell. Transp. Syst."
+      }
+    ],
+    "container-title": [
+      "Computer Vision and Image Understanding"
+    ],
+    "original-title": [],
+    "language": "en",
+    "link": [
+      {
+        "URL": "https://api.elsevier.com/content/article/PII:S1077314217301108?httpAccept=text/xml",
+        "content-type": "text/xml",
+        "content-version": "vor",
+        "intended-application": "text-mining"
+      },
+      {
+        "URL": "https://api.elsevier.com/content/article/PII:S1077314217301108?httpAccept=text/plain",
+        "content-type": "text/plain",
+        "content-version": "vor",
+        "intended-application": "text-mining"
+      }
+    ],
+    "deposited": {
+      "date-parts": [
+        [
+          2018,
+          9,
+          1
+        ]
+      ],
+      "date-time": "2018-09-01T01:50:27Z",
+      "timestamp": 1535766627000
+    },
+    "score": 1,
+    "resource": {
+      "primary": {
+        "URL": "https://linkinghub.elsevier.com/retrieve/pii/S1077314217301108"
+      }
+    },
+    "subtitle": [],
+    "short-title": [],
+    "issued": {
+      "date-parts": [
+        [
+          2017,
+          8
+        ]
+      ]
+    },
+    "references-count": 51,
+    "alternative-id": [
+      "S1077314217301108"
+    ],
+    "URL": "https://doi.org/10.1016/j.cviu.2017.05.015",
+    "relation": {},
+    "ISSN": [
+      "1077-3142"
+    ],
+    "issn-type": [
+      {
+        "value": "1077-3142",
+        "type": "print"
+      }
+    ],
+    "subject": [],
+    "published": {
+      "date-parts": [
+        [
+          2017,
+          8
+        ]
+      ]
+    },
+    "assertion": [
+      {
+        "value": "Elsevier",
+        "name": "publisher",
+        "label": "This article is maintained by"
+      },
+      {
+        "value": "Traffic surveillance camera calibration by 3D model bounding box alignment for accurate vehicle speed measurement",
+        "name": "articletitle",
+        "label": "Article Title"
+      },
+      {
+        "value": "Computer Vision and Image Understanding",
+        "name": "journaltitle",
+        "label": "Journal Title"
+      },
+      {
+        "value": "https://doi.org/10.1016/j.cviu.2017.05.015",
+        "name": "articlelink",
+        "label": "CrossRef DOI link to publisher maintained version"
+      },
+      {
+        "value": "article",
+        "name": "content_type",
+        "label": "Content Type"
+      },
+      {
+        "value": "© 2017 Elsevier Inc. All rights reserved.",
+        "name": "copyright",
+        "label": "Copyright"
+      }
+    ]
+  }
+]

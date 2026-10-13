@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "run": "20261002-213120-ea8b0d",
+  "frames": 256,
+  "crossings": 19,
+  "vehicle_rows": 2162,
+  "world_values_empty": true,
+  "machine_events": 0,
+  "source": "real bridge demo, uncalibrated"
+}

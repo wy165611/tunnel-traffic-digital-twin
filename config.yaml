@@ -1,0 +1,32 @@
+detector:
+  model: visdrone_yolo11n
+  confidence: 0.40
+  input_size: 960
+  tiled: false
+  tile_size: 540
+  tile_overlap: 0.25
+  nms_iou: 0.45
+  device: auto
+  cpu_threads: 4
+tracking:
+  max_age: 30
+  min_hits: 2
+  iou_threshold: 0.2
+speed:
+  smoothing_frames: 10
+  min_samples: 5
+events:
+  stop_speed: 3.0
+  stop_seconds: 3.0
+  hard_braking_acceleration: -4.0
+  wrong_way_seconds: 1.0
+  wrong_way_cosine: -0.6
+  cooldown_seconds: 5.0
+video:
+  detection_interval: 2
+  display_max_side: 960
+  jpeg_quality: 80
+  default_video: backend/data/videos/demo.mp4
+traffic:
+  legal_direction: [0, 1]
+  history_points: 100

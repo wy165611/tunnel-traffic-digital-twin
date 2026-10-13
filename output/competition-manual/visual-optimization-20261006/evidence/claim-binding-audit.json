@@ -1,0 +1,584 @@
+[
+  {
+    "claim_id": "C001",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C002",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C003",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C004",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C005",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C006",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C007",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C008",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C009",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C010",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C011",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C012",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C013",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C014",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C015",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C016",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C017",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C018",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C019",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C020",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C021",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C022",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C023",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C024",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C025",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C026",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C027",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C028",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C029",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C030",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C031",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C032",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C033",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C034",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C035",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C036",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C037",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C038",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C039",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C040",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C041",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C042",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C043",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C044",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C045",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C046",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C047",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C048",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C049",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C050",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C051",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C052",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C053",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C054",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C055",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C056",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C057",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C058",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C059",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C060",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C061",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C062",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C063",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C064",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C065",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C066",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C067",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C068",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C069",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C070",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C071",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C072",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C073",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C074",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C075",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C076",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C077",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C078",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C079",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C080",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C081",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C082",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C083",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C084",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C085",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C086",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C087",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C088",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C089",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C090",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C091",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C092",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C093",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C094",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C095",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C096",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  },
+  {
+    "claim_id": "C097",
+    "text_hash_binding": "PASS",
+    "evidence_binding": "PASS",
+    "human_verification": "pending"
+  }
+]

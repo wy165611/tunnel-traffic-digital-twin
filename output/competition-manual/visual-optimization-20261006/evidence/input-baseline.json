@@ -1,0 +1,36 @@
+{
+  "captured_on": "2026-10-06",
+  "preexisting_changes_since_prior_revision": [
+    {
+      "path": "README.md",
+      "previous_sha256": "00c99e55f3bece856f8315d393e2c28963ecb92a0a2147d3e04f8e27fb161674",
+      "current_sha256": "ff479689e68e6508b16ea15d2c915e5aeb9441eb3c280768fe0f80d30aab1acc"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "previous_sha256": "c0c0fc5cf6f81b618f494099cab314ad7ad47b1fdd1c14dec5dd1c1bbca1cd6c",
+      "current_sha256": "64b7129e2ec97087e0b66773ebfacb39ec8a6c94430f272b33162c24c51b635c"
+    },
+    {
+      "path": "frontend/src/App.tsx",
+      "previous_sha256": "f4422421ff8928bcc08b69a7c491c144a19557da89f011aedc9dce682fddf97c",
+      "current_sha256": "49d61c70331151f9b8b36891112ebf378ac2152fa029bd85a21ca776a9b618f8"
+    },
+    {
+      "path": "frontend/src/components/DigitalTwin.tsx",
+      "previous_sha256": "0d61a4dba5d6fda50e4842ce438a8cdee03e10565d9e1bc6c96d25a0955a3b4c",
+      "current_sha256": "d1415202ed9313103dc26e78ab3db3476196fdff0b3d9d61812344e743f4aef5"
+    },
+    {
+      "path": "frontend/src/components/VideoView.tsx",
+      "previous_sha256": "c08fe4ed58f2602d30c1096a30407fc1ecbdb87d9b0209e7cd8d543a8e7f9798",
+      "current_sha256": "4895c56e4490bffea863fc2ecae46da4013a36f7e6dbbdabc48a46879236c749"
+    },
+    {
+      "path": "frontend/tests/snapshotState.test.mjs",
+      "previous_sha256": "ad4813efda5e0758a5505f837f33006b5b9f1da51463072772e1a0eee1080eb0",
+      "current_sha256": "9360d5d0d27b0941c7afb32a011552c57aff9ecdf4cd8fff88a9d389a721001a"
+    }
+  ],
+  "previous_docx_sha256": "40d83a6f5a9fddfa82c749292c598af9e9fa2a6f73c4efc216f053015744b24c"
+}

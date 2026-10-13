@@ -1,0 +1,311 @@
+{
+  "baseline": "ce63b01",
+  "worktree": "/private/var/folders/5m/y0fkpf0n46dd1v12njpz8xhw0000gn/T/twin-features-4galiubl/implementation",
+  "destination": "/Users/wanghaoxin/Desktop/基于视频感知的隧道交通数字孪生系统",
+  "backup": "/private/var/folders/5m/y0fkpf0n46dd1v12njpz8xhw0000gn/T/twin-features-4galiubl/twin-features-delivery-e0_fxdza",
+  "source_files": [
+    {
+      "path": "CHANGELOG.md",
+      "baseline_sha256": "d07ca77e649a1233d7e5e73b24d1be830a86c032297cd2653f68cfdb6e2ee980",
+      "before_sha256": "d07ca77e649a1233d7e5e73b24d1be830a86c032297cd2653f68cfdb6e2ee980",
+      "reviewed_sha256": "b9035219932fc11797e7b1faa5d854720807e5ea1fbbe6746e6eeb63e3f18341",
+      "baseline_match": true,
+      "status": "delivered",
+      "backup_path": "/private/var/folders/5m/y0fkpf0n46dd1v12njpz8xhw0000gn/T/twin-features-4galiubl/twin-features-delivery-e0_fxdza/replaced-files/CHANGELOG.md",
+      "backup_sha256": "d07ca77e649a1233d7e5e73b24d1be830a86c032297cd2653f68cfdb6e2ee980",
+      "after_sha256": "b9035219932fc11797e7b1faa5d854720807e5ea1fbbe6746e6eeb63e3f18341"
+    },
+    {
+      "path": "README.md",
+      "baseline_sha256": "ae28257901b51bffd35ae3f979290e29dd466b1f80b2698b3bb6d9a2fb3de51f",
+      "before_sha256": "ae28257901b51bffd35ae3f979290e29dd466b1f80b2698b3bb6d9a2fb3de51f",
+      "reviewed_sha256": "ff3025ce64d0061ae399c1fe0216bc40a7add7a52d0f53340e14543704cbc373",
+      "baseline_match": true,
+      "status": "delivered",
+      "backup_path": "/private/var/folders/5m/y0fkpf0n46dd1v12njpz8xhw0000gn/T/twin-features-4galiubl/twin-features-delivery-e0_fxdza/replaced-files/README.md",
+      "backup_sha256": "ae28257901b51bffd35ae3f979290e29dd466b1f80b2698b3bb6d9a2fb3de51f",
+      "after_sha256": "ff3025ce64d0061ae399c1fe0216bc40a7add7a52d0f53340e14543704cbc373"
+    },
+    {
+      "path": "backend/exporter.py",
+      "baseline_sha256": "26914d6231aaf101f4c6ff7b55fe7c760d0e051d2c9797284b46c732a9f48ea4",
+      "before_sha256": "26914d6231aaf101f4c6ff7b55fe7c760d0e051d2c9797284b46c732a9f48ea4",
+      "reviewed_sha256": "65cd162acc2e44940e85da1aa8ffdbb9e8dda57849d655f95579eae5540115b1",
+      "baseline_match": true,
+      "status": "delivered",
+      "backup_path": "/private/var/folders/5m/y0fkpf0n46dd1v12njpz8xhw0000gn/T/twin-features-4galiubl/twin-features-delivery-e0_fxdza/replaced-files/backend/exporter.py",
+      "backup_sha256": "26914d6231aaf101f4c6ff7b55fe7c760d0e051d2c9797284b46c732a9f48ea4",
+      "after_sha256": "65cd162acc2e44940e85da1aa8ffdbb9e8dda57849d655f95579eae5540115b1"
+    },
+    {
+      "path": "backend/main.py",
+      "baseline_sha256": "548643f2be389a48460db5d281b743c365397cccab3ffb7cc6f2dc53db6939cc",
+      "before_sha256": "548643f2be389a48460db5d281b743c365397cccab3ffb7cc6f2dc53db6939cc",
+      "reviewed_sha256": "58ecd4bbe99637a9185645b41dfa3f472835af08dd573e46edd786d3741929c2",
+      "baseline_match": true,
+      "status": "delivered",
+      "backup_path": "/private/var/folders/5m/y0fkpf0n46dd1v12njpz8xhw0000gn/T/twin-features-4galiubl/twin-features-delivery-e0_fxdza/replaced-files/backend/main.py",
+      "backup_sha256": "548643f2be389a48460db5d281b743c365397cccab3ffb7cc6f2dc53db6939cc",
+      "after_sha256": "58ecd4bbe99637a9185645b41dfa3f472835af08dd573e46edd786d3741929c2"
+    },
+    {
+      "path": "backend/processor.py",
+      "baseline_sha256": "95fe41e3d37e92d5763814061938aacc5d42c6d4ad5ee4955564a95f24178f9f",
+      "before_sha256": "95fe41e3d37e92d5763814061938aacc5d42c6d4ad5ee4955564a95f24178f9f",
+      "reviewed_sha256": "53c7cc750522863e50a8030c90ae3c3b9ac594a8ac99a1b83dc43faf26c25e70",
+      "baseline_match": true,
+      "status": "delivered",
+      "backup_path": "/private/var/folders/5m/y0fkpf0n46dd1v12njpz8xhw0000gn/T/twin-features-4galiubl/twin-features-delivery-e0_fxdza/replaced-files/backend/processor.py",
+      "backup_sha256": "95fe41e3d37e92d5763814061938aacc5d42c6d4ad5ee4955564a95f24178f9f",
+      "after_sha256": "53c7cc750522863e50a8030c90ae3c3b9ac594a8ac99a1b83dc43faf26c25e70"
+    },
+    {
+      "path": "backend/traffic/flow_counter.py",
+      "baseline_sha256": "4b1aa701be6fa280e9681629ce3674f592e3bb15903af943d225f8a7bd42159c",
+      "before_sha256": "4b1aa701be6fa280e9681629ce3674f592e3bb15903af943d225f8a7bd42159c",
+      "reviewed_sha256": "56269f268619d8a6d3d662cd772084a2c28565d78cd9cd3f92eb423f4a6bc4e2",
+      "baseline_match": true,
+      "status": "delivered",
+      "backup_path": "/private/var/folders/5m/y0fkpf0n46dd1v12njpz8xhw0000gn/T/twin-features-4galiubl/twin-features-delivery-e0_fxdza/replaced-files/backend/traffic/flow_counter.py",
+      "backup_sha256": "4b1aa701be6fa280e9681629ce3674f592e3bb15903af943d225f8a7bd42159c",
+      "after_sha256": "56269f268619d8a6d3d662cd772084a2c28565d78cd9cd3f92eb423f4a6bc4e2"
+    },
+    {
+      "path": "backend/evidence.py",
+      "baseline_sha256": null,
+      "before_sha256": null,
+      "reviewed_sha256": "5908d1ce4e5c906d6400f19c80cd93345a7f83f3e251c98208f9698e650c4a4e",
+      "baseline_match": true,
+      "status": "delivered",
+      "backup_path": null,
+      "after_sha256": "5908d1ce4e5c906d6400f19c80cd93345a7f83f3e251c98208f9698e650c4a4e"
+    },
+    {
+      "path": "backend/reports.py",
+      "baseline_sha256": null,
+      "before_sha256": null,
+      "reviewed_sha256": "8d6cfc4d65b5f98e39af6150472f1f32496f45d1885e0f445ccd842e017946c2",
+      "baseline_match": true,
+      "status": "delivered",
+      "backup_path": null,
+      "after_sha256": "8d6cfc4d65b5f98e39af6150472f1f32496f45d1885e0f445ccd842e017946c2"
+    },
+    {
+      "path": "docs/features-analysis.md",
+      "baseline_sha256": null,
+      "before_sha256": null,
+      "reviewed_sha256": "760f90808346c86c350abefe4920346f4f96e9981003aac8741b70b54f8da5a5",
+      "baseline_match": true,
+      "status": "delivered",
+      "backup_path": null,
+      "after_sha256": "760f90808346c86c350abefe4920346f4f96e9981003aac8741b70b54f8da5a5"
+    },
+    {
+      "path": "frontend/src/App.tsx",
+      "baseline_sha256": "7cae6dc4b2ffedec442adecc4ba2630a99658b5a39f797d5852ffad8cbc4f8ce",
+      "before_sha256": "7cae6dc4b2ffedec442adecc4ba2630a99658b5a39f797d5852ffad8cbc4f8ce",
+      "reviewed_sha256": "06ea36817516c4da5aaf389e3dce984c7fd7cf5a01baa5873a64d03ee0b49124",
+      "baseline_match": true,
+      "status": "delivered",
+      "backup_path": "/private/var/folders/5m/y0fkpf0n46dd1v12njpz8xhw0000gn/T/twin-features-4galiubl/twin-features-delivery-e0_fxdza/replaced-files/frontend/src/App.tsx",
+      "backup_sha256": "7cae6dc4b2ffedec442adecc4ba2630a99658b5a39f797d5852ffad8cbc4f8ce",
+      "after_sha256": "06ea36817516c4da5aaf389e3dce984c7fd7cf5a01baa5873a64d03ee0b49124"
+    },
+    {
+      "path": "frontend/src/components/DataExportPanel.tsx",
+      "baseline_sha256": "a323aae100d58581554461c5b3304ae927c9b88174aa97fde0b1c97e399ab480",
+      "before_sha256": "a323aae100d58581554461c5b3304ae927c9b88174aa97fde0b1c97e399ab480",
+      "reviewed_sha256": "b5b6ee4391a6ce73e0314546c18d6124a628f4df455c4e6a18dd4fb4b748eba6",
+      "baseline_match": true,
+      "status": "delivered",
+      "backup_path": "/private/var/folders/5m/y0fkpf0n46dd1v12njpz8xhw0000gn/T/twin-features-4galiubl/twin-features-delivery-e0_fxdza/replaced-files/frontend/src/components/DataExportPanel.tsx",
+      "backup_sha256": "a323aae100d58581554461c5b3304ae927c9b88174aa97fde0b1c97e399ab480",
+      "after_sha256": "b5b6ee4391a6ce73e0314546c18d6124a628f4df455c4e6a18dd4fb4b748eba6"
+    },
+    {
+      "path": "frontend/src/components/EventPanel.tsx",
+      "baseline_sha256": "97a9ce1bd91d8b117ada416c923b7ab64d1f11fb9c6a09decfbae07f3d021ccd",
+      "before_sha256": "97a9ce1bd91d8b117ada416c923b7ab64d1f11fb9c6a09decfbae07f3d021ccd",
+      "reviewed_sha256": "36d422f9e16a724c141add59749642045e1ebff1d5aa08a198348ea70546b224",
+      "baseline_match": true,
+      "status": "delivered",
+      "backup_path": "/private/var/folders/5m/y0fkpf0n46dd1v12njpz8xhw0000gn/T/twin-features-4galiubl/twin-features-delivery-e0_fxdza/replaced-files/frontend/src/components/EventPanel.tsx",
+      "backup_sha256": "97a9ce1bd91d8b117ada416c923b7ab64d1f11fb9c6a09decfbae07f3d021ccd",
+      "after_sha256": "36d422f9e16a724c141add59749642045e1ebff1d5aa08a198348ea70546b224"
+    },
+    {
+      "path": "frontend/src/components/ImportDialog.tsx",
+      "baseline_sha256": "4372b8bdc5327842e511ed678f6ac9fef19799122585fe2d0d2ae964fc0d4a24",
+      "before_sha256": "4372b8bdc5327842e511ed678f6ac9fef19799122585fe2d0d2ae964fc0d4a24",
+      "reviewed_sha256": "41242215fccb30a485a7fb6e01d6c21a56a082cbf9be6b1018bfeb9b6fd7e8c6",
+      "baseline_match": true,
+      "status": "delivered",
+      "backup_path": "/private/var/folders/5m/y0fkpf0n46dd1v12njpz8xhw0000gn/T/twin-features-4galiubl/twin-features-delivery-e0_fxdza/replaced-files/frontend/src/components/ImportDialog.tsx",
+      "backup_sha256": "4372b8bdc5327842e511ed678f6ac9fef19799122585fe2d0d2ae964fc0d4a24",
+      "after_sha256": "41242215fccb30a485a7fb6e01d6c21a56a082cbf9be6b1018bfeb9b6fd7e8c6"
+    },
+    {
+      "path": "frontend/src/styles.css",
+      "baseline_sha256": "141841b65b646d151c9722dc02c3f470c2fde080be2f746060206fcdd03a8630",
+      "before_sha256": "141841b65b646d151c9722dc02c3f470c2fde080be2f746060206fcdd03a8630",
+      "reviewed_sha256": "dbf86045ad4af62011070f8efbfb62492afd69e8a9a0ce89262d1b0926b92d2e",
+      "baseline_match": true,
+      "status": "delivered",
+      "backup_path": "/private/var/folders/5m/y0fkpf0n46dd1v12njpz8xhw0000gn/T/twin-features-4galiubl/twin-features-delivery-e0_fxdza/replaced-files/frontend/src/styles.css",
+      "backup_sha256": "141841b65b646d151c9722dc02c3f470c2fde080be2f746060206fcdd03a8630",
+      "after_sha256": "dbf86045ad4af62011070f8efbfb62492afd69e8a9a0ce89262d1b0926b92d2e"
+    },
+    {
+      "path": "frontend/src/types/index.ts",
+      "baseline_sha256": "a7bdc93db81066802645b9fc7392a2a2d425bc74c0b653bf7355783f06af5204",
+      "before_sha256": "a7bdc93db81066802645b9fc7392a2a2d425bc74c0b653bf7355783f06af5204",
+      "reviewed_sha256": "6c90fb36cb47b92c16ba3d05d2d74aa8642f5ba268639676d743ef8784b0e1e6",
+      "baseline_match": true,
+      "status": "delivered",
+      "backup_path": "/private/var/folders/5m/y0fkpf0n46dd1v12njpz8xhw0000gn/T/twin-features-4galiubl/twin-features-delivery-e0_fxdza/replaced-files/frontend/src/types/index.ts",
+      "backup_sha256": "a7bdc93db81066802645b9fc7392a2a2d425bc74c0b653bf7355783f06af5204",
+      "after_sha256": "6c90fb36cb47b92c16ba3d05d2d74aa8642f5ba268639676d743ef8784b0e1e6"
+    },
+    {
+      "path": "frontend/src/components/AnalysisChart.tsx",
+      "baseline_sha256": null,
+      "before_sha256": null,
+      "reviewed_sha256": "11b493bf264ff4a9f1a76e7cd336beb65085eb3cc0f9c7e770b70f2caec59214",
+      "baseline_match": true,
+      "status": "delivered",
+      "backup_path": null,
+      "after_sha256": "11b493bf264ff4a9f1a76e7cd336beb65085eb3cc0f9c7e770b70f2caec59214"
+    },
+    {
+      "path": "frontend/src/components/EvidenceDialog.tsx",
+      "baseline_sha256": null,
+      "before_sha256": null,
+      "reviewed_sha256": "a06b2e22a056e9868c793cc016007d7f003c7b73f7c76c3824c666b2f1cffa28",
+      "baseline_match": true,
+      "status": "delivered",
+      "backup_path": null,
+      "after_sha256": "a06b2e22a056e9868c793cc016007d7f003c7b73f7c76c3824c666b2f1cffa28"
+    },
+    {
+      "path": "frontend/src/components/LaneTrends.tsx",
+      "baseline_sha256": null,
+      "before_sha256": null,
+      "reviewed_sha256": "feeca8b49c0c2b2d5c6d0a4f49b9523670a85480646f5ee501db65cea7d43e56",
+      "baseline_match": true,
+      "status": "delivered",
+      "backup_path": null,
+      "after_sha256": "feeca8b49c0c2b2d5c6d0a4f49b9523670a85480646f5ee501db65cea7d43e56"
+    },
+    {
+      "path": "frontend/src/components/ReportDialog.tsx",
+      "baseline_sha256": null,
+      "before_sha256": null,
+      "reviewed_sha256": "40066cb4a5a6ad61677e5011739f5f198ae27c40405cab554c5914048f336062",
+      "baseline_match": true,
+      "status": "delivered",
+      "backup_path": null,
+      "after_sha256": "40066cb4a5a6ad61677e5011739f5f198ae27c40405cab554c5914048f336062"
+    },
+    {
+      "path": "frontend/src/utils/analysisData.ts",
+      "baseline_sha256": null,
+      "before_sha256": null,
+      "reviewed_sha256": "e934c85ad874e3b79432ad97cc7b5973523228cfb7c5e8f411cf6a26c946f6f1",
+      "baseline_match": true,
+      "status": "delivered",
+      "backup_path": null,
+      "after_sha256": "e934c85ad874e3b79432ad97cc7b5973523228cfb7c5e8f411cf6a26c946f6f1"
+    },
+    {
+      "path": "frontend/tests/analysisData.test.mjs",
+      "baseline_sha256": null,
+      "before_sha256": null,
+      "reviewed_sha256": "c7f53d17592fa1992f266c7fa44cb8ac8906122b5aaa019dcd33b5ce0e782b3b",
+      "baseline_match": true,
+      "status": "delivered",
+      "backup_path": null,
+      "after_sha256": "c7f53d17592fa1992f266c7fa44cb8ac8906122b5aaa019dcd33b5ce0e782b3b"
+    },
+    {
+      "path": "tests/test_analysis_features.py",
+      "baseline_sha256": null,
+      "before_sha256": null,
+      "reviewed_sha256": "aa7af6bfbd4f6baec6431b3b60a472f323c0d7c99afe80ed53b5b45c48a73d86",
+      "baseline_match": true,
+      "status": "delivered",
+      "backup_path": null,
+      "after_sha256": "aa7af6bfbd4f6baec6431b3b60a472f323c0d7c99afe80ed53b5b45c48a73d86"
+    }
+  ],
+  "production_dist": [
+    {
+      "path": "frontend/dist/assets/charts-BX03oU_4.js",
+      "reviewed_sha256": "d6feb38a169df701ab8d96b73c7de40e4cc873f0e4d41f3029f5c0035a4d8aec",
+      "after_sha256": "d6feb38a169df701ab8d96b73c7de40e4cc873f0e4d41f3029f5c0035a4d8aec",
+      "status": "delivered"
+    },
+    {
+      "path": "frontend/dist/assets/index-Bcy6hqQ6.css",
+      "reviewed_sha256": "1b384d90288096142fd2cfdad6c229ffe1412371624d06371c66cd019c642a7c",
+      "after_sha256": "1b384d90288096142fd2cfdad6c229ffe1412371624d06371c66cd019c642a7c",
+      "status": "delivered"
+    },
+    {
+      "path": "frontend/dist/assets/index-CxOgphhC.js",
+      "reviewed_sha256": "da9353929add6dc9291510981c8a275def5d119dfb4f5c399b1aa2e0859d7715",
+      "after_sha256": "da9353929add6dc9291510981c8a275def5d119dfb4f5c399b1aa2e0859d7715",
+      "status": "delivered"
+    },
+    {
+      "path": "frontend/dist/favicon.svg",
+      "reviewed_sha256": "bce275f93c02db0aeb0360e988fe03889b028ce958aa5e65ed12c1211a49348e",
+      "after_sha256": "bce275f93c02db0aeb0360e988fe03889b028ce958aa5e65ed12c1211a49348e",
+      "status": "delivered"
+    },
+    {
+      "path": "frontend/dist/index.html",
+      "reviewed_sha256": "9fb84c730b0771e76f8cfe929b2feb87138f239409ec5a6a4fd8e7a92d418b4a",
+      "after_sha256": "9fb84c730b0771e76f8cfe929b2feb87138f239409ec5a6a4fd8e7a92d418b4a",
+      "status": "delivered"
+    }
+  ],
+  "excluded": [
+    "plans",
+    "backend/data",
+    ".venv",
+    "frontend/node_modules",
+    ".git",
+    "caches"
+  ],
+  "status": "complete",
+  "production_dist_backup": {
+    "directory": "/private/var/folders/5m/y0fkpf0n46dd1v12njpz8xhw0000gn/T/twin-features-4galiubl/twin-features-delivery-e0_fxdza/production-dist-before",
+    "files": [
+      {
+        "path": "assets/charts-BX03oU_4.js",
+        "before_sha256": "d6feb38a169df701ab8d96b73c7de40e4cc873f0e4d41f3029f5c0035a4d8aec",
+        "backup_sha256": "d6feb38a169df701ab8d96b73c7de40e4cc873f0e4d41f3029f5c0035a4d8aec"
+      },
+      {
+        "path": "assets/index-B91VaYmu.css",
+        "before_sha256": "e467f87e6ef957ee378171156014da8fa788dacc83bd08bc052f860496c76bee",
+        "backup_sha256": "e467f87e6ef957ee378171156014da8fa788dacc83bd08bc052f860496c76bee"
+      },
+      {
+        "path": "assets/index-D4vlF7u9.js",
+        "before_sha256": "f33212e6dbf707cc9ec2cccd244b38fad76b117f91a0caa0c60399deeffe0f42",
+        "backup_sha256": "f33212e6dbf707cc9ec2cccd244b38fad76b117f91a0caa0c60399deeffe0f42"
+      },
+      {
+        "path": "favicon.svg",
+        "before_sha256": "bce275f93c02db0aeb0360e988fe03889b028ce958aa5e65ed12c1211a49348e",
+        "backup_sha256": "bce275f93c02db0aeb0360e988fe03889b028ce958aa5e65ed12c1211a49348e"
+      },
+      {
+        "path": "index.html",
+        "before_sha256": "77f07505256a049fea39ecfe30212837b86e5ff46a84eddc306f04547c936025",
+        "backup_sha256": "77f07505256a049fea39ecfe30212837b86e5ff46a84eddc306f04547c936025"
+      }
+    ]
+  }
+}

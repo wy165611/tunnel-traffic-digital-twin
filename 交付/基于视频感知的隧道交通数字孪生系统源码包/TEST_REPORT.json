@@ -1,0 +1,26 @@
+{
+  "video": {
+    "width": 2160,
+    "height": 3840,
+    "fps": 30.0,
+    "frames": 256,
+    "duration": 8.533333333333333,
+    "display_width": 540,
+    "display_height": 960,
+    "live": false
+  },
+  "model": "visdrone_yolo11n",
+  "device": "cpu",
+  "frames_processed": 256,
+  "elapsed_seconds": 6.41,
+  "throughput_fps": 39.91,
+  "max_active_vehicles": 13,
+  "unique_confirmed_ids": 28,
+  "longest_id_frames": 136,
+  "consecutive_frame_id_retention": 0.989,
+  "counted_crossings": 19,
+  "events": 0,
+  "run_id": "20261001-172737-fb7e8b",
+  "calibrated": false,
+  "note": "Detection smoke checks, not precision/recall or ID-switch ground truth evaluation. Counting line and carriageway regions are test annotations, not surveyed geometry."
+}
