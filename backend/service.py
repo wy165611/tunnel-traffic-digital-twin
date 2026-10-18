@@ -53,13 +53,15 @@ class AnalysisService:
 
     @staticmethod
     def read_preview(reader, seconds):
-        reader.seek(seconds)
+        if not reader.live:
+            reader.seek(seconds)
         item = reader.read()
         if item is None:
             raise ValueError('视频没有可读取的帧')
         index, timestamp, frame = item
         image = encode_frame(frame)
-        reader.seek(timestamp)
+        if not reader.live:
+            reader.seek(timestamp)
         return dict(image=image, frame=index, timestamp=timestamp, vehicles=[], events=[], history=[], metrics=None)
 
     def select_sync(self, video_id):
@@ -136,6 +138,8 @@ class AnalysisService:
             elif action == 'rate':
                 self.rate = control.rate
             elif action == 'seek':
+                if self.reader.live:
+                    raise ValueError('实时流不支持拖动')
                 self.status = 'paused'
                 if self.processor:
                     self.processor.close()
@@ -148,8 +152,9 @@ class AnalysisService:
                 try:
                     if self.detector is None:
                         self.detector = await asyncio.to_thread(VehicleDetector, self.config['detector'])
-                    if action == 'restart' or self.processor is None or resume_from_ended or self.reader.index >= self.reader.frames:
-                        seconds = 0 if action == 'restart' or resume_from_ended or self.reader.index >= self.reader.frames else self.snapshot.get('timestamp', 0)
+                    at_end = self.reader.frames > 0 and self.reader.index >= self.reader.frames
+                    if action == 'restart' or self.processor is None or resume_from_ended or at_end:
+                        seconds = 0 if action == 'restart' or resume_from_ended or at_end else self.snapshot.get('timestamp', 0)
                         await asyncio.to_thread(self.reset_processor_sync, seconds)
                     self.status = 'playing'
                 except Exception as exc:

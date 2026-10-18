@@ -1,7 +1,9 @@
+import asyncio
 import csv
 import io
 import json
 import time
+from types import SimpleNamespace
 import cv2
 import numpy as np
 import pytest
@@ -279,7 +281,7 @@ def test_failed_new_video_keeps_running_session(client, monkeypatch):
     path = main.DATA / 'videos' / 'broken.mp4'
     path.write_bytes(b'invalid-first-frame')
     class BadReader:
-        width = 200; height = 400
+        width = 200; height = 400; live = False
         def __init__(self, *args): self.closed = False
         def seek(self, seconds): pass
         def read(self): return None
@@ -289,6 +291,56 @@ def test_failed_new_video_keeps_running_session(client, monkeypatch):
     assert s.video_token == token and s.reader is reader and s.processor is processor
     assert c.get('/api/health').status_code == 200
     assert c.post('/api/control', json={'action': 'pause'}).status_code == 200
+
+
+def test_live_preview_does_not_seek_or_rewind():
+    class LiveReader:
+        live = True
+        def __init__(self): self.seeks = []
+        def seek(self, seconds): self.seeks.append(seconds)
+        def read(self): return 0, 0., np.zeros((8, 8, 3), np.uint8)
+    reader = LiveReader()
+    preview = AnalysisService.read_preview(reader, 0)
+    assert reader.seeks == []
+    assert preview['frame'] == 0 and preview['timestamp'] == 0
+
+
+def test_live_play_does_not_reset_processor_when_frame_count_is_unknown():
+    class LiveReader:
+        live = True
+        frames = 0
+        index = 0
+        width = 200
+        height = 400
+        metadata = dict(width=200, height=400)
+        def seek(self, seconds): raise AssertionError('live control must not seek')
+        def read(self): return 0, 0., np.zeros((8, 8, 3), np.uint8)
+    service = AnalysisService()
+    service.reader = LiveReader()
+    service.detector = object()
+    service.processor = object()
+    resets = []
+    async def fake_reset(seconds=0): resets.append(seconds)
+    service.reset_processor_sync = fake_reset
+    asyncio.run(service.control(SimpleNamespace(action='play')))
+    assert resets == [] and service.status == 'playing'
+    with pytest.raises(ValueError, match='实时流'):
+        asyncio.run(service.control(SimpleNamespace(action='seek', seconds=1)))
+    assert service.processor is not None
+
+
+def test_upload_and_import_cleanup_on_unexpected_select_failure(client, monkeypatch):
+    c, s = client
+    videos = main.DATA / 'videos'
+    before = {p.name for p in videos.iterdir()}
+    async def fail(video_id): raise RuntimeError('decoder exploded')
+    monkeypatch.setattr(s, 'select', fail)
+    with pytest.raises(RuntimeError):
+        c.post('/api/video/upload', files={'file': ('crash.mp4', b'not a video', 'video/mp4')})
+    assert {p.name for p in videos.iterdir()} == before
+    with pytest.raises(RuntimeError):
+        c.post('/api/video/import', json={'path': str(videos / 'demo.mp4')})
+    assert {p.name for p in videos.iterdir()} == before
 
 
 def test_download_while_writing_and_run_history(client):

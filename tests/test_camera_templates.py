@@ -145,6 +145,17 @@ def test_tolerance_boundary_and_corrupt_saved_template_do_not_crash(client):
     assert c.post(f"/api/camera-templates/{saved['id']}/preview",json=preview_payload(s,saved)).status_code==404
 
 
+def test_template_with_missing_scene_keys_is_treated_as_corrupt(client):
+    c, s = client
+    saved = create(c, s).json()
+    path = main.DATA / 'camera_templates' / f"{saved['id']}.json"
+    value = json.loads(path.read_text(encoding='utf-8'))
+    value['scene'] = {}
+    path.write_text(json.dumps(value), encoding='utf-8')
+    assert not c.get('/api/camera-templates').json()['items']
+    assert c.post(f"/api/camera-templates/{saved['id']}/preview", json=preview_payload(s, saved)).status_code == 404
+
+
 def test_storage_revision_is_locked_through_actual_road_commit(client, monkeypatch):
     import threading
     c,s=client;saved=create(c,s).json();entered=threading.Event();release=threading.Event()

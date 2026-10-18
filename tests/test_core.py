@@ -36,6 +36,22 @@ def test_calibration_rejects_wrong_corner_order():
         RoadCalibration(dict(points=[[100,100],[100,600],[300,600],[300,100]],width_m=10,length_m=50))
 
 
+def test_calibration_accepts_diagonal_clockwise_quad_and_uses_first_point_as_top_left():
+    points=[[200,0],[400,200],[200,400],[0,150]]
+    c=RoadCalibration(dict(points=points,width_m=6,length_m=20))
+    assert c.map(points[0]) == pytest.approx([0,0])
+    assert c.map(points[1]) == pytest.approx([6,0])
+    assert c.map(points[2]) == pytest.approx([6,20])
+    assert c.map(points[3]) == pytest.approx([0,20])
+
+
+def test_calibration_edge_1_2_and_2_3_map_to_supplied_lengths():
+    points=[[20,30],[220,30],[220,130],[20,130]]
+    c=RoadCalibration(dict(points=points,width_m=7,length_m=50))
+    assert c.map(points[1]) == pytest.approx([7,0])
+    assert c.map(points[2]) == pytest.approx([7,50])
+
+
 def test_calibration_horizontal_speed_scale():
     import math
     good = RoadCalibration(dict(points=[[100,100],[300,100],[300,600],[100,600]],width_m=10,length_m=50))

@@ -3,17 +3,15 @@ import cv2
 import numpy as np
 
 
-def _corner_index_order(points):
-    """Return geometric TL, TR, BR, BL indices for image coordinates (y grows downward)."""
-    pts = np.asarray(points, float)
-    by_y = sorted(range(4), key=lambda i: pts[i, 1])
-    top = sorted(by_y[:2], key=lambda i: pts[i, 0])
-    bottom = sorted(by_y[2:], key=lambda i: pts[i, 0])
-    return top[0], top[1], bottom[1], bottom[0]
-
-
 def validate_corner_order(points):
-    if list(range(4)) != list(_corner_index_order(points)):
+    """Require clockwise order in image coordinates; the first point is TL.
+
+    Sorting by y/x cannot identify the corners of a road that is diagonal in
+    the frame, so the supplied order itself defines TL, TR, BR, BL.
+    """
+    pts = np.asarray(points, float).reshape(4, 2)
+    signed_area = float(np.dot(pts[:, 0], np.roll(pts[:, 1], -1)) - np.dot(pts[:, 1], np.roll(pts[:, 0], -1)))
+    if signed_area <= 0:
         raise ValueError('四个点必须按左上、右上、右下、左下顺序形成凸四边形，不能交叉或共线')
 
 
