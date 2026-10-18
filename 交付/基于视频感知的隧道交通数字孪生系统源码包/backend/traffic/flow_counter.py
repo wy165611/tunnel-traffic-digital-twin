@@ -13,6 +13,9 @@ class FlowCounter:
         self.by_type = Counter()
         self.by_lane = Counter()
 
+    def forget(self, vehicle_id):
+        self.previous.pop(vehicle_id, None)
+
     def update(self, vehicle_id, point, timestamp, vehicle_type, lane):
         previous = self.previous.get(vehicle_id)
         self.previous[vehicle_id] = np.asarray(point, float)

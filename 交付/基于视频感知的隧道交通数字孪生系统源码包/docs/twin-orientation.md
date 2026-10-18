@@ -19,6 +19,16 @@
 - 原有 2160×3840 竖屏演示的六条车道和计数线仍按视频方向显示。
 - 1440px 桌面、390px 和 320px 手机检查通过，手机双面板上下排列，没有页面整体横向溢出。浏览器控制台未记录错误或警告。
 
-## 截图说明
+## 实际页面截图
 
-原工作区曾保存横屏、竖屏与手机页面截图；这些截图属于运行产物，未包含在源码分享包中。
+横向视频与孪生同帧：
+
+![横向道路](../output/playwright/twin-horizontal.png)
+
+手机布局：
+
+![390px 手机](../output/playwright/twin-horizontal-mobile.png)
+
+竖屏兼容性：
+
+![竖向道路](../output/playwright/twin-portrait.png)

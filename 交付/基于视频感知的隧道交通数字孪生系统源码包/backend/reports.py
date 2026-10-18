@@ -151,6 +151,8 @@ def build_report(directory, run_id):
                             'run_id': run_id, 'event_id': event_id, 'review_status': status})
     lanes = {}
     for row in rows(directory, 'lane_statistics'):
+        if number(row.get('timestamp')) is None or number(row.get('window_seconds')) is None:
+            continue
         lane = display_lane(row, metadata) or '未划分'
         row['lane'] = lane
         lanes.setdefault(lane, {}).setdefault(row.get('window_seconds', 'unknown'), BoundedTrend()).add({k: (row[k] if k == 'lane' else row[k].lower() == 'true' if k == 'complete' else number(row[k])) for k in row if k != 'lane_json'})

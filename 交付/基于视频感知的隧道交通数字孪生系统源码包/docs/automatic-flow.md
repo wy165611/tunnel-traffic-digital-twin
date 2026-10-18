@@ -26,7 +26,6 @@
 
 以上实际计数用于功能验证，没有逐车人工核对以声明计数准确率。截图中的每分钟流率因观察不足 60 秒而标记为估计。
 
+![横屏自动计数](../output/playwright/auto-flow-horizontal.png)
 
-## 截图说明
-
-原工作区曾保存横屏和竖屏页面截图；这些截图属于运行产物，未包含在源码分享包中。
+![新导入竖屏自动计数](../output/playwright/auto-flow-portrait.png)

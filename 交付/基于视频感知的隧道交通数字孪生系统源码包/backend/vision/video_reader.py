@@ -82,29 +82,67 @@ class VideoReader:
             raise ValueError('实时流不支持拖动')
         if not math.isfinite(seconds) or seconds < 0:
             raise ValueError('拖动时间必须为有限的非负值')
-        seconds = min(seconds, max(0, self.duration-1/self.fps))
+        if self.frames > 0:
+            seconds = min(seconds, max(0, self.duration-1/self.fps))
         self.pending = None
         self.last_timestamp = None
         if seconds == 0:
             if not self.cap.set(cv2.CAP_PROP_POS_FRAMES, 0):
-                raise ValueError('视频解码器不支持定位')
+                self._seek_by_msec(0)
+                return
             self.index = 0
             return
         # CAP_PROP_POS_MSEC can silently use average FPS on VFR MP4. Locate the
         # first actual decoded PTS >= the requested time by frame-index probes.
-        low, high, selected = 0, self.frames - 1, None
+        index_error = None
+        if self.frames > 0:
+            try:
+                self._seek_by_frame_index(seconds)
+                return
+            except ValueError as exc:
+                index_error = exc
+        try:
+            self._seek_by_msec(seconds)
+        except ValueError as exc:
+            if index_error is not None:
+                raise index_error from exc
+            raise
+
+    def _seek_by_frame_index(self, seconds):
+        low, high, selected, last_decodable = 0, self.frames - 1, None, None
         while low <= high:
             middle = (low + high) // 2
-            _, timestamp, _ = self._probe(middle)
+            try:
+                _, timestamp, _ = self._probe(middle)
+            except ValueError:
+                # CAP_PROP_FRAME_COUNT can exceed the decodable range.
+                high = middle - 1
+                continue
+            last_decodable = middle
             if timestamp + 1e-7 < seconds:
                 low = middle + 1
             else:
                 selected = middle
                 high = middle - 1
         if selected is None:
-            selected = self.frames - 1
+            selected = last_decodable
+        if selected is None:
+            raise ValueError('视频解码器不支持准确定位，请转换为恒定帧率 MP4')
         self.pending = self._probe(selected)
         self.index = selected
+
+    def _seek_by_msec(self, seconds):
+        if not self.cap.set(cv2.CAP_PROP_POS_MSEC, seconds * 1000):
+            raise ValueError('视频解码器不支持准确定位，请转换为恒定帧率 MP4')
+        ok, frame = self.cap.read()
+        timestamp = self.cap.get(cv2.CAP_PROP_POS_MSEC) / 1000
+        if not ok or not math.isfinite(timestamp) or timestamp < 0:
+            raise ValueError('视频解码器无法定位目标帧，请转换为恒定帧率 MP4')
+        index = int(self.cap.get(cv2.CAP_PROP_POS_FRAMES)) - 1
+        if index < 0:
+            index = int(round(timestamp * self.fps))
+        self.pending = (index, timestamp, frame)
+        self.index = index
 
     def _probe(self, index):
         if index < 0 or not self.cap.set(cv2.CAP_PROP_POS_FRAMES, index):

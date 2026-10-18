@@ -1,6 +1,7 @@
 .venv/
 __pycache__/
 .pytest_cache/
+.playwright-cli/
 node_modules/
 frontend/dist/
 backend/data/models/

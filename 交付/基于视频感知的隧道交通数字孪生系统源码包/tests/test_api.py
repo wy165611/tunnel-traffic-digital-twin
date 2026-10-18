@@ -1,7 +1,9 @@
+import asyncio
 import csv
 import io
 import json
 import time
+from types import SimpleNamespace
 import cv2
 import numpy as np
 import pytest
@@ -107,10 +109,49 @@ def test_saved_calibration_reimport_and_settings(client):
     c.post('/api/calibration',json=geometry)
     selected=c.post('/api/video/select',json={'video_id':'demo.mp4'}).json()
     assert selected['calibration']['width_m']==12
+    assert selected['calibration']['travel_edge']=='2-3'
+    assert selected['calibration']['schema_version']==2
     assert c.post('/api/settings',json={'smoothing_frames':15,'stop_seconds':4}).status_code==200
     assert c.get('/api/state').json()['settings']['smoothing_frames']==15
     assert c.post('/api/calibration',json={'lanes':[]}).status_code==200
     assert c.get('/api/state').json()['calibration'] is None
+
+
+def test_auto_travel_edge_aligns_default_legal_direction(client):
+    c,s=client
+    geometry=dict(points=[[20,20],[180,20],[180,140],[20,140]],
+                  edge_1_2_m=40,edge_2_3_m=12,lanes=[])
+    state=c.post('/api/calibration',json=geometry).json()
+    calibration=state['calibration']
+    assert calibration['travel_edge']=='1-2'
+    assert calibration['travel_edge_source']=='measured_length'
+    assert calibration['width_m']==12 and calibration['length_m']==40
+    assert calibration['edge_1_2_m']==40 and calibration['edge_2_3_m']==12
+    assert state['settings']['legal_direction']==pytest.approx([0,1])
+    # A legacy perpendicular setting is reset to the detected travel axis.
+    c.post('/api/settings',json={'legal_direction':[1,0]})
+    assert c.get('/api/state').json()['settings']['legal_direction']==pytest.approx([1,0])
+    state=c.post('/api/calibration',json=geometry).json()
+    assert state['settings']['legal_direction']==pytest.approx([0,1])
+    # A reverse direction stays reverse and is normalised.
+    c.post('/api/settings',json={'legal_direction':[0,-4]})
+    state=c.post('/api/calibration',json=geometry).json()
+    assert state['settings']['legal_direction']==pytest.approx([0,-1])
+
+
+def test_manual_travel_edge_override_via_api(client):
+    c,s=client
+    geometry=dict(points=[[20,20],[180,20],[180,140],[20,140]],
+                  edge_1_2_m=40,edge_2_3_m=12,travel_edge='2-3',travel_edge_mode='manual',lanes=[])
+    calibration=c.post('/api/calibration',json=geometry).json()['calibration']
+    assert calibration['travel_edge']=='2-3'
+    assert calibration['travel_edge_source']=='manual'
+    assert calibration['width_m']==40 and calibration['length_m']==12
+    invalid=c.post('/api/calibration',json=dict(geometry,travel_edge=None))
+    assert invalid.status_code==422
+    incomplete=dict(geometry,travel_edge_mode='auto')
+    incomplete.pop('edge_2_3_m')
+    assert c.post('/api/calibration',json=incomplete).status_code==422
 
 
 def test_upload_validation(client):
@@ -248,6 +289,30 @@ def test_stale_video_and_scene_cannot_be_saved(client):
     assert c.post('/api/calibration', json={'scene_revision': before['scene_revision'], 'lanes': []}).status_code == 409
 
 
+def test_play_after_ended_restarts_segment(client):
+    c, s = client
+    c.post('/api/control', json={'action': 'play'})
+    old_run = s.processor.exporter.run_id
+    s.status = 'ended'
+    s.reader.frames = 999
+    c.post('/api/control', json={'action': 'play'})
+    assert s.status == 'playing'
+    assert s.processor is not None
+    assert s.processor.exporter.run_id != old_run
+
+
+def test_frontend_placeholder_when_dist_missing():
+    from backend.settings import ROOT
+    if (ROOT / 'frontend' / 'dist').exists():
+        pytest.skip('frontend/dist 已存在')
+    from fastapi.testclient import TestClient
+    import backend.main as main
+    with TestClient(main.app, base_url='http://127.0.0.1:8000') as c:
+        response = c.get('/')
+        assert response.status_code == 200
+        assert '前端尚未构建' in response.text
+
+
 def test_failed_new_video_keeps_running_session(client, monkeypatch):
     c, s = client
     c.post('/api/control', json={'action': 'play'})
@@ -255,7 +320,7 @@ def test_failed_new_video_keeps_running_session(client, monkeypatch):
     path = main.DATA / 'videos' / 'broken.mp4'
     path.write_bytes(b'invalid-first-frame')
     class BadReader:
-        width = 200; height = 400
+        width = 200; height = 400; live = False
         def __init__(self, *args): self.closed = False
         def seek(self, seconds): pass
         def read(self): return None
@@ -265,6 +330,56 @@ def test_failed_new_video_keeps_running_session(client, monkeypatch):
     assert s.video_token == token and s.reader is reader and s.processor is processor
     assert c.get('/api/health').status_code == 200
     assert c.post('/api/control', json={'action': 'pause'}).status_code == 200
+
+
+def test_live_preview_does_not_seek_or_rewind():
+    class LiveReader:
+        live = True
+        def __init__(self): self.seeks = []
+        def seek(self, seconds): self.seeks.append(seconds)
+        def read(self): return 0, 0., np.zeros((8, 8, 3), np.uint8)
+    reader = LiveReader()
+    preview = AnalysisService.read_preview(reader, 0)
+    assert reader.seeks == []
+    assert preview['frame'] == 0 and preview['timestamp'] == 0
+
+
+def test_live_play_does_not_reset_processor_when_frame_count_is_unknown():
+    class LiveReader:
+        live = True
+        frames = 0
+        index = 0
+        width = 200
+        height = 400
+        metadata = dict(width=200, height=400)
+        def seek(self, seconds): raise AssertionError('live control must not seek')
+        def read(self): return 0, 0., np.zeros((8, 8, 3), np.uint8)
+    service = AnalysisService()
+    service.reader = LiveReader()
+    service.detector = object()
+    service.processor = object()
+    resets = []
+    async def fake_reset(seconds=0): resets.append(seconds)
+    service.reset_processor_sync = fake_reset
+    asyncio.run(service.control(SimpleNamespace(action='play')))
+    assert resets == [] and service.status == 'playing'
+    with pytest.raises(ValueError, match='实时流'):
+        asyncio.run(service.control(SimpleNamespace(action='seek', seconds=1)))
+    assert service.processor is not None
+
+
+def test_upload_and_import_cleanup_on_unexpected_select_failure(client, monkeypatch):
+    c, s = client
+    videos = main.DATA / 'videos'
+    before = {p.name for p in videos.iterdir()}
+    async def fail(video_id): raise RuntimeError('decoder exploded')
+    monkeypatch.setattr(s, 'select', fail)
+    with pytest.raises(RuntimeError):
+        c.post('/api/video/upload', files={'file': ('crash.mp4', b'not a video', 'video/mp4')})
+    assert {p.name for p in videos.iterdir()} == before
+    with pytest.raises(RuntimeError):
+        c.post('/api/video/import', json={'path': str(videos / 'demo.mp4')})
+    assert {p.name for p in videos.iterdir()} == before
 
 
 def test_download_while_writing_and_run_history(client):

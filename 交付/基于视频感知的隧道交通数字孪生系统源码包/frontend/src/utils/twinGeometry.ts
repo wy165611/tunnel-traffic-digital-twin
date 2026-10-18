@@ -1,13 +1,13 @@
-import type {Calibration, Point, Snapshot} from '../types';
+import type {Calibration, Point, Scene, Snapshot} from '../types';
+import {calibrationDimensions, calibrationTarget, worldAxisImageVectors} from './calibrationGeometry';
 
 // Lane outlines use pixels; calibrated vehicles already use metres.
 // Solve this once per redraw so both layers share the same projection.
-function pixelProjection(calibration: Calibration | null): (p: Point) => Point {
+function pixelProjection(calibration: Calibration | null, scene?: Pick<Scene, 'lanes' | 'counting_line'>): (p: Point) => Point {
   if (!calibration) return p => p;
-  const {points, width_m: width, length_m: height} = calibration;
-  const target: Point[] = [[0, 0], [width, 0], [width, height], [0, height]];
+  const target: Point[] = calibrationTarget(calibration, scene);
   const rows: number[][] = [];
-  points.forEach(([x, y], i) => {
+  calibration.points.forEach(([x, y], i) => {
     const [u, v] = target[i];
     rows.push([x, y, 1, 0, 0, 0, -u*x, -u*y, u], [0, 0, 0, x, y, 1, -v*x, -v*y, v]);
   });
@@ -30,16 +30,16 @@ function pixelProjection(calibration: Calibration | null): (p: Point) => Point {
   };
 }
 
-export function createTwinViewport(state: Pick<Snapshot, 'video' | 'calibration'>, canvasWidth: number, canvasHeight: number) {
+export function createTwinViewport(state: Pick<Snapshot, 'video' | 'calibration'> & {scene?: Scene}, canvasWidth: number, canvasHeight: number) {
   const calibration = state.calibration;
-  const width = calibration?.width_m ?? state.video?.width ?? 1;
-  const height = calibration?.length_m ?? state.video?.height ?? 1;
-  const projectPixel = pixelProjection(calibration);
+  const dimensions = calibration ? calibrationDimensions(calibration, state.scene) : null;
+  const width = dimensions?.width || state.video?.width || 1;
+  const height = dimensions?.length || state.video?.height || 1;
+  const projectPixel = pixelProjection(calibration, state.scene);
   let angle = 0, handedness = 1;
   if (calibration) {
-    const [a, b, c, d] = calibration.points;
-    const x: Point = [b[0]-a[0]+c[0]-d[0], b[1]-a[1]+c[1]-d[1]];
-    const y: Point = [d[0]-a[0]+c[0]-b[0], d[1]-a[1]+c[1]-b[1]];
+    const vectors = worldAxisImageVectors(calibration.points, dimensions?.edge ?? '2-3');
+    const x = vectors.x, y = vectors.y;
     handedness = x[0]*y[1]-x[1]*y[0] < 0 ? -1 : 1;
     // Align the longer road axis to the source image, retaining metric shape.
     angle = height >= width ? Math.atan2(y[1], y[0])-handedness*Math.PI/2 : Math.atan2(x[1], x[0]);
