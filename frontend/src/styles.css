@@ -262,6 +262,9 @@ h4 { font-size: 12px; letter-spacing: .03em; color: var(--text); font-weight: 60
 .field { display: flex; flex-direction: column; gap: 8px; font-size: 12px; color: var(--muted); margin: 14px 0; line-height: 1.7; }
 .field input { width: 100%; font-size: 12px; }
 .field-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
+.travel-detection { padding: 12px; margin: 4px 0 12px; background: var(--accent-soft); border: 1px solid var(--border); border-radius: 8px; font-size: 12px; line-height: 1.8; }
+.travel-detection p { margin: 0 0 6px; }
+.travel-detection .hint { margin-bottom: 6px; }
 .full { width: 100%; margin: 12px 0; }
 .text-button { background: transparent; border: 0; padding: 6px 2px; font-size: 12px; color: var(--accent); display: inline-flex; align-items: center; gap: 6px; }
 .text-button:hover { color: var(--accent); }

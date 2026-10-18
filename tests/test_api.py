@@ -109,10 +109,49 @@ def test_saved_calibration_reimport_and_settings(client):
     c.post('/api/calibration',json=geometry)
     selected=c.post('/api/video/select',json={'video_id':'demo.mp4'}).json()
     assert selected['calibration']['width_m']==12
+    assert selected['calibration']['travel_edge']=='2-3'
+    assert selected['calibration']['schema_version']==2
     assert c.post('/api/settings',json={'smoothing_frames':15,'stop_seconds':4}).status_code==200
     assert c.get('/api/state').json()['settings']['smoothing_frames']==15
     assert c.post('/api/calibration',json={'lanes':[]}).status_code==200
     assert c.get('/api/state').json()['calibration'] is None
+
+
+def test_auto_travel_edge_aligns_default_legal_direction(client):
+    c,s=client
+    geometry=dict(points=[[20,20],[180,20],[180,140],[20,140]],
+                  edge_1_2_m=40,edge_2_3_m=12,lanes=[])
+    state=c.post('/api/calibration',json=geometry).json()
+    calibration=state['calibration']
+    assert calibration['travel_edge']=='1-2'
+    assert calibration['travel_edge_source']=='measured_length'
+    assert calibration['width_m']==12 and calibration['length_m']==40
+    assert calibration['edge_1_2_m']==40 and calibration['edge_2_3_m']==12
+    assert state['settings']['legal_direction']==pytest.approx([0,1])
+    # A legacy perpendicular setting is reset to the detected travel axis.
+    c.post('/api/settings',json={'legal_direction':[1,0]})
+    assert c.get('/api/state').json()['settings']['legal_direction']==pytest.approx([1,0])
+    state=c.post('/api/calibration',json=geometry).json()
+    assert state['settings']['legal_direction']==pytest.approx([0,1])
+    # A reverse direction stays reverse and is normalised.
+    c.post('/api/settings',json={'legal_direction':[0,-4]})
+    state=c.post('/api/calibration',json=geometry).json()
+    assert state['settings']['legal_direction']==pytest.approx([0,-1])
+
+
+def test_manual_travel_edge_override_via_api(client):
+    c,s=client
+    geometry=dict(points=[[20,20],[180,20],[180,140],[20,140]],
+                  edge_1_2_m=40,edge_2_3_m=12,travel_edge='2-3',travel_edge_mode='manual',lanes=[])
+    calibration=c.post('/api/calibration',json=geometry).json()['calibration']
+    assert calibration['travel_edge']=='2-3'
+    assert calibration['travel_edge_source']=='manual'
+    assert calibration['width_m']==40 and calibration['length_m']==12
+    invalid=c.post('/api/calibration',json=dict(geometry,travel_edge=None))
+    assert invalid.status_code==422
+    incomplete=dict(geometry,travel_edge_mode='auto')
+    incomplete.pop('edge_2_3_m')
+    assert c.post('/api/calibration',json=incomplete).status_code==422
 
 
 def test_upload_validation(client):

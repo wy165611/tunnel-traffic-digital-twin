@@ -1,8 +1,9 @@
 import copy
 import csv
+import math
 import numpy as np
 import pytest
-from backend.calibration.homography import RoadCalibration
+from backend.calibration.homography import RoadCalibration, detect_travel_edge
 from backend.traffic.speed_estimator import SpeedEstimator
 from backend.traffic.flow_counter import FlowCounter
 from backend.traffic.lane_detector import LaneDetector
@@ -62,6 +63,66 @@ def test_calibration_horizontal_speed_scale():
 def test_calibration_save_reload(tmp_path):
     c=cal();p=tmp_path/'calibration.json';c.save(p)
     assert RoadCalibration.load(p).map([200,350]) == pytest.approx([5,25])
+
+
+def test_calibration_auto_detects_travel_edge_for_portrait_landscape_and_diagonal():
+    portrait=[[100,100],[300,100],[300,900],[100,900]]
+    landscape=[[100,100],[900,100],[900,400],[100,400]]
+    diagonal=[[200,0],[400,200],[200,400],[0,150]]
+    for points,edge_12,edge_23,travel,width,length in (
+            (portrait,12,40,'2-3',12,40),
+            (landscape,40,12,'1-2',12,40),
+            (diagonal,40,12,'1-2',12,40)):
+        c=RoadCalibration(dict(points=points,edge_1_2_m=edge_12,edge_2_3_m=edge_23))
+        assert c.travel_edge==travel and c.travel_edge_source=='measured_length'
+        assert (c.width,c.length)==(width,length)
+        assert c.travel_direction == pytest.approx([0,1])
+        assert math.dist(c.map(points[0]),c.map(points[1])) == pytest.approx(edge_12)
+        assert math.dist(c.map(points[1]),c.map(points[2])) == pytest.approx(edge_23)
+        assert c.payload['width_m']==width and c.payload['length_m']==length
+        assert c.payload['edge_1_2_m']==edge_12 and c.payload['edge_2_3_m']==edge_23
+    # Travel always maps to +Y: a horizontal movement on a landscape road is
+    # the 40 m road length, while the 12 m width is across it.
+    c=RoadCalibration(dict(points=landscape,edge_1_2_m=40,edge_2_3_m=12))
+    assert c.map([500,250]) == pytest.approx([6,20])
+    assert math.dist(c.map([500,100]),c.map([500,400])) == pytest.approx(12)
+
+
+def test_calibration_manual_travel_edge_override_wins(tmp_path):
+    points=[[100,100],[900,100],[900,400],[100,400]]
+    c=RoadCalibration(dict(points=points,edge_1_2_m=40,edge_2_3_m=12,
+                           travel_edge='2-3',travel_edge_mode='manual'))
+    assert c.travel_edge=='2-3' and c.travel_edge_source=='manual'
+    assert (c.width,c.length)==(40,12)
+    assert c.map(points[1]) == pytest.approx([40,0])
+    p=tmp_path/'manual.json';c.save(p)
+    reloaded=RoadCalibration.load(p)
+    assert reloaded.travel_edge=='2-3' and reloaded.travel_edge_source=='manual'
+    with pytest.raises(ValueError,match='手动指定'):
+        RoadCalibration(dict(points=points,edge_1_2_m=40,edge_2_3_m=12,travel_edge_mode='manual'))
+
+
+def test_calibration_near_equal_lengths_fall_back_to_lane_then_counting_line():
+    points=[[100,100],[900,100],[900,400],[100,400]]
+    assert detect_travel_edge(points,20,20,dict(lanes=[
+        dict(name='along',points=[[100,150],[900,150],[900,250],[100,250]])])) == ('1-2','lane_alignment')
+    assert detect_travel_edge(points,20,20,dict(lanes=[
+        dict(name='across',points=[[300,100],[500,100],[500,400],[300,400]])])) == ('2-3','lane_alignment')
+    assert detect_travel_edge(points,20,20,dict(counting_line=[[500,0],[500,500]])) == ('1-2','counting_line')
+    assert detect_travel_edge(points,20,20,dict(counting_line=[[0,250],[1000,250]])) == ('2-3','counting_line')
+    assert detect_travel_edge(points,20,20) == ('2-3','default')
+
+
+def test_calibration_legacy_payload_is_migrated_to_schema_2():
+    points=[[100,100],[900,100],[900,400],[100,400]]
+    c=RoadCalibration(dict(points=points,width_m=40,length_m=12))
+    assert c.travel_edge=='1-2' and c.payload['schema_version']==2
+    assert c.payload['edge_1_2_m']==40 and c.payload['edge_2_3_m']==12
+    assert c.payload['width_m']==12 and c.payload['length_m']==40
+    # A legacy portrait payload keeps the original mapping and dimensions.
+    portrait=[[100,100],[300,100],[300,900],[100,900]]
+    legacy=RoadCalibration(dict(points=portrait,width_m=12,length_m=40))
+    assert legacy.map(portrait[2]) == pytest.approx([12,40])
 
 
 def test_constant_speed_and_acceleration_units():
