@@ -68,7 +68,10 @@ def template_value(path):
         return None
     if not all(isinstance(n, int) and not isinstance(n, bool) and n > 0 for n in source['dimensions']):
         return None
-    if not isinstance(value.get('scene'), dict) or (value.get('calibration') is not None and not isinstance(value['calibration'], dict)):
+    scene = value.get('scene')
+    if not isinstance(scene, dict) or 'counting_line' not in scene or not isinstance(scene.get('lanes'), list):
+        return None
+    if value.get('calibration') is not None and not isinstance(value['calibration'], dict):
         return None
     return value
 

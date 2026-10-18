@@ -4,6 +4,7 @@ import {formatSpeed} from '../api';
 import {readVisualTheme} from '../theme';
 import {createTwinViewport,directionArrow} from '../utils/twinGeometry';
 import {placeCanvasLabel,type LabelRect} from '../utils/canvasLabel';
+import {roundedRectPath} from '../utils/canvasShape';
 
 export default function DigitalTwin({state}:{state:Snapshot}){
  const themeRef=useRef<ReturnType<typeof readVisualTheme>|null>(null);
@@ -41,7 +42,7 @@ export default function DigitalTwin({state}:{state:Snapshot}){
     ctx.beginPath();path.map(map).forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y));ctx.strokeStyle=color+'80';ctx.lineWidth=1.5;ctx.stroke();
     const heading=vector([Math.cos(vehicle.heading),Math.sin(vehicle.heading)]);
     ctx.save();ctx.translate(x,y);ctx.rotate(Math.atan2(heading[1],heading[0]));ctx.shadowColor=color;ctx.shadowBlur=0;ctx.fillStyle=color;
-    const length=vehicle.type==='truck'||vehicle.type==='bus'?23:17;ctx.beginPath();ctx.roundRect(-length/2,-5,length,10,3);ctx.fill();ctx.shadowBlur=0;ctx.fillStyle=theme.bg;ctx.fillRect(length/2-7,-3,4,6);ctx.restore();
+    const length=vehicle.type==='truck'||vehicle.type==='bus'?23:17;ctx.beginPath();roundedRectPath(ctx,-length/2,-5,length,10,3);ctx.fill();ctx.shadowBlur=0;ctx.fillStyle=theme.bg;ctx.fillRect(length/2-7,-3,4,6);ctx.restore();
     labels.push({x,y,id:vehicle.id,speed:vehicle.speed});
     if(vehicle.status!=='NORMAL'){ctx.strokeStyle=theme.danger;ctx.beginPath();ctx.arc(x,y,18,0,Math.PI*2);ctx.stroke();}
    });ctx.restore();

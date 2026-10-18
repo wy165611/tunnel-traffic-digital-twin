@@ -3,6 +3,36 @@
 审计日期：2026-10-13。范围是仓库根目录的后端、前端、脚本、`config.yaml` 与 `models.json`。  
 **修复批次：2026-10-13**（分支 `cursor/bug-audit-report-1d52`）。下列条目均已在本分支修复，并补充回归测试（见各条「修复说明」）。
 
+## 2026-10-18 第二批审计修复（M1 / M2 / L1–L7）
+
+- 分支：`fix/audit-m1-m2-l1-l7`
+- 代码提交：`c9b0e2a`
+- PR：[#2](https://github.com/wy165611/tunnel-traffic-digital-twin/pull/2)
+- 来源：`/workspace/tunnel-traffic-digital-twin-bug-report.md`（2026-10-18 只读审计）
+
+| 条目 | 状态 | 修复说明 | 回归测试 |
+| --- | --- | --- | --- |
+| M1 标定角点顺序拒绝合法斜向凸四边形 | **已修复** | `backend/calibration/homography.py`：不再按 y/x 排序反推 TL/TR；只校验凸性与图像坐标顺时针（有向面积），第一个点作为左上角。 | `tests/test_core.py::test_calibration_accepts_diagonal_clockwise_quad_and_uses_first_point_as_top_left`、`test_calibration_rejects_wrong_corner_order` |
+| M2 宽/长语义与画面方向绑定 | **已修复（UI 最小改动，待 owner 确认设计）** | `frontend/src/components/CalibrationPanel.tsx` 改为「边 1→2 实测长度 / 边 2→3 实测长度」，并提示分别对应第 1、2 点与第 2、3 点之间的实际距离；README 同步。后端 `width_m` / `length_m` 字段与 homography 数学未改，未自动推断 `legal_direction`。 | `tests/test_core.py::test_calibration_edge_1_2_and_2_3_map_to_supplied_lengths` |
+| L1 前端先解析 JSON 再判断 `ok` | **已修复** | `frontend/src/api.ts` 新增 `parseApiResponse`：先读 `text()`，容错 JSON；422 `detail` 数组格式化为可读文本；纯文本/HTML 错误回退到状态文本。`App.tsx` 上传路径复用。 | `frontend/tests/api.test.mjs` 新增 4 条 |
+| L2 帧数未知或偏大时 seek 失败 | **已修复** | `backend/vision/video_reader.py`：`frames<=0` 回退 `CAP_PROP_POS_MSEC`；索引探测失败时收缩上界，必要时定位到最后一个可解码帧。 | `tests/test_video_timing.py::test_seek_clamps_to_last_decodable_frame_when_count_is_overreported`、`test_seek_falls_back_to_msec_when_frame_count_is_zero` |
+| L3 实时流（RTSP）路径不可用 | **已修复** | `backend/service.py`：live 预览不调用 seek，也不回绕；`frames=0` 不再让每次 play 触发重置；live seek 明确返回「实时流不支持拖动」。 | `tests/test_api.py::test_live_preview_does_not_seek_or_rewind`、`test_live_play_does_not_reset_processor_when_frame_count_is_unknown` |
+| L4 导入/上传异常时文件残留 | **已修复** | `backend/main.py`：导入与上传均用 `finally` 在未成功时清理临时文件；`ValueError`/`OSError` 仍映射 400，其他异常（如 `cv2.error`）返回 500 但文件已清理。 | `tests/test_api.py::test_upload_and_import_cleanup_on_unexpected_select_failure` |
+| L5 模板场景缺键返回 500 | **已修复** | `backend/camera_templates.py`：`template_value` 要求 `scene.counting_line` 存在且 `scene.lanes` 为列表，损坏模板按不存在处理（404）。 | `tests/test_camera_templates.py::test_template_with_missing_scene_keys_is_treated_as_corrupt` |
+| L6 `交付/` 下为修复前旧代码 | **已标记，未重建** | 新增 `交付/源码包状态说明-请先阅读.md`，明确目录与 zip 都是旧快照、禁止直接交付，并列出缺失的修复；**未删除任何交付物**。 | 文档说明 |
+| L7 Canvas `roundRect` 兼容性 | **已修复** | 新增 `frontend/src/utils/canvasShape.ts`；`DigitalTwin.tsx` 检测 `ctx.roundRect`，不支持时回退 `ctx.rect`。 | `frontend/tests/canvasShape.test.mjs` 新增 2 条 |
+
+测试结果（2026-10-18，Python 3.13.5 / Node.js 20.19.2）：
+
+| 检查 | 结果 |
+| --- | --- |
+| `pytest -q` | **104 passed**（原 96，新增 8） |
+| `npm --prefix frontend test` | **38 passed**（原 32，新增 6） |
+| `npx tsc -b` | 通过 |
+| `npm --prefix frontend run build` | 通过 |
+
+需 owner 决策：M2 只改了 UI 文案，未确认「按道路方向自动设置合法方向」是否属于预期设计；L6 未重建交付包。
+
 ## 测试结果（修复后）
 
 环境：Linux、Python 3.12.3、Node.js 22.14.0。测试使用 CPU 版 PyTorch（与 `requirements-verified.txt` 一致），`TWIN_DATA_DIR` 指向临时目录。

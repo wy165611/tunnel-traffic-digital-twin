@@ -106,14 +106,17 @@ def import_path(source):
 @app.post('/api/video/import')
 async def import_video(payload: PathImport):
     video_id = None
+    imported = False
     try:
         video_id = await asyncio.to_thread(import_path, payload.path)
         await service.select(video_id)
+        imported = True
         return service.state()
     except (ValueError, OSError) as exc:
-        if video_id:
-            (DATA / 'videos' / video_id).unlink(missing_ok=True)
         raise HTTPException(400, str(exc)) from exc
+    finally:
+        if not imported and video_id:
+            (DATA / 'videos' / video_id).unlink(missing_ok=True)
 
 
 @app.post('/api/video/upload')
@@ -123,6 +126,7 @@ async def upload(file: UploadFile):
         raise HTTPException(400, '不支持的视频格式')
     target = DATA / 'videos' / (uuid4().hex[:8]+'-'+filename)
     size = 0
+    imported = False
     try:
         with target.open('wb') as f:
             while chunk := await file.read(1024 * 1024):
@@ -131,11 +135,13 @@ async def upload(file: UploadFile):
                     raise ValueError('视频文件不能超过 2 GB')
                 f.write(chunk)
         await service.select(target.name)
+        imported = True
         return service.state()
     except (ValueError, OSError) as exc:
-        target.unlink(missing_ok=True)
         raise HTTPException(400, str(exc)) from exc
     finally:
+        if not imported:
+            target.unlink(missing_ok=True)
         await file.close()
 
 

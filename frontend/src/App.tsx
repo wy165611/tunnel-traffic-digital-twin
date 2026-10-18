@@ -1,6 +1,6 @@
 import {useEffect,useRef,useState} from 'react';
 import {Activity,ArrowUpRight,CheckCircle2,Download,FileVideo,Layers,Link2,LoaderCircle,Pause,Play,Radio,RotateCcw,ScanLine,Settings2,Upload,X} from 'lucide-react';
-import {api,formatSpeed,formatTime,typeNames} from './api';
+import {api,parseApiResponse,formatSpeed,formatTime,typeNames} from './api';
 import type {Snapshot,Scene,Calibration,Point,Settings} from './types';
 import VideoView from './components/VideoView';
 import DigitalTwin from './components/DigitalTwin';
@@ -48,7 +48,7 @@ export default function App(){
  const applySettings=async(settings:Settings)=>{await perform(()=>api('/settings',{...settings,video_token:draftToken.current}));};
  const refreshVideos=()=>api<{id:string;name:string}[]>('/videos').then(setVideos);
  const importPath=async()=>{const s=await perform(()=>api('/video/import',{path:path.trim()}));if(s){setImporting(false);refreshVideos();}};
- const uploadFile=async(file:File)=>{const form=new FormData();form.append('file',file);const s=await perform(async()=>{const r=await fetch('/api/video/upload',{method:'POST',body:form});const data=await r.json();if(!r.ok)throw new Error(data.detail);return data;});if(s){setImporting(false);refreshVideos();}};
+ const uploadFile=async(file:File)=>{const form=new FormData();form.append('file',file);const s=await perform(async()=>parseApiResponse(await fetch('/api/video/upload',{method:'POST',body:form})));if(s){setImporting(false);refreshVideos();}};
  const selectVideo=async(id:string)=>perform(()=>api('/video/select',{video_id:id}));
  if(!state)return <main className="loading-page" aria-busy={!error}><div className="loading-brand"><BrandMark/></div><div className="eyebrow">TUNNEL TWIN / 本地交通感知</div><h1>{error?'暂时无法连接感知服务':'正在连接交通感知服务'}</h1><p role={error?'alert':'status'}>{error?'请检查后端服务是否启动，再重新连接。':'正在同步视频、道路配置与运行状态'}</p>{error?<button className="button primary" onClick={()=>location.reload()}>重新连接</button>:<div className="loading-skeleton" aria-hidden="true"><span/><span/><span/></div>}</main>;
  const visual=decoded.frame?.snapshot||{...state,image:undefined,vehicles:[]};
