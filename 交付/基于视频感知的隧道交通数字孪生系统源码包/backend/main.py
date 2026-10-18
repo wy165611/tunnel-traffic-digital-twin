@@ -106,14 +106,17 @@ def import_path(source):
 @app.post('/api/video/import')
 async def import_video(payload: PathImport):
     video_id = None
+    imported = False
     try:
         video_id = await asyncio.to_thread(import_path, payload.path)
         await service.select(video_id)
+        imported = True
         return service.state()
     except (ValueError, OSError) as exc:
-        if video_id:
-            (DATA / 'videos' / video_id).unlink(missing_ok=True)
         raise HTTPException(400, str(exc)) from exc
+    finally:
+        if not imported and video_id:
+            (DATA / 'videos' / video_id).unlink(missing_ok=True)
 
 
 @app.post('/api/video/upload')
@@ -123,6 +126,7 @@ async def upload(file: UploadFile):
         raise HTTPException(400, '不支持的视频格式')
     target = DATA / 'videos' / (uuid4().hex[:8]+'-'+filename)
     size = 0
+    imported = False
     try:
         with target.open('wb') as f:
             while chunk := await file.read(1024 * 1024):
@@ -131,11 +135,13 @@ async def upload(file: UploadFile):
                     raise ValueError('视频文件不能超过 2 GB')
                 f.write(chunk)
         await service.select(target.name)
+        imported = True
         return service.state()
     except (ValueError, OSError) as exc:
-        target.unlink(missing_ok=True)
         raise HTTPException(400, str(exc)) from exc
     finally:
+        if not imported:
+            target.unlink(missing_ok=True)
         await file.close()
 
 
@@ -519,3 +525,14 @@ async def websocket(ws: WebSocket):
 dist = ROOT / 'frontend' / 'dist'
 if dist.exists():
     app.mount('/', StaticFiles(directory=dist, html=True), name='frontend')
+else:
+    @app.get('/', response_class=HTMLResponse)
+    def frontend_not_built():
+        return HTMLResponse(
+            '<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>隧道交通数字孪生</title>'
+            '<body style="font-family:system-ui;line-height:1.6;max-width:40rem;margin:2rem auto">'
+            '<h1>前端尚未构建</h1><p>API 与 <a href="/docs">/docs</a> 可用。请运行 '
+            '<code>./scripts/setup.sh</code> 或 <code>npm --prefix frontend run build</code> 生成 '
+            '<code>frontend/dist</code> 后刷新本页。</p>'
+            '<p>开发模式可在两个终端分别启动后端与 <code>npm --prefix frontend run dev</code>（Vite 5173）。</p></body></html>'
+        )

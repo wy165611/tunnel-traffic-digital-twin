@@ -1,6 +1,6 @@
 import {useEffect,useRef,useState} from 'react';
 import {Activity,ArrowUpRight,CheckCircle2,Download,FileVideo,Layers,Link2,LoaderCircle,Pause,Play,Radio,RotateCcw,ScanLine,Settings2,Upload,X} from 'lucide-react';
-import {api,formatSpeed,formatTime,typeNames} from './api';
+import {api,parseApiResponse,formatSpeed,formatTime,typeNames} from './api';
 import type {Snapshot,Scene,Calibration,Point,Settings} from './types';
 import VideoView from './components/VideoView';
 import DigitalTwin from './components/DigitalTwin';
@@ -17,6 +17,7 @@ import CameraTemplatesDialog from './components/CameraTemplatesDialog';
 import {useSectionNavigation} from './hooks/useSectionNavigation';
 import {useDecodedSnapshot} from './hooks/useDecodedSnapshot';
 import {SnapshotGate,appendDrawPoint,type SnapshotSource} from './utils/snapshotState';
+import {calibrationEdgeLengths} from './utils/calibrationGeometry';
 
 export default function App(){
  const [state,setState]=useState<Snapshot|null>(null),[connected,setConnected]=useState(false),[busy,setBusy]=useState(false),[error,setError]=useState(''),[editing,setEditing]=useState(false),[mode,setMode]=useState<DrawMode>(null),[pending,setPending]=useState<Point[]>([]),[scene,setScene]=useState<Scene>({counting_line:null,lanes:[]}),[calibration,setCalibration]=useState<Calibration|null>(null),[videos,setVideos]=useState<{id:string;name:string}[]>([]),[importing,setImporting]=useState(false),[path,setPath]=useState(''),[seek,setSeek]=useState<number|null>(null);
@@ -43,12 +44,12 @@ export default function App(){
  const control=(action:string,extra={})=>perform(()=>api('/control',{action,...extra}));
  const openEdit=async(section:'road'|'settings'='road')=>{if(!state?.video)return;if(!editing){const paused=await control('pause');if(!paused)return;setScene(paused.scene);setCalibration(paused.calibration);draftToken.current=paused.video_token;draftRevision.current=paused.scene_revision;editingRef.current=true;setEditing(true);setMode(null);setPending([]);}setEditorFocus(f=>({section,request:f.request+1}));navigate('perception');};
  const finish=()=>{if(mode==='lane'&&pending.length>=3){setScene({...scene,lanes:[...scene.lanes,{name:`Lane ${scene.lanes.length+1}`,points:pending,direction:[0,1]}]});setPending([]);setMode(null);}};
- const point=(p:Point)=>{if(!mode)return;const points=appendDrawPoint(pending,p);if(mode==='calibration'&&points.length===4){setCalibration({points,width_m:calibration?.width_m||0,length_m:calibration?.length_m||0});setMode(null);setPending([]);}else if(mode==='counting'&&points.length===2){setScene({...scene,counting_line:points,counting_line_mode:'manual'});setMode(null);setPending([]);}else setPending(points);};
- const save=async()=>{const s=await perform(()=>api('/calibration',{...scene,video_token:draftToken.current,scene_revision:draftRevision.current,points:calibration?.points||null,width_m:calibration?.width_m||null,length_m:calibration?.length_m||null}));if(s&&s.video_token===draftToken.current){draftRevision.current=s.scene_revision;setMode(null);setPending([]);setScene(s.scene);setCalibration(s.calibration);}};
+ const point=(p:Point)=>{if(!mode)return;const points=appendDrawPoint(pending,p);if(mode==='calibration'&&points.length===4){setCalibration({points,width_m:calibration?.width_m||0,length_m:calibration?.length_m||0,edge_1_2_m:calibration?.edge_1_2_m,edge_2_3_m:calibration?.edge_2_3_m,travel_edge_mode:'auto'});setMode(null);setPending([]);}else if(mode==='counting'&&points.length===2){setScene({...scene,counting_line:points,counting_line_mode:'manual'});setMode(null);setPending([]);}else setPending(points);};
+ const save=async()=>{const edges=calibration?calibrationEdgeLengths(calibration):null;const measured=calibration?.points&&edges?{edge_1_2_m:edges.edge12,edge_2_3_m:edges.edge23,travel_edge:calibration.travel_edge_mode==='manual'?calibration.travel_edge:null,travel_edge_mode:calibration.travel_edge_mode||'auto'}:{};const s=await perform(()=>api('/calibration',{...scene,video_token:draftToken.current,scene_revision:draftRevision.current,points:calibration?.points||null,...measured}));if(s&&s.video_token===draftToken.current){draftRevision.current=s.scene_revision;setMode(null);setPending([]);setScene(s.scene);setCalibration(s.calibration);}};
  const applySettings=async(settings:Settings)=>{await perform(()=>api('/settings',{...settings,video_token:draftToken.current}));};
  const refreshVideos=()=>api<{id:string;name:string}[]>('/videos').then(setVideos);
  const importPath=async()=>{const s=await perform(()=>api('/video/import',{path:path.trim()}));if(s){setImporting(false);refreshVideos();}};
- const uploadFile=async(file:File)=>{const form=new FormData();form.append('file',file);const s=await perform(async()=>{const r=await fetch('/api/video/upload',{method:'POST',body:form});const data=await r.json();if(!r.ok)throw new Error(data.detail);return data;});if(s){setImporting(false);refreshVideos();}};
+ const uploadFile=async(file:File)=>{const form=new FormData();form.append('file',file);const s=await perform(async()=>parseApiResponse(await fetch('/api/video/upload',{method:'POST',body:form})));if(s){setImporting(false);refreshVideos();}};
  const selectVideo=async(id:string)=>perform(()=>api('/video/select',{video_id:id}));
  if(!state)return <main className="loading-page" aria-busy={!error}><div className="loading-brand"><BrandMark/></div><div className="eyebrow">TUNNEL TWIN / 本地交通感知</div><h1>{error?'暂时无法连接感知服务':'正在连接交通感知服务'}</h1><p role={error?'alert':'status'}>{error?'请检查后端服务是否启动，再重新连接。':'正在同步视频、道路配置与运行状态'}</p>{error?<button className="button primary" onClick={()=>location.reload()}>重新连接</button>:<div className="loading-skeleton" aria-hidden="true"><span/><span/><span/></div>}</main>;
  const visual=decoded.frame?.snapshot||{...state,image:undefined,vehicles:[]};

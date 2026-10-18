@@ -45,6 +45,17 @@ def test_report_totals_observed_coverage_empty_and_legacy(tmp_path):
     assert build_report(tmp_path,'run')['speed']['observed_samples']==0
 
 
+def test_report_skips_lane_rows_with_missing_window(tmp_path):
+    write_csv(tmp_path, 'traffic_statistics', ['timestamp', 'flow'], [dict(timestamp=1, flow=0)])
+    (tmp_path / 'run.json').write_text('{}')
+    write_csv(tmp_path, 'lane_statistics', ['timestamp', 'lane', 'window_seconds', 'covered_seconds', 'complete'],
+               [dict(timestamp=1, lane='A', window_seconds='', covered_seconds='', complete='false'),
+                dict(timestamp=2, lane='A', window_seconds=10, covered_seconds=5, complete='false')])
+    report = build_report(tmp_path, 'run')
+    assert len(report['lanes'].get('A', [])) == 1
+    assert report['lanes']['A'][0]['covered_seconds'] == 5
+
+
 def test_comparison_requires_metadata_and_geometry_and_labels_traffic():
     report=dict(run_id='a',metadata=dict(video_identity='same',scene=dict(counting_line=None,lanes=[]),calibration=None,config={'traffic':{'legal_direction':[0,1]}}),range=dict(start=1,end=3))
     other=copy.deepcopy(report);other['run_id']='b'

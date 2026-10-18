@@ -34,6 +34,63 @@ def test_seek_uses_decoded_pts_even_when_millisecond_seek_would_be_wrong(monkeyp
     assert reader.read()[:2] == (0, 0)
 
 
+class FlexibleCapture:
+    times = [0, .1, .2, .3]
+
+    def __init__(self, *args, frames=4):
+        self.index = 0
+        self.timestamp = 0
+        self.advertised_frames = frames
+
+    def isOpened(self):
+        return True
+
+    def get(self, key):
+        return {cv2.CAP_PROP_FRAME_WIDTH: 160, cv2.CAP_PROP_FRAME_HEIGHT: 96, cv2.CAP_PROP_FPS: 10,
+                cv2.CAP_PROP_FRAME_COUNT: self.advertised_frames, cv2.CAP_PROP_POS_FRAMES: self.index,
+                cv2.CAP_PROP_POS_MSEC: self.timestamp * 1000}.get(key, 0)
+
+    def set(self, key, value):
+        if key == cv2.CAP_PROP_POS_FRAMES:
+            if not 0 <= value < len(self.times):
+                return False
+            self.index = int(value)
+            return True
+        if key == cv2.CAP_PROP_POS_MSEC:
+            seconds = value / 1000
+            matching = [i for i, timestamp in enumerate(self.times) if timestamp + 1e-9 >= seconds]
+            if not matching:
+                return False
+            self.index = matching[0]
+            return True
+        return False
+
+    def read(self):
+        if self.index >= len(self.times):
+            return False, None
+        self.timestamp = self.times[self.index]
+        self.index += 1
+        return True, np.zeros((96, 160, 3), np.uint8)
+
+    def release(self):
+        pass
+
+
+def test_seek_clamps_to_last_decodable_frame_when_count_is_overreported(monkeypatch):
+    monkeypatch.setattr(module.cv2, 'VideoCapture', lambda *args: FlexibleCapture(frames=50))
+    reader = VideoReader('test.mp4')
+    reader.seek(.35)
+    assert reader.read()[:2] == (3, .3)
+
+
+def test_seek_falls_back_to_msec_when_frame_count_is_zero(monkeypatch):
+    monkeypatch.setattr(module.cv2, 'VideoCapture', lambda *args: FlexibleCapture(frames=0))
+    reader = VideoReader('test.mp4')
+    reader.seek(.2)
+    assert reader.read()[:2] == (2, .2)
+    assert reader.read()[:2] == (3, .3)
+
+
 def test_actual_vfr_mp4_read_and_seek(tmp_path):
     ffmpeg = shutil.which('ffmpeg')
     if not ffmpeg: pytest.skip('optional codec integration check requires ffmpeg')

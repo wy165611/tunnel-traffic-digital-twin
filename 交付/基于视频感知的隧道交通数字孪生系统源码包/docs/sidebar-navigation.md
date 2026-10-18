@@ -23,6 +23,10 @@
 - 1024×900、390×844、320×720 和 1440×600 检查：无整体横向溢出，导出区和分析设置适配，键盘 Enter 可打开设置并定位焦点，短窗口工具菜单可滚动，底部控制始终可见。遵循减少动态效果偏好。
 - 浏览器页面未发现运行异常。
 
-## 截图说明
+## 截图
 
-原工作区曾保存桌面、手机、短窗口及导出状态截图；这些截图属于运行产物，未包含在源码分享包中。
+- [展开后的桌面导航](../output/playwright/sidebar-desktop.png)
+- [手机导航](../output/playwright/sidebar-mobile.png)
+- [短窗口导航](../output/playwright/sidebar-short.png)
+- [数据导出区](../output/playwright/sidebar-export.png)
+- [尚未分析的导出空状态](../output/playwright/sidebar-export-empty.png)

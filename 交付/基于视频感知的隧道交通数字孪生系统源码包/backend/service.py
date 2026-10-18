@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 from uuid import uuid4
 from backend.settings import DATA, ROOT, load_config
-from backend.calibration.homography import RoadCalibration
+from backend.calibration.homography import RoadCalibration, normalised_direction
 from backend.exporter import atomic_json
 from backend.processor import TrafficProcessor, encode_frame
 from backend.vision.detector import VehicleDetector
@@ -51,15 +51,32 @@ class AnalysisService:
         self.revision += 1
         self._publish()
 
+    def _sync_legal_direction(self):
+        """Keep the default legal direction on the detected travel axis.
+
+        A user-selected forward/reverse sign is preserved; a perpendicular
+        direction (the legacy default on landscape roads) is reset to +Y,
+        which always follows the auto-detected road-length edge.
+        """
+        if not self.calibration:
+            return
+        current = normalised_direction(self.config['traffic']['legal_direction'])
+        travel = self.calibration.travel_direction.tolist()
+        if abs(current[0]*travel[0]+current[1]*travel[1]) < .5:
+            current = travel
+        self.config['traffic']['legal_direction'] = current
+
     @staticmethod
     def read_preview(reader, seconds):
-        reader.seek(seconds)
+        if not reader.live:
+            reader.seek(seconds)
         item = reader.read()
         if item is None:
             raise ValueError('视频没有可读取的帧')
         index, timestamp, frame = item
         image = encode_frame(frame)
-        reader.seek(timestamp)
+        if not reader.live:
+            reader.seek(timestamp)
         return dict(image=image, frame=index, timestamp=timestamp, vehicles=[], events=[], history=[], metrics=None)
 
     def select_sync(self, video_id):
@@ -71,7 +88,7 @@ class AnalysisService:
             identity = video_identity(path)
             scene_file = DATA / 'calibrations' / f'{identity}-scene.json'
             scene = json.loads(scene_file.read_text(encoding='utf-8')) if scene_file.exists() else dict(counting_line=None, lanes=[])
-            calibration = RoadCalibration.load(DATA / 'calibrations' / f'{identity}-calibration.json')
+            calibration = RoadCalibration.load(DATA / 'calibrations' / f'{identity}-calibration.json', scene=scene)
             resolved = resolve_counting_line(scene, reader.width, reader.height)
             preview = self.read_preview(reader, 0)
             if resolved != scene:
@@ -88,6 +105,7 @@ class AnalysisService:
         self.reader, self.identity, self.video_id = reader, identity, video_id
         self.video_token, self.scene_revision = uuid4().hex, 0
         self.scene, self.calibration, self.snapshot = resolved, calibration, preview
+        self._sync_legal_direction()
         self.template_provenance = copy.deepcopy(resolved.get('template_provenance'))
         self.status, self.error = 'ready', None
         self.changed()
@@ -136,19 +154,23 @@ class AnalysisService:
             elif action == 'rate':
                 self.rate = control.rate
             elif action == 'seek':
+                if self.reader.live:
+                    raise ValueError('实时流不支持拖动')
                 self.status = 'paused'
                 if self.processor:
                     self.processor.close()
                     self.processor = None
                 await asyncio.to_thread(self.preview_sync, control.seconds)
             elif action in ('play', 'restart'):
+                resume_from_ended = self.status == 'ended'
                 self.status, self.error = 'loading', None
                 self.changed()
                 try:
                     if self.detector is None:
                         self.detector = await asyncio.to_thread(VehicleDetector, self.config['detector'])
-                    if action == 'restart' or self.processor is None or self.reader.index >= self.reader.frames:
-                        seconds = 0 if action == 'restart' or self.reader.index >= self.reader.frames else self.snapshot.get('timestamp', 0)
+                    at_end = self.reader.frames > 0 and self.reader.index >= self.reader.frames
+                    if action == 'restart' or self.processor is None or resume_from_ended or at_end:
+                        seconds = 0 if action == 'restart' or resume_from_ended or at_end else self.snapshot.get('timestamp', 0)
                         await asyncio.to_thread(self.reset_processor_sync, seconds)
                     self.status = 'playing'
                 except Exception as exc:
@@ -193,6 +215,7 @@ class AnalysisService:
             self.processor.close()
             self.processor = None
         self.scene, self.calibration, self.snapshot = scene, calibration, preview
+        self._sync_legal_direction()
         self.template_provenance = copy.deepcopy(provenance)
         self.scene_revision += 1
         self.status, self.error = 'ready', None
@@ -212,7 +235,7 @@ class AnalysisService:
             self.config['speed']['smoothing_frames'] = settings.smoothing_frames
             for name in ('stop_speed', 'stop_seconds', 'hard_braking_acceleration', 'wrong_way_seconds'):
                 self.config['events'][name] = getattr(settings, name)
-            self.config['traffic']['legal_direction'] = list(settings.legal_direction)
+            self.config['traffic']['legal_direction'] = normalised_direction(settings.legal_direction)
             if self.detector:
                 self.detector.config = self.config['detector']
             if self.processor:
