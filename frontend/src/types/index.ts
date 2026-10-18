@@ -1,7 +1,7 @@
 export type Point = [number, number];
 export interface Lane {name:string;points:Point[];direction:Point}
 export interface Scene {counting_line:Point[]|null;counting_line_mode?:'auto'|'manual'|'disabled';lanes:Lane[]}
-export interface Calibration {points:Point[];width_m:number;length_m:number}
+export interface Calibration {points:Point[];width_m:number;length_m:number;schema_version?:number;edge_1_2_m?:number;edge_2_3_m?:number;travel_edge?:'1-2'|'2-3';travel_edge_mode?:'auto'|'manual';travel_edge_source?:'measured_length'|'lane_alignment'|'counting_line'|'default'|'manual'}
 export interface Vehicle {id:number;type:string;confidence:number;box:number[];pixel:Point;world:Point|null;speed:number|null;acceleration:number|null;lane:string|null;timestamp:number;heading:number;trajectory:Point[];world_trajectory:{timestamp:number;point:Point}[];observed:boolean;status:string}
 export interface TrafficEvent {event_id?:string|null;run_id?:string;review_status?:string;evidence_available?:boolean;timestamp:number;vehicle_id:number;event:string;label:string;lane:string|null;speed:number|null}
 export interface HistoryPoint {timestamp:number;vehicle_count:number;average_speed:number|null;flow:number}

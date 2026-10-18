@@ -13,7 +13,7 @@
 | 条目 | 状态 | 修复说明 | 回归测试 |
 | --- | --- | --- | --- |
 | M1 标定角点顺序拒绝合法斜向凸四边形 | **已修复** | `backend/calibration/homography.py`：不再按 y/x 排序反推 TL/TR；只校验凸性与图像坐标顺时针（有向面积），第一个点作为左上角。 | `tests/test_core.py::test_calibration_accepts_diagonal_clockwise_quad_and_uses_first_point_as_top_left`、`test_calibration_rejects_wrong_corner_order` |
-| M2 宽/长语义与画面方向绑定 | **已修复（UI 最小改动，待 owner 确认设计）** | `frontend/src/components/CalibrationPanel.tsx` 改为「边 1→2 实测长度 / 边 2→3 实测长度」，并提示分别对应第 1、2 点与第 2、3 点之间的实际距离；README 同步。后端 `width_m` / `length_m` 字段与 homography 数学未改，未自动推断 `legal_direction`。 | `tests/test_core.py::test_calibration_edge_1_2_and_2_3_map_to_supplied_lengths` |
+| M2 宽/长语义与画面方向绑定 | **已修复（自动检测；follow-up [PR #3](https://github.com/wy165611/tunnel-traffic-digital-twin/pull/3)）** | 在 PR #2 的 UI 边长度语义基础上，`backend/calibration/homography.py` 新增 `detect_travel_edge`：较长实测边对（差 ≥2%）为行车方向；近似相等时依次参考车道最长轴、计数线法线、旧边 2→3；手动覆盖优先。世界 +Y 固定为行车方向，`width_m`/`length_m` 改为解析后的道路宽/沿路长；默认 `legal_direction` 规范化为单位向量并与行车轴一致。UI 显示检测边并可交换/恢复自动；schema v2 保存原始边、解析宽长、`travel_edge`/`travel_edge_mode`/`travel_edge_source`，旧 payload 自动迁移。 | `tests/test_core.py::test_calibration_auto_detects_travel_edge_for_portrait_landscape_and_diagonal`、`test_calibration_manual_travel_edge_override_wins`、`test_calibration_near_equal_lengths_fall_back_to_lane_then_counting_line`、`test_calibration_legacy_payload_is_migrated_to_schema_2`；`tests/test_api.py::test_auto_travel_edge_aligns_default_legal_direction`、`test_manual_travel_edge_override_via_api`；`frontend/tests/calibrationGeometry.test.mjs` 6 条、`frontend/tests/twinGeometry.test.mjs` 新增 3 条（横/竖/斜/手动覆盖） |
 | L1 前端先解析 JSON 再判断 `ok` | **已修复** | `frontend/src/api.ts` 新增 `parseApiResponse`：先读 `text()`，容错 JSON；422 `detail` 数组格式化为可读文本；纯文本/HTML 错误回退到状态文本。`App.tsx` 上传路径复用。 | `frontend/tests/api.test.mjs` 新增 4 条 |
 | L2 帧数未知或偏大时 seek 失败 | **已修复** | `backend/vision/video_reader.py`：`frames<=0` 回退 `CAP_PROP_POS_MSEC`；索引探测失败时收缩上界，必要时定位到最后一个可解码帧。 | `tests/test_video_timing.py::test_seek_clamps_to_last_decodable_frame_when_count_is_overreported`、`test_seek_falls_back_to_msec_when_frame_count_is_zero` |
 | L3 实时流（RTSP）路径不可用 | **已修复** | `backend/service.py`：live 预览不调用 seek，也不回绕；`frames=0` 不再让每次 play 触发重置；live seek 明确返回「实时流不支持拖动」。 | `tests/test_api.py::test_live_preview_does_not_seek_or_rewind`、`test_live_play_does_not_reset_processor_when_frame_count_is_unknown` |
@@ -31,7 +31,28 @@
 | `npx tsc -b` | 通过 |
 | `npm --prefix frontend run build` | 通过 |
 
-需 owner 决策：M2 只改了 UI 文案，未确认「按道路方向自动设置合法方向」是否属于预期设计；L6 未重建交付包。
+需 owner 决策：L6 未重建交付包。
+
+### M2 follow-up：自动检测行车方向边（PR #3）
+
+- 分支：`fix/m2-auto-travel-direction`；PR：[#3](https://github.com/wy165611/tunnel-traffic-digital-twin/pull/3)
+- 规则（后端 `detect_travel_edge` 与前端 `calibrationGeometry.ts` 一致）：
+  1. 两条实测相邻边中较长的一对视为沿行车方向（比值差 ≥2%），与横/竖/斜向画面无关；
+  2. 近似相等时，优先车道多边形最长轴，其次计数线法线（行车方向应穿过计数线）；
+  3. 仍无法判断时沿用边 2→3（旧映射）；手动覆盖始终优先。
+- 坐标与合法方向：世界 +Y 始终沿检测到的行车边，`width_m` 为跨路宽、`length_m` 为沿路长；默认 `legal_direction` 规范化为单位向量并保持在该轴上，用户选择的反向号保留，旧的横穿设置重置为 +Y。
+- 兼容性：schema v2 payload 保存 `edge_1_2_m` / `edge_2_3_m`、解析后的 `width_m` / `length_m`、`travel_edge`、`travel_edge_mode`、`travel_edge_source`。只有 `width_m` / `length_m` 的旧标定按原始边读取并自动迁移；边 2→3 更长的旧配置映射不变。
+- UI：标定面板显示「沿行车方向：边 …（自动检测 · 依据）」，提供 **交换为边 …** 与 **恢复自动检测**；手动覆盖随保存持久化。已用真实浏览器验证显示、交换、恢复与保存后的 JSON。
+
+M2 follow-up 测试结果（2026-10-18，Python 3.13.5 / Node.js 20.19.2）：
+
+| 检查 | 结果 |
+| --- | --- |
+| `pytest -q` | **109 passed, 1 skipped**（PR #2 基线 103+1，新增 6） |
+| `npm --prefix frontend test` | **47 passed**（PR #2 基线 38，新增 9） |
+| `npx tsc -b` | 通过 |
+| `npm --prefix frontend run build` | 通过 |
+| 浏览器 smoke（标定面板） | 自动检测边显示、手动交换、恢复自动、保存 JSON 均通过 |
 
 ## 测试结果（修复后）
 

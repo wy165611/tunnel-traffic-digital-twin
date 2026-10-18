@@ -15,8 +15,15 @@ class SceneInput(BaseModel):
     video_token: str | None = None
     scene_revision: int | None = Field(default=None, ge=0)
     points: list[Point] | None = Field(default=None, min_length=4, max_length=4)
+    # Legacy payloads used width_m / length_m for the two raw edge lengths.
+    # New payloads send edge_1_2_m / edge_2_3_m and keep width_m / length_m as
+    # the resolved road width (across) and length (along travel).
     width_m: float | None = Field(default=None, ge=.1, le=1000)
     length_m: float | None = Field(default=None, ge=.1, le=10000)
+    edge_1_2_m: float | None = Field(default=None, ge=.1, le=10000)
+    edge_2_3_m: float | None = Field(default=None, ge=.1, le=10000)
+    travel_edge: Literal['1-2', '2-3'] | None = None
+    travel_edge_mode: Literal['auto', 'manual'] | None = None
     counting_line: list[Point] | None = Field(default=None, min_length=2, max_length=2)
     counting_line_mode: Literal['auto', 'manual', 'disabled'] | None = None
     lanes: list[LaneInput] = Field(default_factory=list, max_length=20)
@@ -41,8 +48,13 @@ class SceneInput(BaseModel):
             raise ValueError('计数线的两个端点不能重合')
         if self.counting_line_mode == 'manual' and self.counting_line is None:
             raise ValueError('手动计数模式需要绘制计数线')
-        if self.points and (self.width_m is None or self.length_m is None):
-            raise ValueError('标定必须填写实际长度和宽度')
+        has_edges = self.edge_1_2_m is not None or self.edge_2_3_m is not None
+        if has_edges and (self.edge_1_2_m is None or self.edge_2_3_m is None):
+            raise ValueError('标定必须同时填写边 1→2 和边 2→3 的实测长度')
+        if self.points and not has_edges and (self.width_m is None or self.length_m is None):
+            raise ValueError('标定必须填写两条相邻边的实测长度')
+        if self.travel_edge_mode == 'manual' and self.travel_edge not in ('1-2', '2-3'):
+            raise ValueError('手动指定行车方向时必须选择边 1→2 或边 2→3')
         return self
 
 
