@@ -50,6 +50,9 @@ class AnalysisService:
                 intrusion_supported=model_supports_intrusion(self.config['detector']['model']),
                 alert_cooldown_seconds=float(self.config.get('alerts', {}).get('cooldown_seconds', 10)),
                 occupancy_enabled=bool(self.config['traffic'].get('time_occupancy_enabled', True)),
+                low_light_enabled=bool(self.config.get('preprocessing', {}).get('low_light_enabled', False)),
+                low_light_clahe_clip=float(self.config.get('preprocessing', {}).get('clahe_clip_limit', 2.)),
+                low_light_gamma=float(self.config.get('preprocessing', {}).get('gamma', 1.5)),
                 **self.config['events'], legal_direction=list(self.config['traffic']['legal_direction'])))
 
     def state(self):
@@ -287,6 +290,8 @@ class AnalysisService:
                 self.config['events'][name] = getattr(settings, name)
             self.config['traffic']['legal_direction'] = normalised_direction(settings.legal_direction)
             self.config['traffic']['time_occupancy_enabled'] = settings.occupancy_enabled
+            self.config.setdefault('preprocessing', {}).update(low_light_enabled=settings.low_light_enabled,
+                clahe_clip_limit=settings.low_light_clahe_clip, gamma=settings.low_light_gamma)
             if self.detector:
                 self.detector.config = self.config['detector']
             if self.processor:

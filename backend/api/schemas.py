@@ -105,6 +105,9 @@ class RuntimeSettings(BaseModel):
     intrusion_enabled: bool = True
     queue_speed_kmh: float = Field(default=10, ge=0, le=50)
     occupancy_enabled: bool = True
+    low_light_enabled: bool = False
+    low_light_clahe_clip: float = Field(default=2, ge=1, le=10)
+    low_light_gamma: float = Field(default=1.5, ge=.5, le=3)
     legal_direction: Point = (0, 1)
 
     @model_validator(mode='after')

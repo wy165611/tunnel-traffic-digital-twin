@@ -17,6 +17,7 @@ from backend.traffic.speed_estimator import SpeedEstimator
 from backend.traffic.service_level import LoopOccupancy
 from backend.traffic.traffic_metrics import traffic_metrics
 from backend.traffic.vehicle_state import VehicleState
+from backend.vision.enhance import LowLightEnhancer
 from backend.vision.tracker import SortTracker
 
 
@@ -33,6 +34,7 @@ class TrafficProcessor:
         self.scene, self.calibration = scene, calibration
         self.segment_start = segment_start
         self.tracker = SortTracker(config['tracking'])
+        self.enhancer = LowLightEnhancer(config.get('preprocessing'))
         self.flow = FlowCounter(scene.get('counting_line'))
         self.lanes = LaneDetector(scene.get('lanes'))
         self.occupancy = LoopOccupancy(self.lanes.lanes, config.get('traffic', {}).get('time_occupancy_enabled', True))
@@ -62,6 +64,7 @@ class TrafficProcessor:
             self.exporter.update_metadata(status='completed', end_timestamp=self.exporter.last_timestamp)
             return None
         index, timestamp, frame = item
+        frame = self.enhancer.apply(frame)
         interval = self.config['video']['detection_interval']
         detection_frame = (index % interval == 0 or not self.tracker.tracks)
         detections = self.detector.detect(frame) if detection_frame else None
