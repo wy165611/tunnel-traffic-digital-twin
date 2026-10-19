@@ -107,6 +107,8 @@ def build_report(directory, run_id):
     first = last = None
     flow = None
     trend = BoundedTrend()
+    service = dict(occupancy=None, level_of_service=None, service_level_label=None,
+                   queue_vehicles=None, queue_length_m=None, congestion_label=None)
     for row in rows(directory, 'traffic_statistics'):
         t = number(row.get('timestamp'))
         if t is None:
@@ -118,6 +120,10 @@ def build_report(directory, run_id):
             flow = cumulative if flow is None else max(flow, cumulative)
         trend.add(dict(timestamp=t, vehicle_count=number(row.get('vehicle_count')), flow=cumulative,
                        average_speed=number(row.get('average_speed'))))
+        for key in ('occupancy', 'queue_vehicles', 'queue_length_m'):
+            service[key] = number(row.get(key))
+        for key in ('level_of_service', 'service_level_label', 'congestion_label'):
+            service[key] = row.get(key) or None
     observed_known = False
     if available['vehicles']:
         with (directory / 'vehicles.csv').open(encoding='utf-8-sig', newline='') as stream:
@@ -162,6 +168,7 @@ def build_report(directory, run_id):
         range=dict(start=start, first_observed=first, end=last, duration=duration),
         summary=dict(cumulative_crossings=flow, machine_event_count=sum(events.values()) if available['events'] else None,
                      event_types=dict(events), review_counts=dict(review_counts)),
+        service_level=service,
         speed=dict(mean=speed_total / speed_samples if speed_samples else None, min=speed_min, max=speed_max,
                    observed_samples=observed_samples if observed_known else None, speed_samples=speed_samples if observed_known else None,
                    coverage=speed_samples / observed_samples if observed_samples else None,
@@ -224,18 +231,21 @@ def report_html(report):
     summary, speed, span = report['summary'], report['speed'], report['range']
     facts = [('视频来源', info.get('video_id')), ('统计段', report['run_id']), ('区间起点 / 结束 / 时长（秒）', ' / '.join(esc(span[key]) for key in ('start', 'end', 'duration'))),
              ('累计过线', summary['cumulative_crossings']), ('机器报警', summary['machine_event_count']), ('观测速度样本均值 / 最小 / 最大 km/h', ' / '.join(esc(speed[key]) for key in ('mean', 'min', 'max'))),
-             ('有效速度样本 / 观测样本', ' / '.join(esc(speed[key]) for key in ('speed_samples', 'observed_samples'))), ('速度定义', speed['definition']), ('视频内容身份', info.get('video_identity'))]
+             ('有效速度样本 / 观测样本', ' / '.join(esc(speed[key]) for key in ('speed_samples', 'observed_samples'))), ('速度定义', speed['definition']),
+             ('时间占有率 / 服务水平', ' / '.join(esc(report['service_level'].get(key)) for key in ('occupancy', 'level_of_service'))),
+             ('排队车辆 / 排队长度（米，未标定时不可用）', ' / '.join(esc(report['service_level'].get(key)) for key in ('queue_vehicles', 'queue_length_m'))),
+             ('视频内容身份', info.get('video_identity'))]
     trends = '<h2>交通趋势</h2>' + ''.join(svg_trend(report['trend'], field, label) for field, label in [('flow', '累计过线'), ('vehicle_count', '车辆数量'), ('average_speed', '逐帧平均速度 km/h')])
     lane_html = '<h2>分车道窗口趋势</h2>'
     if not report['lanes']:
         lane_html += '<p>此统计段未保存车道趋势。</p>'
     for lane, points in report['lanes'].items():
-        lane_html += '<h3>' + esc(lane) + '</h3><table><tr><th>窗口</th><th>末次过线</th><th>覆盖秒数</th><th>累计过线</th><th>观测均速 km/h</th></tr>'
+        lane_html += '<h3>' + esc(lane) + '</h3><table><tr><th>窗口</th><th>末次过线</th><th>覆盖秒数</th><th>累计过线</th><th>观测均速 km/h</th><th>时间占有率 %</th><th>服务水平</th><th>排队车辆</th></tr>'
         for window in (10, 30, 60):
             selected = [p for p in points if p.get('window_seconds') == window]
             if selected:
                 last = selected[-1]
-                lane_html += '<tr>' + ''.join('<td>' + esc(v) + '</td>' for v in (window, last.get('window_flow'), last.get('covered_seconds'), last.get('cumulative_flow'), last.get('average_speed'))) + '</tr>'
+                lane_html += '<tr>' + ''.join('<td>' + esc(v) + '</td>' for v in (window, last.get('window_flow'), last.get('covered_seconds'), last.get('cumulative_flow'), last.get('average_speed'), last.get('occupancy'), last.get('level_of_service'), last.get('queue_vehicles'))) + '</tr>'
         lane_html += '</table><p>窗口使用 (t−窗口, t]，不足窗口时不外推。</p>'
         for window in (10, 30, 60):
             selected = [p for p in points if p.get('window_seconds') == window]

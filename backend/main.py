@@ -11,7 +11,7 @@ from fastapi import FastAPI, HTTPException, UploadFile, WebSocket, WebSocketDisc
 from fastapi.responses import FileResponse, HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.trustedhost import TrustedHostMiddleware
-from backend.api.schemas import VideoSelection, PathImport, PlaybackControl, SceneInput, RuntimeSettings, TemplateCreate, TemplateRename, TemplateRevision, TemplatePreview, TemplateApply
+from backend.api.schemas import VideoSelection, PathImport, StreamInput, PlaybackControl, SceneInput, RuntimeSettings, TemplateCreate, TemplateRename, TemplateRevision, TemplatePreview, TemplateApply
 from backend.settings import DATA, ROOT
 from backend.service import AnalysisService, StaleVideoError
 from backend.security import UploadBodyLimit, MAX_VIDEO_BYTES, trusted_origin
@@ -101,6 +101,15 @@ def import_path(source):
         target.unlink(missing_ok=True)
         raise
     return target.name
+
+
+@app.post('/api/video/stream')
+async def select_stream(payload: StreamInput):
+    try:
+        await service.select_stream(payload.url)
+        return service.state()
+    except (ValueError, OSError) as exc:
+        raise HTTPException(400, str(exc)) from exc
 
 
 @app.post('/api/video/import')
