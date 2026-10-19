@@ -4,6 +4,7 @@ import math
 import time
 from collections import deque
 import cv2
+import numpy as np
 from backend.calibration.homography import RoadCalibration
 from backend.alerts import WebhookNotifier
 from backend.events.rules import EventDetector
@@ -13,6 +14,7 @@ from backend.settings import DATA
 from backend.traffic.flow_counter import FlowCounter
 from backend.traffic.lane_detector import LaneDetector
 from backend.traffic.speed_estimator import SpeedEstimator
+from backend.traffic.service_level import LoopOccupancy
 from backend.traffic.traffic_metrics import traffic_metrics
 from backend.traffic.vehicle_state import VehicleState
 from backend.vision.tracker import SortTracker
@@ -33,6 +35,7 @@ class TrafficProcessor:
         self.tracker = SortTracker(config['tracking'])
         self.flow = FlowCounter(scene.get('counting_line'))
         self.lanes = LaneDetector(scene.get('lanes'))
+        self.occupancy = LoopOccupancy(self.lanes.lanes, config.get('traffic', {}).get('time_occupancy_enabled', True))
         self.events = EventDetector(config['events'])
         self.notifier = WebhookNotifier(config.get('alerts'))
         self.states, self.seen = {}, set()
@@ -110,6 +113,8 @@ class TrafficProcessor:
                            box=box, pixel=pixel, world=world, speed=speed, acceleration=acceleration,
                            lane=lane['name'] if lane else None, timestamp=timestamp,
                            lane_direction=lane.get('direction', self.config['traffic']['legal_direction']) if lane else self.config['traffic']['legal_direction'],
+                           lane_solid=lane.get('solid_line', True) if lane else True,
+                           pixel_speed=float(np.linalg.norm(track.filter.statePost[4:6]))*getattr(self.reader, 'fps', 30),
                            heading=heading, trajectory=trajectory, world_trajectory=wt, observed=observed)
             if observed and vehicle['type'] not in ('person', 'bicycle'):
                 self.flow.update(track.id, pixel, timestamp, vehicle['type'], vehicle['lane'])
@@ -117,7 +122,8 @@ class TrafficProcessor:
         for vehicle in vehicles:
             state = self.states[vehicle['id']]
             if vehicle['observed']:
-                new_events = self.events.update(vehicle, vehicle['lane_direction'], vehicles)
+                new_events = self.events.update(vehicle, vehicle['lane_direction'], vehicles,
+                                                speed_limit=self.scene.get('speed_limit_kmh'))
                 for event in new_events:
                     capture_event(self.exporter, event, vehicle, frame, index, self.reader, self.config, self.scene, self.calibration)
                     self.notifier.notify(event, self.exporter.run_id, self.exporter.metadata.get('video_id'))
@@ -138,7 +144,9 @@ class TrafficProcessor:
             self.events.forget(vid)
             self.flow.previous.pop(vid, None)
         metrics = traffic_metrics(vehicles, self.seen, self.flow, timestamp, self.calibration, self.lanes.lanes,
-                                  self.segment_start, self.config['events'].get('queue_speed_kmh', 10.))
+                                  self.segment_start, self.config['events'].get('queue_speed_kmh', 10.),
+                                  self.config['events'].get('queue_pixel_speed', 5.),
+                                  self.occupancy.update(timestamp, vehicles))
         metrics['event_count'] = self.total_events
         self.exporter.write('traffic_statistics', dict(timestamp=timestamp, flow=metrics['total_flow'], **metrics))
         self.exporter.flush()
@@ -161,8 +169,12 @@ class TrafficProcessor:
                                cumulative_flow=self.flow.by_lane[lane_name],
                                queue_vehicles=lane_metric.get('queue_vehicles'),
                                queue_length_m=lane_metric.get('queue_length_m'),
+                               queue_estimated=lane_metric.get('queue_estimated'),
                                congestion_level=lane_metric.get('congestion_level'),
                                congestion_label=lane_metric.get('congestion_label'),
+                               density=lane_metric.get('density'), flow_per_hour=lane_metric.get('flow_per_hour'),
+                               occupancy=lane_metric.get('occupancy'), level_of_service=lane_metric.get('level_of_service'),
+                               service_level_label=lane_metric.get('service_level_label'),
                                **self.flow.lane_window(timestamp, lane_name, window, self.segment_start))
                     lane_rows.append(row)
                     self.exporter.write('lane_statistics', row)

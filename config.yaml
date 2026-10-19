@@ -32,6 +32,7 @@ events:
   tailgating_headway_seconds: 2.0
   intrusion_enabled: true
   queue_speed_kmh: 10.0
+  queue_pixel_speed: 5.0
 video:
   detection_interval: 2
   display_max_side: 960

@@ -9,9 +9,9 @@ from backend.settings import DATA
 
 FIELDS = {
     'vehicles': ['timestamp', 'frame', 'vehicle_id', 'vehicle_type', 'confidence', 'lane', 'x_pixel', 'y_pixel', 'x', 'y', 'speed', 'acceleration', 'status', 'observed'],
-    'traffic_statistics': ['timestamp', 'vehicle_count', 'total_vehicles', 'average_speed', 'max_speed', 'min_speed', 'flow', 'flow_per_min', 'flow_estimated', 'density', 'density_estimated', 'queue_vehicles', 'queue_length_m', 'congestion_level', 'congestion_label'],
+    'traffic_statistics': ['timestamp', 'vehicle_count', 'total_vehicles', 'average_speed', 'max_speed', 'min_speed', 'flow', 'flow_per_min', 'flow_estimated', 'density', 'density_estimated', 'density_per_lane', 'occupancy', 'level_of_service', 'service_level_label', 'queue_vehicles', 'queue_length_m', 'queue_estimated', 'congestion_level', 'congestion_label'],
     'events': ['timestamp', 'vehicle_id', 'event', 'lane', 'speed', 'event_id', 'run_id', 'lane_json'],
-    'lane_statistics': ['timestamp', 'lane', 'observed_count', 'predicted_count', 'average_speed', 'cumulative_flow', 'window_seconds', 'window_flow', 'covered_seconds', 'complete', 'queue_vehicles', 'queue_length_m', 'congestion_level', 'congestion_label', 'lane_json'],
+    'lane_statistics': ['timestamp', 'lane', 'observed_count', 'predicted_count', 'average_speed', 'cumulative_flow', 'window_seconds', 'window_flow', 'covered_seconds', 'complete', 'density', 'flow_per_hour', 'occupancy', 'level_of_service', 'service_level_label', 'queue_vehicles', 'queue_length_m', 'queue_estimated', 'congestion_level', 'congestion_label', 'lane_json'],
 }
 
 

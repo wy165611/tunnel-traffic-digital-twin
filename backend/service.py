@@ -10,6 +10,7 @@ from backend.processor import TrafficProcessor, encode_frame
 from backend.vision.detector import VehicleDetector, model_supports_intrusion
 from backend.vision.video_reader import VideoReader, video_identity
 from backend.traffic.counting_line import automatic_counting_line, resolve_counting_line
+from backend.traffic.service_level import scene_loops
 
 
 class StaleVideoError(ValueError):
@@ -24,7 +25,7 @@ class AnalysisService:
         self.video_id = self.identity = self.video_token = None
         self.session_id = uuid4().hex
         self.scene_revision = 0
-        self.scene = dict(counting_line=None, lanes=[])
+        self.scene = dict(counting_line=None, lanes=[], speed_limit_kmh=None)
         self.calibration = None
         self.template_provenance = None
         self.snapshot = {}
@@ -34,16 +35,19 @@ class AnalysisService:
 
     def _publish(self):
         # Publish complete immutable snapshots once; worker threads never expose a half-swapped video.
+        scene = copy.deepcopy(self.scene)
+        scene['virtual_loops'] = scene_loops(scene.get('lanes') or [])
         self._state = dict(**self.snapshot, status=self.status, error=self.error, rate=self.rate,
             session_id=self.session_id, revision=self.revision, video_id=self.video_id,
             video_token=self.video_token, scene_revision=self.scene_revision,
-            video=self.reader.metadata if self.reader else None, template_provenance=copy.deepcopy(self.template_provenance), scene=copy.deepcopy(self.scene),
+            video=self.reader.metadata if self.reader else None, template_provenance=copy.deepcopy(self.template_provenance), scene=scene,
             calibration=copy.deepcopy(self.calibration.payload) if self.calibration else None,
             counting_line_suggestion=automatic_counting_line(self.reader.width, self.reader.height, self.scene.get('lanes')) if self.reader else None,
             settings=dict(model=self.config['detector']['model'], confidence=self.config['detector']['confidence'],
                 detection_interval=self.config['video']['detection_interval'], smoothing_frames=self.config['speed']['smoothing_frames'],
                 intrusion_supported=model_supports_intrusion(self.config['detector']['model']),
                 alert_cooldown_seconds=float(self.config.get('alerts', {}).get('cooldown_seconds', 10)),
+                occupancy_enabled=bool(self.config['traffic'].get('time_occupancy_enabled', True)),
                 **self.config['events'], legal_direction=list(self.config['traffic']['legal_direction'])))
 
     def state(self):
@@ -89,7 +93,7 @@ class AnalysisService:
         try:
             identity = video_identity(path)
             scene_file = DATA / 'calibrations' / f'{identity}-scene.json'
-            scene = json.loads(scene_file.read_text(encoding='utf-8')) if scene_file.exists() else dict(counting_line=None, lanes=[])
+            scene = json.loads(scene_file.read_text(encoding='utf-8')) if scene_file.exists() else dict(counting_line=None, lanes=[], speed_limit_kmh=None)
             calibration = RoadCalibration.load(DATA / 'calibrations' / f'{identity}-calibration.json', scene=scene)
             resolved = resolve_counting_line(scene, reader.width, reader.height)
             preview = self.read_preview(reader, 0)
@@ -193,11 +197,14 @@ class AnalysisService:
         all_points = list(data.get('points') or []) + list(data.get('counting_line') or [])
         for lane in data['lanes']:
             all_points.extend(lane['points'])
+            all_points.extend(lane.get('loop') or [])
         if any(not (0 <= p[0] <= self.reader.width and 0 <= p[1] <= self.reader.height) for p in all_points):
             raise ValueError('绘制坐标必须位于视频画面内')
         calibration = RoadCalibration(data) if data['points'] else None
         mode = data['counting_line_mode'] or ('manual' if data['counting_line'] else 'disabled')
-        scene = resolve_counting_line(dict(counting_line=data['counting_line'], lanes=data['lanes'], counting_line_mode=mode), self.reader.width, self.reader.height)
+        scene = resolve_counting_line(dict(counting_line=data['counting_line'], lanes=data['lanes'],
+                                           speed_limit_kmh=data.get('speed_limit_kmh'), counting_line_mode=mode),
+                                      self.reader.width, self.reader.height)
         try:
             preview = await asyncio.to_thread(self.read_preview, self.reader, self.snapshot.get('timestamp', 0))
         except Exception as exc:
@@ -241,6 +248,7 @@ class AnalysisService:
                          'tailgating_headway_seconds', 'intrusion_enabled', 'queue_speed_kmh'):
                 self.config['events'][name] = getattr(settings, name)
             self.config['traffic']['legal_direction'] = normalised_direction(settings.legal_direction)
+            self.config['traffic']['time_occupancy_enabled'] = settings.occupancy_enabled
             if self.detector:
                 self.detector.config = self.config['detector']
             if self.processor:

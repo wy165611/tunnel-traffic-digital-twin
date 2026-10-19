@@ -9,9 +9,11 @@ from backend.vision.detector import model_supports_intrusion
 from test_api import client
 
 
-def vehicle(t, speed=0, lane='Lane 1', world=None, kind='car', direction=(0, 1), vid=1, path=None):
+def vehicle(t, speed=0, lane='Lane 1', world=None, kind='car', direction=(0, 1), vid=1, path=None,
+            lane_solid=True, pixel_speed=None):
     return dict(id=vid, timestamp=t, speed=speed, lane=lane, type=kind, observed=True,
-                world=world, lane_direction=list(direction), world_trajectory=path or [])
+                world=world, lane_direction=list(direction), world_trajectory=path or [],
+                lane_solid=lane_solid, pixel_speed=pixel_speed)
 
 
 def detector(**changes):
@@ -83,27 +85,56 @@ def test_person_is_not_scored_as_speeding_even_when_speed_exists():
     assert [e['event'] for e in events.update(person, [0, 1])] == ['PEDESTRIAN INTRUSION']
 
 
+def test_dashed_lane_change_is_allowed_and_speed_limit_overrides_threshold():
+    events = detector(lane_change_seconds=.5, cooldown_seconds=0)
+    assert not events.update(vehicle(0, 30, 'A'), [0, 1])
+    assert not events.update(vehicle(1, 30, 'B', lane_solid=False), [0, 1])
+    assert not events.update(vehicle(2, 30, 'B', lane_solid=False), [0, 1])
+    limit = detector(cooldown_seconds=0, speeding_kmh=80)
+    assert [e['event'] for e in limit.update(vehicle(1, 65), [0, 1], speed_limit=60)] == ['SPEEDING']
+    assert not limit.update(vehicle(2, 55, vid=2), [0, 1], speed_limit=60)
+
+
+def test_scene_carries_speed_limit_and_solid_lines_into_camera_template(client):
+    c, s = client
+    lane = dict(name='Lane 1', points=[[40, 0], [160, 0], [160, 400], [40, 400]], direction=[0, 1], solid_line=False)
+    geometry = dict(points=[[40, 0], [160, 0], [160, 400], [40, 400]], width_m=12, length_m=40,
+                    speed_limit_kmh=60, lanes=[lane])
+    state = c.post('/api/calibration', json=geometry).json()
+    assert state['scene']['speed_limit_kmh'] == 60 and state['scene']['lanes'][0]['solid_line'] is False
+    saved = c.post('/api/camera-templates', json=dict(video_token=s.video_token, scene_revision=s.scene_revision,
+                                                      name='限速机位', note='')).json()
+    assert saved['scene']['speed_limit_kmh'] == 60 and saved['scene']['lanes'][0]['solid_line'] is False
+    assert c.post('/api/calibration', json=dict(geometry, speed_limit_kmh=1)).status_code == 422
+
+
 def test_lane_queue_needs_calibration_and_reports_span():
-    states = [vehicle(1, speed, world=[0, y], vid=index+1) for index, (speed, y) in enumerate([(5, 10), (5, 14), (40, 30)])]
+    states = [vehicle(1, speed, world=[0, y], vid=index+1, pixel_speed=pixel)
+              for index, (speed, y, pixel) in enumerate([(5, 10, 2), (5, 14, 2), (40, 30, 30)])]
     calibrated = lane_queue(states, 'Lane 1', [0, 1], 10, True)
     assert calibrated['queue_vehicles'] == 2
     assert calibrated['queue_length_m'] == pytest.approx(4)
+    assert not calibrated['queue_estimated']
     assert calibrated['congestion_level'] == 'congested' and calibrated['congestion_label'] == '拥堵'
-    unavailable = lane_queue(states, 'Lane 1', [0, 1], 10, False)
-    assert unavailable['queue_vehicles'] is None and unavailable['congestion_label'] is None
+    estimated = lane_queue(states, 'Lane 1', [0, 1], 10, False)
+    assert estimated['queue_vehicles'] == 2 and estimated['queue_length_m'] is None
+    assert estimated['queue_estimated'] and estimated['congestion_label'] is not None
     assert overall_congestion([calibrated]) == ('congested', '拥堵')
 
 
 def test_traffic_metrics_exposes_queue_and_congestion_without_counting_persons():
     lanes = [dict(name='Lane 1', points=[[0, 0], [10, 0], [10, 100], [0, 100]], direction=[0, 1])]
-    states = [vehicle(1, 5, world=[0, 10], vid=1), vehicle(1, 40, world=[0, 40], vid=2),
+    calibration = __import__('backend.calibration.homography', fromlist=['RoadCalibration']).RoadCalibration(
+        dict(points=[[0, 0], [10, 0], [10, 100], [0, 100]], width_m=10, length_m=100))
+    states = [vehicle(1, 5, world=[0, 10], vid=1, pixel_speed=1), vehicle(1, 40, world=[0, 40], vid=2, pixel_speed=30),
               vehicle(1, None, kind='person', world=[0, 20], vid=3)]
-    metrics = traffic_metrics(states, {1, 2, 3}, FlowCounter(), 1, type('C', (), {'length': 100})(), lanes, 0, 10)
+    metrics = traffic_metrics(states, {1, 2, 3}, FlowCounter(), 1, calibration, lanes, 0, 10)
     assert metrics['vehicle_count'] == 2
     assert metrics['queue_vehicles'] == 1 and metrics['congestion_label'] is not None
     assert metrics['lanes'][0]['queue_vehicles'] == 1
     uncalibrated = traffic_metrics(states, {1}, FlowCounter(), 1, None, lanes, 0, 10)
-    assert uncalibrated['queue_vehicles'] is None and uncalibrated['congestion_level'] is None
+    assert uncalibrated['queue_vehicles'] == 1 and uncalibrated['queue_estimated']
+    assert uncalibrated['queue_length_m'] is None
 
 
 def test_settings_api_exposes_thresholds_and_model_support(client):

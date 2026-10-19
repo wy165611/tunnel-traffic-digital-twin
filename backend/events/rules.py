@@ -74,13 +74,13 @@ class EventDetector:
         headway = min(gaps)/(speed/3.6)
         return headway < self.config['tailgating_headway_seconds']
 
-    def update(self, vehicle, legal_direction, vehicles=None):
+    def update(self, vehicle, legal_direction, vehicles=None, speed_limit=None):
         vid, t, speed = vehicle['id'], vehicle['timestamp'], vehicle['speed']
         candidates = []
         intrusion = INTRUSION_TYPES.get(vehicle.get('type'))
         if intrusion and self.config.get('intrusion_enabled', True):
             candidates.append(intrusion)
-        if not intrusion and self._lane_change(vid, vehicle.get('lane'), t):
+        if not intrusion and self._lane_change(vid, vehicle.get('lane'), t) and vehicle.get('lane_solid', True):
             candidates.append('ILLEGAL LANE CHANGE')
         if intrusion:
             pass
@@ -94,7 +94,7 @@ class EventDetector:
                     candidates.append('ABNORMAL STOP')
             else:
                 self.stopped.pop(vid, None)
-            if self.config.get('speeding_enabled', True) and speed > self.config['speeding_kmh']:
+            if self.config.get('speeding_enabled', True) and speed > (speed_limit if speed_limit is not None else self.config['speeding_kmh']):
                 candidates.append('SPEEDING')
             if (self.config.get('slow_speed_enabled', True) and speed < self.config['slow_speed_kmh']
                     and speed > self.config['stop_speed']):
