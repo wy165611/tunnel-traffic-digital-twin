@@ -56,6 +56,8 @@ class TrafficProcessor:
         started = time.perf_counter()
         item = self.reader.read()
         if item is None:
+            if getattr(self.reader, 'live', False):
+                return None
             self.exporter.flush()
             self.exporter.update_metadata(status='completed', end_timestamp=self.exporter.last_timestamp)
             return None

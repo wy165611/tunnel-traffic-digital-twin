@@ -1,7 +1,9 @@
 import asyncio
 import copy
+import hashlib
 import json
 from pathlib import Path
+from urllib.parse import urlsplit
 from uuid import uuid4
 from backend.settings import DATA, ROOT, load_config
 from backend.calibration.homography import RoadCalibration, normalised_direction
@@ -143,6 +145,42 @@ class AnalysisService:
         async with self.lock:
             await asyncio.to_thread(self.select_sync, video_id)
 
+    def select_stream_sync(self, url):
+        url = url.strip()
+        if not url.lower().startswith(('rtsp://', 'rtsps://', 'http://', 'https://')):
+            raise ValueError('流地址必须以 rtsp://、rtsps://、http:// 或 https:// 开头')
+        reader = VideoReader(url)
+        try:
+            identity = 'stream-'+hashlib.sha256(url.encode('utf-8')).hexdigest()[:24]
+            scene_file = DATA / 'calibrations' / f'{identity}-scene.json'
+            scene = json.loads(scene_file.read_text(encoding='utf-8')) if scene_file.exists() else dict(
+                counting_line=None, lanes=[], speed_limit_kmh=None)
+            calibration = RoadCalibration.load(DATA / 'calibrations' / f'{identity}-calibration.json', scene=scene)
+            resolved = resolve_counting_line(scene, reader.width, reader.height)
+            preview = self.read_preview(reader, 0)
+            if resolved != scene:
+                atomic_json(scene_file, resolved)
+        except Exception:
+            reader.close()
+            raise
+        if self.processor:
+            self.processor.close()
+        if self.reader:
+            self.reader.close()
+        self.processor = None
+        self.reader, self.identity = reader, identity
+        self.video_id = '实时流 · '+(urlsplit(url).hostname or 'stream')
+        self.video_token, self.scene_revision = uuid4().hex, 0
+        self.scene, self.calibration, self.snapshot = resolved, calibration, preview
+        self._sync_legal_direction()
+        self.template_provenance = copy.deepcopy(resolved.get('template_provenance'))
+        self.status, self.error = 'ready', None
+        self.changed()
+
+    async def select_stream(self, url):
+        async with self.lock:
+            await asyncio.to_thread(self.select_stream_sync, url)
+
     def check_target(self, payload):
         if self.reader and payload.video_token != self.video_token:
             raise StaleVideoError('视频已切换，请重新打开当前视频的设置')
@@ -258,16 +296,16 @@ class AnalysisService:
 
     async def run(self):
         while True:
-            if self.status != 'playing':
+            if self.status not in ('playing', 'reconnecting'):
                 await asyncio.sleep(.05)
                 continue
             started = asyncio.get_running_loop().time()
             frame_interval = 1 / self.reader.fps if self.reader else .05
             async with self.lock:
-                if self.status == 'playing' and self.processor is None:
+                if self.status in ('playing', 'reconnecting') and self.processor is None:
                     self.status, self.error = 'error', '分析状态已失效，请重新开始分析'
                     self.changed()
-                elif self.status == 'playing':
+                elif self.status in ('playing', 'reconnecting'):
                     try:
                         previous = self.snapshot.get('timestamp')
                         step_task = asyncio.create_task(asyncio.to_thread(self.processor.step))
@@ -277,8 +315,14 @@ class AnalysisService:
                             await step_task
                             raise
                         if frame is None:
-                            self.status = 'ended'
+                            if self.reader and self.reader.live:
+                                self.status = 'reconnecting'
+                                self.error = self.reader.metadata.get('stream_error') or '实时流已断开，正在重连'
+                            else:
+                                self.status = 'ended'
                         else:
+                            if self.reader and self.reader.live and self.status == 'reconnecting':
+                                self.status, self.error = 'playing', None
                             if previous is not None and frame['timestamp'] > previous:
                                 frame_interval = frame['timestamp'] - previous
                             self.snapshot = frame

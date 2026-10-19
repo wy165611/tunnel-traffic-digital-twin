@@ -74,6 +74,10 @@ class PathImport(BaseModel):
     path: str
 
 
+class StreamInput(BaseModel):
+    url: str = Field(min_length=1, max_length=2048)
+
+
 class PlaybackControl(BaseModel):
     action: Literal['play', 'pause', 'restart', 'seek', 'rate']
     seconds: float = Field(default=0, ge=0, allow_inf_nan=False)

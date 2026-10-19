@@ -1,5 +1,6 @@
 import hashlib
 import math
+import time
 from pathlib import Path
 import cv2
 from backend.traffic.counting_line import video_orientation
@@ -15,12 +16,26 @@ def video_identity(path):
 
 
 class VideoReader:
-    """Same reader interface for recordings and future RTSP ingestion."""
+    """Same reader interface for recordings and live RTSP/HTTP ingestion."""
     def __init__(self, source, max_side=960):
-        self.live = str(source).startswith(('rtsp://', 'rtsps://'))
-        self.cap = cv2.VideoCapture(str(source))
+        source = str(source)
+        self.source = source
+        self.live = source.lower().startswith(('rtsp://', 'rtsps://', 'http://', 'https://'))
+        self.cap = cv2.VideoCapture(source)
         if not self.cap.isOpened():
+            self.close()
             raise ValueError('视频无法打开，请检查文件或流地址')
+        self.last_timestamp = None
+        self.index = 0
+        self.pending = None
+        self._last_raw = None
+        self._time_offset = 0.
+        self._resume_on_next = False
+        self.stream_state = 'connected' if self.live else None
+        self.reconnect_attempt = 0
+        self.stream_error = None
+        self._retry_delay = 1.
+        self._next_retry = 0.
         self.width = int(self.cap.get(cv2.CAP_PROP_FRAME_WIDTH))
         self.height = int(self.cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
         self.fps = self.cap.get(cv2.CAP_PROP_FPS) or 30.0
@@ -34,9 +49,6 @@ class VideoReader:
         scale = min(1., max_side / max(self.width, self.height))
         self.display_width = round(self.width * scale)
         self.display_height = round(self.height * scale)
-        self.index = 0
-        self.pending = None
-        self.last_timestamp = None
         self.duration = self.frames / self.fps
         self.duration_estimated = True
         # The last decoded PTS avoids an average-FPS duration cutting off VFR input.
@@ -57,22 +69,70 @@ class VideoReader:
                     orientation=video_orientation(self.width, self.height),
                     frames=self.frames, duration=self.duration, duration_estimated=self.duration_estimated, timing_source='decoder_pts',
                     display_width=self.display_width, display_height=self.display_height,
-                    live=self.live)
+                    live=self.live, stream_state=self.stream_state,
+                    reconnect_attempt=self.reconnect_attempt, stream_error=self.stream_error)
+
+    def _schedule_retry(self, message):
+        self.stream_state, self.stream_error = 'reconnecting', message
+        self.reconnect_attempt += 1
+        self._retry_delay = min(30., 2.**(self.reconnect_attempt-1))
+        self._next_retry = time.monotonic()+self._retry_delay
+
+    def _maybe_reconnect(self):
+        if time.monotonic() < self._next_retry:
+            return False
+        cap = cv2.VideoCapture(self.source)
+        if cap.isOpened():
+            previous = self.cap
+            self.cap = cap
+            previous.release()
+            self.stream_state, self.stream_error = 'connected', None
+            self.reconnect_attempt, self._retry_delay, self._next_retry = 0, 1., 0.
+            self._last_raw = None
+            self._resume_on_next = self.last_timestamp is not None
+            return True
+        cap.release()
+        self._schedule_retry('视频流重连失败')
+        return False
+
+    def _live_timestamp(self, raw):
+        if not math.isfinite(raw) or raw < 0:
+            raw = None
+        if raw is None or (self._last_raw is not None and raw <= self._last_raw):
+            raw = (self._last_raw if self._last_raw is not None else 0.)+1/self.fps
+        self._last_raw = raw
+        if self._resume_on_next:
+            base = self.last_timestamp if self.last_timestamp is not None else 0.
+            self._time_offset = base+1/self.fps-raw
+            self._resume_on_next = False
+        return raw+self._time_offset
 
     def read(self):
         if self.pending is not None:
             index, timestamp, frame = self.pending
             self.pending = None
         else:
+            if self.live and self.stream_state == 'reconnecting' and not self._maybe_reconnect():
+                return None
             ok, frame = self.cap.read()
             if not ok:
+                if not self.live:
+                    return None
+                self._schedule_retry('视频流连接已断开')
                 return None
             index = self.index
-            timestamp = self.cap.get(cv2.CAP_PROP_POS_MSEC) / 1000
+            raw = self.cap.get(cv2.CAP_PROP_POS_MSEC)/1000
+            if self.live:
+                timestamp = self._live_timestamp(raw)
+            else:
+                timestamp = raw
         self.index = index + 1
-        if not math.isfinite(timestamp) or timestamp < 0 or (self.last_timestamp is not None and timestamp <= self.last_timestamp):
-            raise ValueError('视频解码器未提供单调时间戳，请将视频转换为恒定帧率 MP4 后重试')
-        self.last_timestamp = timestamp
+        if self.live:
+            self.last_timestamp = timestamp
+        else:
+            if not math.isfinite(timestamp) or timestamp < 0 or (self.last_timestamp is not None and timestamp <= self.last_timestamp):
+                raise ValueError('视频解码器未提供单调时间戳，请将视频转换为恒定帧率 MP4 后重试')
+            self.last_timestamp = timestamp
         self.duration = max(self.duration, timestamp + 1 / self.fps)
         frame = cv2.resize(frame, (self.display_width, self.display_height))
         return index, timestamp, frame
