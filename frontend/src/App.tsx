@@ -1,7 +1,7 @@
 import {useEffect,useRef,useState} from 'react';
 import {Activity,ArrowUpRight,CheckCircle2,Download,FileVideo,Layers,Link2,LoaderCircle,Pause,Play,Radio,RotateCcw,ScanLine,Settings2,Upload,X} from 'lucide-react';
 import {api,parseApiResponse,formatSpeed,formatTime,typeNames} from './api';
-import type {Snapshot,Scene,Calibration,Point,Settings} from './types';
+import type {Snapshot,Scene,Calibration,Point,Settings,TrafficEvent} from './types';
 import VideoView from './components/VideoView';
 import DigitalTwin from './components/DigitalTwin';
 import Dashboard from './components/Dashboard';
@@ -14,14 +14,18 @@ import Sidebar from './components/Sidebar';
 import DataExportPanel from './components/DataExportPanel';
 import LaneTrends from './components/LaneTrends';
 import CameraTemplatesDialog from './components/CameraTemplatesDialog';
+import AlertToasts from './components/AlertToasts';
 import {useSectionNavigation} from './hooks/useSectionNavigation';
 import {useDecodedSnapshot} from './hooks/useDecodedSnapshot';
 import {SnapshotGate,appendDrawPoint,type SnapshotSource} from './utils/snapshotState';
 import {calibrationEdgeLengths} from './utils/calibrationGeometry';
+import {eventKey,playAlertTone,primeAlertAudio,readSoundPreference,unseenEvents,writeSoundPreference} from './utils/eventAlerts';
 
 export default function App(){
  const [state,setState]=useState<Snapshot|null>(null),[connected,setConnected]=useState(false),[busy,setBusy]=useState(false),[error,setError]=useState(''),[editing,setEditing]=useState(false),[mode,setMode]=useState<DrawMode>(null),[pending,setPending]=useState<Point[]>([]),[scene,setScene]=useState<Scene>({counting_line:null,lanes:[]}),[calibration,setCalibration]=useState<Calibration|null>(null),[videos,setVideos]=useState<{id:string;name:string}[]>([]),[importing,setImporting]=useState(false),[path,setPath]=useState(''),[seek,setSeek]=useState<number|null>(null);
  const [templatesOpen,setTemplatesOpen]=useState(false);
+ const [alerts,setAlerts]=useState<TrafficEvent[]>([]),[soundOn,setSoundOn]=useState(()=>readSoundPreference());
+ const seenEvents=useRef<Set<string>>(new Set()),alertsRun=useRef<string|undefined>(undefined),alertsReady=useRef(false),soundRef=useRef(soundOn);soundRef.current=soundOn;
  const [editorFocus,setEditorFocus]=useState<{section:'road'|'settings';request:number}>({section:'road',request:0});
  const {active,navigate}=useSectionNavigation(!!state);
  const modalReturnFocus=useRef<HTMLElement|null>(null);
@@ -40,6 +44,17 @@ export default function App(){
   api<Snapshot>('/state').then(s=>{if(active)accept(s);}).catch(e=>setError(e.message));api<{id:string;name:string}[]>('/videos').then(setVideos).catch(()=>{});
   const connect=()=>{if(!active)return;ws=new WebSocket(`${location.protocol==='https:'?'wss':'ws'}://${location.host}/ws`);ws.onopen=()=>setConnected(true);ws.onmessage=e=>{if(active)accept(JSON.parse(e.data),'websocket');};ws.onclose=()=>{setConnected(false);if(active)timer=setTimeout(connect,1500);};};connect();return()=>{active=false;clearTimeout(timer);ws?.close();};
  },[]);
+ useEffect(()=>{
+  if(!state)return;
+  const events=state.events||[];
+  if(!alertsReady.current||state.run_id!==alertsRun.current){seenEvents.current=new Set(events.map(eventKey));alertsRun.current=state.run_id;alertsReady.current=true;return;}
+  const fresh=unseenEvents(seenEvents.current,events);
+  events.forEach(event=>seenEvents.current.add(eventKey(event)));
+  if(fresh.length){setAlerts(current=>[...fresh,...current].slice(0,3));if(soundRef.current)playAlertTone();}
+ },[state?.run_id,state?.events]);
+ useEffect(()=>{const prime=()=>primeAlertAudio();document.addEventListener('pointerdown',prime,{once:true});return()=>document.removeEventListener('pointerdown',prime);},[]);
+ const dismissAlert=(key:string)=>setAlerts(items=>items.filter(item=>eventKey(item)!==key));
+ const toggleSound=()=>{const next=!soundOn;setSoundOn(next);writeSoundPreference(next);if(next)primeAlertAudio();};
  const perform=async(fn:()=>Promise<Snapshot>)=>{setBusy(true);setError('');try{const s=await fn();const next=accept(s);if(next&&next.session_id!==s.session_id)throw new Error('服务已重启，请重新操作');return next||s;}catch(e){setError((e as Error).message);}finally{setBusy(false);}};
  const control=(action:string,extra={})=>perform(()=>api('/control',{action,...extra}));
  const openEdit=async(section:'road'|'settings'='road')=>{if(!state?.video)return;if(!editing){const paused=await control('pause');if(!paused)return;setScene(paused.scene);setCalibration(paused.calibration);draftToken.current=paused.video_token;draftRevision.current=paused.scene_revision;editingRef.current=true;setEditing(true);setMode(null);setPending([]);}setEditorFocus(f=>({section,request:f.request+1}));navigate('perception');};
@@ -69,7 +84,7 @@ export default function App(){
    <div className="telemetry"><span><Activity size={12}/>处理 {state.processing_fps?.toFixed(1)||'—'} FPS</span><span>FRAME <b>{visual.frame??0}</b> / {state.video?.frames||0}</span><span>检测 <b>{state.detection_ms?.toFixed(0)||'0'}</b> ms</span><span>跟踪 <b>{state.tracking_ms?.toFixed(1)||'0'}</b> ms</span><span className="device-label">{state.device?.toUpperCase()||'CPU READY'}</span></div>
   </div>{editing&&<CalibrationPanel scene={scene} setScene={setScene} calibration={calibration} setCalibration={setCalibration} mode={mode} setMode={setMode} pending={pending} setPending={setPending} finish={finish} onSave={save} onClose={()=>{setEditing(false);setMode(null);setPending([]);}} focusTarget={editorFocus} suggestedCountingLine={state.counting_line_suggestion||null} settings={state.settings} roadDirty={JSON.stringify({scene,calibration})!==JSON.stringify({scene:state.scene,calibration:state.calibration})||pending.length>0} onSettings={applySettings} busy={busy}/>}</div>
   </section><section id="analysis" className="workspace-section" tabIndex={-1} aria-labelledby="analysis-title"><div className="section-heading"><div><span className="section-index">02</span><h2 id="analysis-title">交通分析</h2></div><p>基于当前统计段</p></div>
-  <div className="insights-grid"><Charts history={state.history||[]} types={m?.vehicle_types||{}}/><EventPanel events={state.events||[]} calibrated={calibrated}/></div>
+  <div className="insights-grid"><Charts history={state.history||[]} types={m?.vehicle_types||{}}/><EventPanel events={state.events||[]} calibrated={calibrated} soundOn={soundOn} onToggleSound={toggleSound}/></div>
   </section><section id="details" className="workspace-section" tabIndex={-1} aria-labelledby="details-title"><div className="section-heading"><div><span className="section-index">03</span><h2 id="details-title">运行明细</h2></div><p>车辆状态与分车道统计</p></div>
   <div className="details-grid"><section className="panel"><div className="panel-title"><span>车辆运行状态</span><small>{state.vehicles?.length||0} 辆在场</small></div><div className="table-scroll"><table><thead><tr><th scope="col">车辆 ID</th><th scope="col">类型</th><th scope="col">置信度</th><th scope="col">车道</th><th scope="col">速度 / km/h</th><th scope="col">状态</th></tr></thead><tbody>{(state.vehicles||[]).slice(0,30).map(v=><tr key={v.id}><td className="mint">#{v.id}</td><td>{typeNames[v.type]||v.type}</td><td>{(v.confidence*100).toFixed(0)}%</td><td>{v.lane||'—'}</td><td>{v.speed==null?'未标定 / 待估计':formatSpeed(v.speed)}</td><td><span className={v.status==='NORMAL'?'vehicle-status normal':'vehicle-status warning'}>{v.status==='NORMAL'?(v.observed?'正常':'预测位置'):v.status}</span></td></tr>)}{!state.vehicles?.length&&<tr><td colSpan={6} className="empty-table"><strong>{playing?'当前画面暂无已确认车辆':'等待车辆分析'}</strong><span>{playing?'车辆出现并完成轨迹确认后，会在此显示运行状态。':'点击“开始分析”，在此查看车辆类型、车道与运行状态。'}</span></td></tr>}</tbody></table></div></section><section className="panel lane-panel"><div className="panel-title"><span>车道交通指标</span><small>分车道统计</small></div><div className="lane-metrics">{m?.lanes.length?m.lanes.map(l=><div key={l.name}><strong>{l.name}</strong><span>{l.count} 辆</span><span>流量 {l.flow}</span><span>{formatSpeed(l.average_speed)} km/h</span><span>排队 {l.queue_vehicles==null?'未标定':l.queue_vehicles+' 辆'}</span><span>拥堵 {l.congestion_label||'—'}</span></div>):<p className="hint">在“道路标定”中绘制车道，启用分车道统计。</p>}<div className="secondary-metrics"><span>区域密度估计 <b>{m?.density==null?'—':m.density.toFixed(1)+' 辆/km'}</b></span><span>平均过线间隔估计 <b>{m?.average_headway==null?'—':m.average_headway.toFixed(2)+' s'}</b></span><span>排队车辆 <b>{m?.queue_vehicles==null?'未标定':m.queue_vehicles+' 辆'}</b></span><span>排队长度 <b>{m?.queue_length_m==null?'—':m.queue_length_m.toFixed(1)+' m'}</b></span><span>拥堵等级 <b>{m?.congestion_label||'—'}</b></span><span>时间占有率 <b>未启用</b></span></div></div></section></div>
   <LaneTrends rows={(state.lane_history||[]).flatMap(point=>point.lanes)} configured={state.scene.lanes.length>0}/>
@@ -77,6 +92,7 @@ export default function App(){
   <footer><span><span className="footer-brand"><BrandMark/></span>TUNNEL TWIN <span className="footer-muted">/ 预训练检测 · 轨迹跟踪 · 规则报警</span></span><div><span>统计段从 {formatTime(state.segment_start||0)} 开始</span><a href="#exports"><Download size={12}/>数据导出</a></div></footer>
   </main></div>
   {templatesOpen&&<CameraTemplatesDialog returnFocus={modalReturnFocus.current} state={state} editing={editing} roadDirty={editing&&(JSON.stringify({scene,calibration})!==JSON.stringify({scene:state.scene,calibration:state.calibration})||pending.length>0)} onApplied={incoming=>accept(incoming)} onClose={()=>setTemplatesOpen(false)}/>}
+  {alerts.length>0&&<AlertToasts alerts={alerts} onDismiss={dismissAlert}/>}
   {importing&&<ImportDialog returnFocus={modalReturnFocus.current} busy={busy} onClose={()=>setImporting(false)}><div className="panel-title"><h2 id="import-title">导入交通视频</h2><button className="icon-button" title="关闭导入" disabled={busy} onClick={()=>setImporting(false)}><X size={17}/></button></div><div className="modal-body">{error&&<div className="error-banner" role="alert">{error}</div>}<p className="hint">MP4 / MOV / AVI / MKV / WebM，最大 2 GB。导入后自动读取同一视频的标定配置。</p><button className="upload-zone" disabled={busy} onClick={()=>upload.current?.click()}><Upload size={27}/><strong>{busy?'正在导入视频…':'选择本地视频文件'}</strong><span>选择文件后即可开始分析</span></button><input ref={upload} type="file" accept="video/*,.mkv" hidden onChange={e=>{const f=e.target.files?.[0];if(f)uploadFile(f);e.target.value='';}}/><label className="field">或输入此电脑上的视频绝对路径<input disabled={busy} value={path} onChange={e=>setPath(e.target.value)} placeholder="/Users/…/video.mp4"/></label><button className="button full" disabled={busy||!path.trim()} onClick={importPath}>导入路径<ArrowUpRight size={14}/></button><h4>已导入视频</h4>{!videos.length&&<p className="hint">还没有导入的视频。选择文件或输入路径以开始。</p>}{videos.map(v=><button className="video-choice" key={v.id} disabled={busy} onClick={async()=>{const selected=await selectVideo(v.id);if(selected)setImporting(false);}}><FileVideo size={16}/><span>{v.name==='demo.mp4'?'桥梁俯拍车流 · 内置演示':v.name}</span>{v.id===state.video_id?<CheckCircle2 size={16}/>:<ArrowUpRight size={15}/>}</button>)}</div></ImportDialog>}
  </div>
 }

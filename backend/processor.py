@@ -5,6 +5,7 @@ import time
 from collections import deque
 import cv2
 from backend.calibration.homography import RoadCalibration
+from backend.alerts import WebhookNotifier
 from backend.events.rules import EventDetector
 from backend.exporter import CSVExporter
 from backend.evidence import capture_event
@@ -33,6 +34,7 @@ class TrafficProcessor:
         self.flow = FlowCounter(scene.get('counting_line'))
         self.lanes = LaneDetector(scene.get('lanes'))
         self.events = EventDetector(config['events'])
+        self.notifier = WebhookNotifier(config.get('alerts'))
         self.states, self.seen = {}, set()
         self.event_log = deque(maxlen=500)
         self.total_events = 0
@@ -118,6 +120,7 @@ class TrafficProcessor:
                 new_events = self.events.update(vehicle, vehicle['lane_direction'], vehicles)
                 for event in new_events:
                     capture_event(self.exporter, event, vehicle, frame, index, self.reader, self.config, self.scene, self.calibration)
+                    self.notifier.notify(event, self.exporter.run_id, self.exporter.metadata.get('video_id'))
                     state.warning, state.warning_until = event['event'], timestamp+2
                     self.event_log.appendleft(event)
                     self.total_events += 1

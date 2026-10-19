@@ -510,3 +510,12 @@ textarea:focus-visible, summary:focus-visible { outline: 2px solid var(--accent)
   .source-strip > div:first-child { flex: initial; width: 100%; }
   .dashboard { margin-bottom: 8px; }
 }
+.panel-actions { display: flex; align-items: center; gap: 10px; }
+.panel-actions .text-button { display: inline-flex; align-items: center; gap: 5px; }
+.alert-toasts { position: fixed; right: 20px; bottom: 20px; z-index: calc(var(--z-dialog) + 2); display: flex; flex-direction: column; gap: 10px; width: min(360px, calc(100vw - 32px)); pointer-events: none; }
+.alert-toast { display: flex; align-items: flex-start; gap: 10px; padding: 13px 14px; border: 1px solid var(--danger-border); border-left: 4px solid var(--danger); border-radius: 10px; background: var(--surface); box-shadow: 0 12px 32px var(--dialog-shadow); pointer-events: auto; }
+.alert-toast > svg { color: var(--danger); flex: 0 0 auto; margin-top: 2px; }
+.alert-toast > div { flex: 1; min-width: 0; }
+.alert-toast strong { font-size: 14px; }
+.alert-toast p { margin: 4px 0 0; color: var(--muted); font-size: 12px; }
+@media (max-width: 600px) { .alert-toasts { right: 12px; bottom: 12px; left: 12px; width: auto; } .panel-actions small { display: none; } }
