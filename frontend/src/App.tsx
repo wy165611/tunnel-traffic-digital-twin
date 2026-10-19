@@ -19,13 +19,13 @@ import {useSectionNavigation} from './hooks/useSectionNavigation';
 import {useDecodedSnapshot} from './hooks/useDecodedSnapshot';
 import {SnapshotGate,appendDrawPoint,type SnapshotSource} from './utils/snapshotState';
 import {calibrationEdgeLengths} from './utils/calibrationGeometry';
-import {eventKey,playAlertTone,primeAlertAudio,readSoundPreference,unseenEvents,writeSoundPreference} from './utils/eventAlerts';
+import {cooldownEvents,eventKey,playAlertTone,primeAlertAudio,readSoundPreference,unseenEvents,writeSoundPreference} from './utils/eventAlerts';
 
 export default function App(){
  const [state,setState]=useState<Snapshot|null>(null),[connected,setConnected]=useState(false),[busy,setBusy]=useState(false),[error,setError]=useState(''),[editing,setEditing]=useState(false),[mode,setMode]=useState<DrawMode>(null),[pending,setPending]=useState<Point[]>([]),[scene,setScene]=useState<Scene>({counting_line:null,lanes:[]}),[calibration,setCalibration]=useState<Calibration|null>(null),[videos,setVideos]=useState<{id:string;name:string}[]>([]),[importing,setImporting]=useState(false),[path,setPath]=useState(''),[seek,setSeek]=useState<number|null>(null);
  const [templatesOpen,setTemplatesOpen]=useState(false);
  const [alerts,setAlerts]=useState<TrafficEvent[]>([]),[soundOn,setSoundOn]=useState(()=>readSoundPreference());
- const seenEvents=useRef<Set<string>>(new Set()),alertsRun=useRef<string|undefined>(undefined),alertsReady=useRef(false),soundRef=useRef(soundOn);soundRef.current=soundOn;
+ const seenEvents=useRef<Set<string>>(new Set()),alertsRun=useRef<string|undefined>(undefined),alertsReady=useRef(false),alertCooldowns=useRef<Map<string,number>>(new Map()),soundRef=useRef(soundOn);soundRef.current=soundOn;
  const [editorFocus,setEditorFocus]=useState<{section:'road'|'settings';request:number}>({section:'road',request:0});
  const {active,navigate}=useSectionNavigation(!!state);
  const modalReturnFocus=useRef<HTMLElement|null>(null);
@@ -47,8 +47,8 @@ export default function App(){
  useEffect(()=>{
   if(!state)return;
   const events=state.events||[];
-  if(!alertsReady.current||state.run_id!==alertsRun.current){seenEvents.current=new Set(events.map(eventKey));alertsRun.current=state.run_id;alertsReady.current=true;return;}
-  const fresh=unseenEvents(seenEvents.current,events);
+  if(!alertsReady.current||state.run_id!==alertsRun.current){seenEvents.current=new Set(events.map(eventKey));alertCooldowns.current.clear();alertsRun.current=state.run_id;alertsReady.current=true;return;}
+  const fresh=cooldownEvents(unseenEvents(seenEvents.current,events),alertCooldowns.current,Number(state.settings?.alert_cooldown_seconds??10));
   events.forEach(event=>seenEvents.current.add(eventKey(event)));
   if(fresh.length){setAlerts(current=>[...fresh,...current].slice(0,3));if(soundRef.current)playAlertTone();}
  },[state?.run_id,state?.events]);

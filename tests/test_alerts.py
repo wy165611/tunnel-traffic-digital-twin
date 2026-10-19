@@ -40,9 +40,44 @@ def test_webhook_posts_event_json_when_enabled(monkeypatch):
 
 
 def test_webhook_failure_never_raises(monkeypatch):
-    def explode(*args, **kwargs): raise OSError('receiver down')
+    calls = []
+    def explode(*args, **kwargs):
+        calls.append(1)
+        raise OSError('receiver down')
     monkeypatch.setattr(alerts.urllib.request, 'urlopen', explode)
+    monkeypatch.setattr(alerts.time, 'sleep', lambda seconds: None)
     notifier = alerts.WebhookNotifier({'webhook_enabled': True, 'webhook_url': 'https://example.invalid/hook'})
-    thread = notifier.notify(dict(event='WRONG WAY'))
+    thread = notifier.notify(dict(event='WRONG WAY', vehicle_id=1))
     thread.join(2)
     assert not thread.is_alive()
+    assert len(calls) == 3  # one attempt plus the default two retries
+
+
+def test_webhook_retries_transient_failures_then_succeeds(monkeypatch):
+    calls = []
+    def flaky(request, timeout):
+        calls.append((request, timeout))
+        if len(calls) == 1:
+            raise TimeoutError('first attempt timed out')
+        return Response()
+    monkeypatch.setattr(alerts.urllib.request, 'urlopen', flaky)
+    monkeypatch.setattr(alerts.time, 'sleep', lambda seconds: None)
+    notifier = alerts.WebhookNotifier({'webhook_enabled': True, 'webhook_url': 'http://127.0.0.1:9999/hook',
+                                       'webhook_retries': 2, 'webhook_timeout_seconds': 3})
+    thread = notifier.notify(dict(event='SPEEDING', vehicle_id=2))
+    thread.join(2)
+    assert len(calls) == 2 and calls[0][1] == 3
+
+
+def test_webhook_notification_cooldown_deduplicates_same_vehicle_event(monkeypatch):
+    calls = []
+    monkeypatch.setattr(alerts.urllib.request, 'urlopen', lambda request, timeout: calls.append(request) or Response())
+    notifier = alerts.WebhookNotifier({'webhook_enabled': True, 'webhook_url': 'http://127.0.0.1:9999/hook',
+                                       'cooldown_seconds': 10})
+    first = notifier.notify(dict(event='SPEEDING', vehicle_id=7, event_id='a' * 32))
+    assert first is not None
+    first.join(2)
+    assert notifier.notify(dict(event='SPEEDING', vehicle_id=7, event_id='b' * 32)) is None
+    assert notifier.notify(dict(event='SPEEDING', vehicle_id=8, event_id='c' * 32)) is not None
+    assert notifier.notify(dict(event='CLOSE FOLLOWING', vehicle_id=7, event_id='d' * 32)) is not None
+    assert len(calls) == 3

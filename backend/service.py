@@ -43,6 +43,7 @@ class AnalysisService:
             settings=dict(model=self.config['detector']['model'], confidence=self.config['detector']['confidence'],
                 detection_interval=self.config['video']['detection_interval'], smoothing_frames=self.config['speed']['smoothing_frames'],
                 intrusion_supported=model_supports_intrusion(self.config['detector']['model']),
+                alert_cooldown_seconds=float(self.config.get('alerts', {}).get('cooldown_seconds', 10)),
                 **self.config['events'], legal_direction=list(self.config['traffic']['legal_direction'])))
 
     def state(self):

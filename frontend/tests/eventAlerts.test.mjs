@@ -10,7 +10,7 @@ const bundle = await build({
   format: 'esm',
   platform: 'node',
 });
-const {eventKey, unseenEvents, readSoundPreference, writeSoundPreference} = await import(
+const {eventKey, unseenEvents, readSoundPreference, writeSoundPreference, cooldownEvents, cooldownKey} = await import(
   `data:text/javascript,${encodeURIComponent(bundle.outputFiles[0].text)}`);
 
 const event = (patch = {}) => ({timestamp: 1, vehicle_id: 7, event: 'SPEEDING', label: '超速', lane: 'A', speed: 90, ...patch});
@@ -38,4 +38,16 @@ test('sound preference defaults on and persists both states', () => {
   const broken = {getItem: () => { throw new Error('denied'); }, setItem: () => { throw new Error('denied'); }};
   assert.equal(readSoundPreference(broken), true);
   assert.doesNotThrow(() => writeSoundPreference(false, broken));
+});
+
+test('alert cooldown suppresses the same vehicle and event within the window', () => {
+  const seen = new Map();
+  assert.equal(cooldownKey(event()), '7:SPEEDING');
+  const first = cooldownEvents([event({timestamp: 100})], seen, 10);
+  assert.equal(first.length, 1);
+  assert.equal(cooldownEvents([event({timestamp: 105})], seen, 10).length, 0);
+  assert.equal(cooldownEvents([event({timestamp: 105, vehicle_id: 8})], seen, 10).length, 1);
+  assert.equal(cooldownEvents([event({timestamp: 105, event: 'WRONG WAY'})], seen, 10).length, 1);
+  assert.equal(cooldownEvents([event({timestamp: 111})], seen, 10).length, 1);
+  assert.equal(cooldownEvents([event({timestamp: 111})], seen, 0).length, 1);
 });

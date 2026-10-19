@@ -28,6 +28,21 @@ export function unseenEvents(seen: Set<string>, events: TrafficEvent[]): Traffic
   return events.filter(event => !seen.has(eventKey(event)));
 }
 
+export function cooldownKey(event: TrafficEvent): string {
+  return `${event.vehicle_id}:${event.event}`;
+}
+
+export function cooldownEvents(events: TrafficEvent[], lastAlerts: Map<string, number>, cooldownSeconds: number): TrafficEvent[] {
+  if (cooldownSeconds <= 0) return events;
+  return events.filter(event => {
+    const key = cooldownKey(event);
+    const previous = lastAlerts.get(key);
+    if (previous !== undefined && event.timestamp-previous < cooldownSeconds) return false;
+    lastAlerts.set(key, event.timestamp);
+    return true;
+  });
+}
+
 let audio: AudioContext | null = null;
 
 export function primeAlertAudio(): void {
