@@ -82,12 +82,24 @@ class RuntimeSettings(BaseModel):
     stop_seconds: float = Field(default=3, ge=.5, le=60)
     hard_braking_acceleration: float = Field(default=-4, ge=-20, le=-.5)
     wrong_way_seconds: float = Field(default=1, ge=.5, le=30)
+    speeding_enabled: bool = True
+    speeding_kmh: float = Field(default=80, ge=1, le=300)
+    slow_speed_enabled: bool = True
+    slow_speed_kmh: float = Field(default=20, ge=1, le=200)
+    lane_change_enabled: bool = True
+    lane_change_seconds: float = Field(default=1, ge=.5, le=30)
+    tailgating_enabled: bool = True
+    tailgating_headway_seconds: float = Field(default=2, ge=.2, le=10)
+    intrusion_enabled: bool = True
+    queue_speed_kmh: float = Field(default=10, ge=0, le=50)
     legal_direction: Point = (0, 1)
 
     @model_validator(mode='after')
     def valid_direction(self):
         if not all(math.isfinite(x) for x in self.legal_direction) or math.hypot(*self.legal_direction) < .001:
             raise ValueError('道路正常行驶方向不能为零')
+        if self.speeding_kmh <= self.slow_speed_kmh:
+            raise ValueError('超速阈值必须大于低速阈值')
         return self
 
 

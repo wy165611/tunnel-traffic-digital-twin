@@ -10,7 +10,13 @@ const bundle = await build({
   format: 'esm',
   platform: 'node',
 });
-const {formatTime, parseApiResponse} = await import(`data:text/javascript,${encodeURIComponent(bundle.outputFiles[0].text)}`);
+const {formatTime, parseApiResponse, eventNames} = await import(`data:text/javascript,${encodeURIComponent(bundle.outputFiles[0].text)}`);
+
+test('all tunnel event codes have Chinese labels', () => {
+  const codes = ['ABNORMAL STOP', 'HARD BRAKING', 'WRONG WAY', 'SPEEDING', 'SLOW SPEED',
+    'ILLEGAL LANE CHANGE', 'CLOSE FOLLOWING', 'PEDESTRIAN INTRUSION', 'NON MOTOR INTRUSION'];
+  for (const code of codes) assert.match(eventNames[code], /[\u4e00-\u9fa5]/);
+});
 
 test('formatTime keeps minutes under an hour and adds hours for long recordings', () => {
   assert.equal(formatTime(90), '01:30.0');

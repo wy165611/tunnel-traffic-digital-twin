@@ -7,7 +7,7 @@ from backend.settings import DATA, ROOT, load_config
 from backend.calibration.homography import RoadCalibration, normalised_direction
 from backend.exporter import atomic_json
 from backend.processor import TrafficProcessor, encode_frame
-from backend.vision.detector import VehicleDetector
+from backend.vision.detector import VehicleDetector, model_supports_intrusion
 from backend.vision.video_reader import VideoReader, video_identity
 from backend.traffic.counting_line import automatic_counting_line, resolve_counting_line
 
@@ -42,6 +42,7 @@ class AnalysisService:
             counting_line_suggestion=automatic_counting_line(self.reader.width, self.reader.height, self.scene.get('lanes')) if self.reader else None,
             settings=dict(model=self.config['detector']['model'], confidence=self.config['detector']['confidence'],
                 detection_interval=self.config['video']['detection_interval'], smoothing_frames=self.config['speed']['smoothing_frames'],
+                intrusion_supported=model_supports_intrusion(self.config['detector']['model']),
                 **self.config['events'], legal_direction=list(self.config['traffic']['legal_direction'])))
 
     def state(self):
@@ -233,7 +234,10 @@ class AnalysisService:
             self.config['detector'].update(model=settings.model, confidence=settings.confidence)
             self.config['video']['detection_interval'] = settings.detection_interval
             self.config['speed']['smoothing_frames'] = settings.smoothing_frames
-            for name in ('stop_speed', 'stop_seconds', 'hard_braking_acceleration', 'wrong_way_seconds'):
+            for name in ('stop_speed', 'stop_seconds', 'hard_braking_acceleration', 'wrong_way_seconds',
+                         'speeding_enabled', 'speeding_kmh', 'slow_speed_enabled', 'slow_speed_kmh',
+                         'lane_change_enabled', 'lane_change_seconds', 'tailgating_enabled',
+                         'tailgating_headway_seconds', 'intrusion_enabled', 'queue_speed_kmh'):
                 self.config['events'][name] = getattr(settings, name)
             self.config['traffic']['legal_direction'] = normalised_direction(settings.legal_direction)
             if self.detector:
