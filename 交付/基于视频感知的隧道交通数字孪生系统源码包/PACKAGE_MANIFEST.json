@@ -1,9 +1,11 @@
 {
   "package": "基于视频感知的隧道交通数字孪生系统源码包",
-  "created_date": "2026-10-18",
-  "source_commit": "4d6a2f1a4cdb313f1b48ebf98eaa41c003866661",
+  "version": "tunnel-features-v1",
+  "package_revision": "v2",
+  "created_date": "2026-10-20",
+  "source_commit": "52cf66a7a8c74a72fc02c0037b7c4f7fa0653d94",
   "source_branch": "main",
-  "file_count_excluding_manifest": 150,
+  "file_count_excluding_manifest": 164,
   "files": [
     {
       "path": ".gitignore",
@@ -17,8 +19,8 @@
     },
     {
       "path": "CHANGELOG.md",
-      "size_bytes": 10069,
-      "sha256": "64b7129e2ec97087e0b66773ebfacb39ec8a6c94430f272b33162c24c51b635c"
+      "size_bytes": 11515,
+      "sha256": "2726da4991dd0b8eb75a75ffdafac7f8cd1fe821be21f83837e58214792858a6"
     },
     {
       "path": "DESIGN.md",
@@ -27,8 +29,8 @@
     },
     {
       "path": "README.md",
-      "size_bytes": 30449,
-      "sha256": "9e97d7fa55d7df59aaaae26bd6bf51e46c815d109c883966b2c7b61e1cc834d4"
+      "size_bytes": 35617,
+      "sha256": "53f633710e30f425e9492fee35e672913228555ff1110f0e17eb488b03ede642"
     },
     {
       "path": "TEST_REPORT.json",
@@ -41,9 +43,14 @@
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     {
+      "path": "backend/alerts.py",
+      "size_bytes": 2576,
+      "sha256": "6abbf6c8200f377a899fa7f86ab15faa3c69592098f848963374d817a7f71c8b"
+    },
+    {
       "path": "backend/annotations.py",
-      "size_bytes": 16913,
-      "sha256": "44cc84b5e44a6618b06075906f688d759fcd50a3c611f0f6ab26c4c410102250"
+      "size_bytes": 17099,
+      "sha256": "08cdd8725b78ee7bec2fae9463c3b6756caa696e9d973f1b3ab69ccd5efcaae7"
     },
     {
       "path": "backend/api/__init__.py",
@@ -52,8 +59,8 @@
     },
     {
       "path": "backend/api/schemas.py",
-      "size_bytes": 5035,
-      "sha256": "77845bb59c59122eaab3998b7749714c802eb505a2dcd2ff10ac6f3447993df4"
+      "size_bytes": 6428,
+      "sha256": "dbc404684f7bcd3a8065596d291d7f25a3ae2202eaf04137609ebbccb0e39bb2"
     },
     {
       "path": "backend/calibration/__init__.py",
@@ -67,8 +74,8 @@
     },
     {
       "path": "backend/camera_templates.py",
-      "size_bytes": 8324,
-      "sha256": "84ec0c773a154c6f5e0790fd5b564a7a5283e8ce26294b0ada717cc31a6ce957"
+      "size_bytes": 8362,
+      "sha256": "acedccac5cc38bed141b8d74021dfffa33ae11b130328368cb75df2e400b4816"
     },
     {
       "path": "backend/data/calibrations/3a247cda14c4bfd01d7d6a3a-scene.json",
@@ -92,8 +99,8 @@
     },
     {
       "path": "backend/events/rules.py",
-      "size_bytes": 2722,
-      "sha256": "7a374ec3e1199f173e4cebbfe0da86a9f67c8c3e706ce024b87df09277e4ca06"
+      "size_bytes": 6335,
+      "sha256": "353d07de2fa1b230c35653c9adf2884462318c770baaaf5799798295e544f546"
     },
     {
       "path": "backend/evidence.py",
@@ -102,23 +109,23 @@
     },
     {
       "path": "backend/exporter.py",
-      "size_bytes": 4183,
-      "sha256": "65cd162acc2e44940e85da1aa8ffdbb9e8dda57849d655f95579eae5540115b1"
+      "size_bytes": 4533,
+      "sha256": "c12c22594000e65b5fe88755f0a8e4e4aea04d04cd727b50fd27cba8257c55a8"
     },
     {
       "path": "backend/main.py",
-      "size_bytes": 21819,
-      "sha256": "1653b8605c41f7062fdbbbdec82ed424ad4bf5139281efa08ff607c13809c9ed"
+      "size_bytes": 22094,
+      "sha256": "bf64c83011ff898da308bac822bbced260eb4c06a81ad0946521ed409026c6e6"
     },
     {
       "path": "backend/processor.py",
-      "size_bytes": 10053,
-      "sha256": "46e6195eb8c4c920d7bc62fa2561f7e2170379a7cbf6a6f9f54d8a8fa3a03934"
+      "size_bytes": 12071,
+      "sha256": "78a5ecc977f63de79545ab2c929f1410f393c0aa6073c96cbfed8f3653232c0f"
     },
     {
       "path": "backend/reports.py",
-      "size_bytes": 14190,
-      "sha256": "62152ce958967606cc7d78dfe298388227917239c1944996bf345d319857c7f5"
+      "size_bytes": 15124,
+      "sha256": "217c3a24d936030821147e12fbbb20885708d5467325ab42d7d1924aea485c56"
     },
     {
       "path": "backend/security.py",
@@ -127,8 +134,8 @@
     },
     {
       "path": "backend/service.py",
-      "size_bytes": 14023,
-      "sha256": "e865a2685db5ac01b9686151751d4b4d524bf365a4f5dad1ff8f612ede125e19"
+      "size_bytes": 17983,
+      "sha256": "e6d2db400f67182787f1f199243031a94785391a5359074898c2c39dbc91e033"
     },
     {
       "path": "backend/settings.py",
@@ -139,6 +146,11 @@
       "path": "backend/traffic/__init__.py",
       "size_bytes": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend/traffic/congestion.py",
+      "size_bytes": 2506,
+      "sha256": "dc0cd4b49c08ada8b8769f4bd6ca539dafc5ce9661cfb0923a58deb50ba4c4ea"
     },
     {
       "path": "backend/traffic/counting_line.py",
@@ -156,14 +168,19 @@
       "sha256": "64ca602c68777672a5cced470ccd9d81730411346ccdd8d4bf8cb0211645b4eb"
     },
     {
+      "path": "backend/traffic/service_level.py",
+      "size_bytes": 4911,
+      "sha256": "29f1f0d02e7666fd61efa26fd59bbcc4d0ef07939bb5249dbd8d3a04a5029734"
+    },
+    {
       "path": "backend/traffic/speed_estimator.py",
       "size_bytes": 1171,
       "sha256": "2b2aff6d84e91c49be3b01e2d5b76691e8209dea3ab8be6479ef95b1bfd1ecd1"
     },
     {
       "path": "backend/traffic/traffic_metrics.py",
-      "size_bytes": 1244,
-      "sha256": "c1c922d710768b4f45b9c79a3e4884d175a6c299e551d82d33478ab7a3809ac2"
+      "size_bytes": 3370,
+      "sha256": "4aa8fe2b245cd34ce61d7d82b21fa618c9532f930982737ae6bca74e7f65658f"
     },
     {
       "path": "backend/traffic/vehicle_state.py",
@@ -177,8 +194,13 @@
     },
     {
       "path": "backend/vision/detector.py",
-      "size_bytes": 4780,
-      "sha256": "d2d49c12ed835c6d2eda6e919b0c2fa278c582dfebe0c4d7cdeadc0135091f3a"
+      "size_bytes": 5027,
+      "sha256": "49581233c3a6230f71da2a421dc09b63a78acddd7c360323c6400123034d53c8"
+    },
+    {
+      "path": "backend/vision/enhance.py",
+      "size_bytes": 1390,
+      "sha256": "089e2b68b9ac8f1ecad838b88acebe3f35ea455bdd46c9acf4f05233189ace95"
     },
     {
       "path": "backend/vision/tracker.py",
@@ -187,8 +209,8 @@
     },
     {
       "path": "backend/vision/video_reader.py",
-      "size_bytes": 7029,
-      "sha256": "e1b3e5e7e2a90e47116820ac172e9a15c8b4a49d5a05400f2274dd7271dc49bc"
+      "size_bytes": 9502,
+      "sha256": "d6f62f8ad97b0d7fcf4757a04827ed4579c4726a02c35cedb381189a005ac358"
     },
     {
       "path": "backend/vision/weights.py",
@@ -197,8 +219,8 @@
     },
     {
       "path": "config.yaml",
-      "size_bytes": 611,
-      "sha256": "01e831d4b971e1fcd710791f76c44540415acf083a3c94eb03cb4b17b4a90a98"
+      "size_bytes": 1136,
+      "sha256": "af79dbd2e8f111437740c28a0afe99ee4a9908c9821ed237f81a4e5a84098efe"
     },
     {
       "path": "docs/Windows启动说明.md",
@@ -341,6 +363,11 @@
       "sha256": "05a8e5a90944bbe6e7ad4b7256e6e0788b75c3c3f5d166fcefd780e1c3dac351"
     },
     {
+      "path": "docs/new-features-v1.md",
+      "size_bytes": 13562,
+      "sha256": "fbd030fc81ba72918202ee937e455aa13f1dca04a6e809012c33da963000b6c8"
+    },
+    {
       "path": "docs/review-smoke-2026-10-02.json",
       "size_bytes": 868,
       "sha256": "a1ab7c9f891884c5f8192eec050e4edb4be5922b001a17efdc200a297409b51d"
@@ -397,13 +424,18 @@
     },
     {
       "path": "frontend/src/App.tsx",
-      "size_bytes": 19986,
-      "sha256": "219ca35030a2bca91d178fd58950b5fade06fc1a3c742aa6fe9f6d6d6b57f10f"
+      "size_bytes": 23622,
+      "sha256": "cb104d5de40114d0f7a9d59a8a4dd3a7fd39134fdd0266d42cb390593c7742a9"
     },
     {
       "path": "frontend/src/api.ts",
-      "size_bytes": 2261,
-      "sha256": "4bfea99f1317752261682e8f9e0a2d21eaa10eea62642bc8c01f79b146a796d6"
+      "size_bytes": 2641,
+      "sha256": "7def25531032e0c2ec6f1ccf11038071f95ab7d5fc5210c0c5f8375af166f2c7"
+    },
+    {
+      "path": "frontend/src/components/AlertToasts.tsx",
+      "size_bytes": 1027,
+      "sha256": "511239574e3be6aacdf283ea89700b53ac6f904c0452ba4ae118bbc1de69af25"
     },
     {
       "path": "frontend/src/components/AnalysisChart.tsx",
@@ -422,8 +454,8 @@
     },
     {
       "path": "frontend/src/components/CalibrationPanel.tsx",
-      "size_bytes": 10131,
-      "sha256": "257108dbe7944377d73fb7229de079dc2d2589e9bb2a15d782dee18242421c32"
+      "size_bytes": 12417,
+      "sha256": "a9507ab2b1ff3c2572feb70cb0cf8d2b7039cc953bad7ae608cd5eabdd90a16f"
     },
     {
       "path": "frontend/src/components/CameraTemplatesDialog.tsx",
@@ -437,8 +469,8 @@
     },
     {
       "path": "frontend/src/components/Dashboard.tsx",
-      "size_bytes": 1498,
-      "sha256": "b9058b9ec431eb3accf4233dd6c7bf0f56802e34c1f450af1b0d64258bd23e98"
+      "size_bytes": 1564,
+      "sha256": "fe252d8a932e72dee71582e043ccc667d967ddab52625ff9543e7bd404e2842b"
     },
     {
       "path": "frontend/src/components/DataExportPanel.tsx",
@@ -452,8 +484,8 @@
     },
     {
       "path": "frontend/src/components/EventPanel.tsx",
-      "size_bytes": 1443,
-      "sha256": "36d422f9e16a724c141add59749642045e1ebff1d5aa08a198348ea70546b224"
+      "size_bytes": 1812,
+      "sha256": "f3a4868f126fd82c07ef1fce14107065898c8358f1d7b65fefe993e3e589441d"
     },
     {
       "path": "frontend/src/components/EvidenceDialog.tsx",
@@ -467,13 +499,13 @@
     },
     {
       "path": "frontend/src/components/LaneTrends.tsx",
-      "size_bytes": 2781,
-      "sha256": "f56e5128b62fb6f364e9022777eb1101e0e88a48ff88b41c4f933f3f85305acd"
+      "size_bytes": 2994,
+      "sha256": "dbdd7472178086d24f1692bf29d41d3cb4f07f111b6083e61429ff7f10b39355"
     },
     {
       "path": "frontend/src/components/ReportDialog.tsx",
-      "size_bytes": 8852,
-      "sha256": "40066cb4a5a6ad61677e5011739f5f198ae27c40405cab554c5914048f336062"
+      "size_bytes": 9227,
+      "sha256": "c19ad5050d3bd45286514b6861f65429571e55d57e5839b2c9023380987f611a"
     },
     {
       "path": "frontend/src/components/RoadOverlay.tsx",
@@ -486,14 +518,19 @@
       "sha256": "dc0013a0e353c166df9e1e659cf04093c977eeee272319e4eb4d69da846fb6ea"
     },
     {
+      "path": "frontend/src/components/ServiceLevelPanel.tsx",
+      "size_bytes": 2149,
+      "sha256": "2eb77dfb841c2821cbf07a2a4dd2e4791454d8ee5c69ae0cb32c8d1c6d858a8e"
+    },
+    {
       "path": "frontend/src/components/Sidebar.tsx",
       "size_bytes": 5469,
       "sha256": "8b2450cfdb96e5aee8da110d681e5592fb95cea125b3a640e4419459dbcdbcc0"
     },
     {
       "path": "frontend/src/components/VideoView.tsx",
-      "size_bytes": 4360,
-      "sha256": "4895c56e4490bffea863fc2ecae46da4013a36f7e6dbbdabc48a46879236c749"
+      "size_bytes": 4496,
+      "sha256": "679b03cb78669f4c0afd612510694bfd23f9201fcc8bf1dbd59bf2b1f0e6d04b"
     },
     {
       "path": "frontend/src/hooks/useDecodedSnapshot.ts",
@@ -512,8 +549,8 @@
     },
     {
       "path": "frontend/src/styles.css",
-      "size_bytes": 39221,
-      "sha256": "8ce3800eb532ce4531121ae86ca4bbaf267fdb8d9a247d8f14c27cb3ef5dc7b1"
+      "size_bytes": 40630,
+      "sha256": "2223ce6ecff855bcd7e211613283ef7e258bc451b4a86e3f19c481a20d538c55"
     },
     {
       "path": "frontend/src/theme.ts",
@@ -522,8 +559,8 @@
     },
     {
       "path": "frontend/src/types/index.ts",
-      "size_bytes": 7185,
-      "sha256": "de6327bb371df3a13170b23d24f21b829f9e10c25e16ba2a05e6ff8f4eb139cd"
+      "size_bytes": 8754,
+      "sha256": "a6b48763c3eccc983cff8c5a8f58ca9e69e0247af4edfd71c3af830774ae7255"
     },
     {
       "path": "frontend/src/utils/analysisData.ts",
@@ -544,6 +581,11 @@
       "path": "frontend/src/utils/canvasShape.ts",
       "size_bytes": 242,
       "sha256": "cc3288913a1ef88dc2b700e9c7dea84c00861e275794911a53ac9d713eb649cd"
+    },
+    {
+      "path": "frontend/src/utils/eventAlerts.ts",
+      "size_bytes": 2774,
+      "sha256": "adce0b515330587d60ef72ab387a312ef2d56d320fa656313e04b4c1b8d50cfc"
     },
     {
       "path": "frontend/src/utils/manualAnalysis.ts",
@@ -567,8 +609,8 @@
     },
     {
       "path": "frontend/tests/api.test.mjs",
-      "size_bytes": 1992,
-      "sha256": "5ca6059cfd0c3b525b50c2d0951c3f4bebb3cd3e59594adb171cc5c0efc28c25"
+      "size_bytes": 2330,
+      "sha256": "90b18cea621b6e5b0346fafaf04cef0830f5016999d0fbeb7a69cfc0d343ce5e"
     },
     {
       "path": "frontend/tests/calibrationGeometry.test.mjs",
@@ -584,6 +626,11 @@
       "path": "frontend/tests/canvasShape.test.mjs",
       "size_bytes": 1031,
       "sha256": "6768476d143854b01a7ca9c9c99f0c3e2dc91a17348b6aeb43e4734aac566980"
+    },
+    {
+      "path": "frontend/tests/eventAlerts.test.mjs",
+      "size_bytes": 2632,
+      "sha256": "bb16bcd8f45365fd1aa95ed245929999e50463361a7dcaa563ba0d3406d68b07"
     },
     {
       "path": "frontend/tests/manualAnalysis.test.mjs",
@@ -706,6 +753,11 @@
       "sha256": "abe76ca8cb35c4a1c2bd49a808a6aba293e7495c2925b0233d91ffbf8276ba42"
     },
     {
+      "path": "tests/test_alerts.py",
+      "size_bytes": 3982,
+      "sha256": "3eb149c78c48e8eec25623c5230bd5ad6d0ee183e8e155d635d85776a5b3563b"
+    },
+    {
       "path": "tests/test_analysis_features.py",
       "size_bytes": 14043,
       "sha256": "82cd888c8e72a103d75bd1ad7444609256069df6f43379fddeff0cb2cf9816f2"
@@ -746,9 +798,29 @@
       "sha256": "006243652ffa1a8f42bbbd5d6972c882cc97b5d94174c6979a4b8eb9a88403ba"
     },
     {
+      "path": "tests/test_preprocessing.py",
+      "size_bytes": 3066,
+      "sha256": "448e1197c27592d473033b69078a0d05b2c69c2f1e5d44327a8186c454fad9a8"
+    },
+    {
       "path": "tests/test_review_regressions.py",
       "size_bytes": 6088,
       "sha256": "e03ffbd0e7e8e5ca42542093edc6145eeeacf4675688698861e1b94b0be96a6e"
+    },
+    {
+      "path": "tests/test_service_level.py",
+      "size_bytes": 6578,
+      "sha256": "5ce763a37ecbcc30fc91ffbdc7067583abae3fd56e8bbb600af1d3690a75005f"
+    },
+    {
+      "path": "tests/test_stream.py",
+      "size_bytes": 4957,
+      "sha256": "104e432ec0ea475627130bad311fea0efa6a3c3775153d8d632817586d6f066b"
+    },
+    {
+      "path": "tests/test_tunnel_events.py",
+      "size_bytes": 8797,
+      "sha256": "be35dc0c93abf1e7baeee33e4b889c95e8bceb245ce729aac41de66aa7eeedd5"
     },
     {
       "path": "tests/test_video_timing.py",

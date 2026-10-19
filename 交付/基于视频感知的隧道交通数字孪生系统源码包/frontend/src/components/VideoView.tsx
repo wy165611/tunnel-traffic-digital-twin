@@ -24,6 +24,7 @@ export default function VideoView({state,image,editing,scene,calibration,pending
    if(close)ctx.closePath();ctx.strokeStyle=color;ctx.lineWidth=2;ctx.stroke();if(fill){ctx.fillStyle=color+'20';ctx.fill();}
   };
   s.scene.lanes.forEach((l,i)=>{path(l.points,theme.series[i%4],true,true);if(l.points.length){ctx.fillStyle=theme.text;ctx.font='12px sans-serif';ctx.fillText(l.name,l.points[0][0]*sx+5,l.points[0][1]*sy+18);}});
+  (s.scene.virtual_loops||[]).forEach((loop,i)=>{ctx.setLineDash([5,4]);path(loop.points,theme.series[(i+1)%4]);ctx.setLineDash([]);});
   if(s.calibration){path(s.calibration.points,theme.warning,true,true);s.calibration.points.forEach((p,i)=>{ctx.fillStyle=theme.warning;ctx.beginPath();ctx.arc(p[0]*sx,p[1]*sy,5,0,Math.PI*2);ctx.fill();ctx.fillText('P'+(i+1),p[0]*sx+7,p[1]*sy-7);});}
   if(s.scene.counting_line){ctx.setLineDash([8,5]);path(s.scene.counting_line,theme.warning);ctx.setLineDash([]);}
   const labels:LabelRect[]=[];

@@ -22,6 +22,17 @@ events:
   wrong_way_seconds: 1.0
   wrong_way_cosine: -0.6
   cooldown_seconds: 5.0
+  speeding_enabled: true
+  speeding_kmh: 80.0
+  slow_speed_enabled: true
+  slow_speed_kmh: 20.0
+  lane_change_enabled: true
+  lane_change_seconds: 1.0
+  tailgating_enabled: true
+  tailgating_headway_seconds: 2.0
+  intrusion_enabled: true
+  queue_speed_kmh: 10.0
+  queue_pixel_speed: 5.0
 video:
   detection_interval: 2
   display_max_side: 960
@@ -30,3 +41,14 @@ video:
 traffic:
   legal_direction: [0, 1]
   history_points: 100
+  time_occupancy_enabled: true
+preprocessing:
+  low_light_enabled: false
+  clahe_clip_limit: 2.0
+  gamma: 1.5
+alerts:
+  webhook_enabled: false
+  webhook_url: ''
+  webhook_timeout_seconds: 3.0
+  webhook_retries: 2
+  cooldown_seconds: 10.0
