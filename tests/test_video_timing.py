@@ -107,3 +107,22 @@ def test_actual_vfr_mp4_read_and_seek(tmp_path):
         assert reader.read()[:2] == (3, .84)
     finally:
         reader.close()
+
+
+def test_video_reader_opens_unicode_file_path(tmp_path):
+    source = tmp_path / 'ascii.mp4'
+    writer = cv2.VideoWriter(str(source), cv2.VideoWriter_fourcc(*'mp4v'), 10, (160, 96))
+    if not writer.isOpened():
+        pytest.skip('optional codec unavailable')
+    for i in range(3):
+        writer.write(np.full((96, 160, 3), i * 40, np.uint8))
+    writer.release()
+    folder = tmp_path / '中文目录'
+    folder.mkdir()
+    target = folder / '演示视频.mp4'
+    shutil.copy2(source, target)
+    reader = VideoReader(target)
+    try:
+        assert reader.read() is not None
+    finally:
+        reader.close()

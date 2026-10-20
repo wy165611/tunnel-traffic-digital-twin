@@ -10,15 +10,17 @@
 
 ## Windows 10 和 Windows 11 快速启动
 
-> **源码包说明：**包含应用源码、安装脚本、测试、示例配置和项目文档。不含模型权重、演示视频、历史分析结果、截图产物、虚拟环境或前端依赖目录。首次安装需要联网下载依赖和模型。
+> **Windows 免安装分发包（推荐给非开发者）：** 包内已含前端构建、示例视频和模型权重，解压后双击 `一键启动.bat` 即可，不需要 Node.js。启动脚本会自动检测 Python 3.10–3.12、创建 `.venv`、安装依赖并打开浏览器；完整说明见 [Windows 分发版启动说明](docs/Windows分发版启动说明.md)。
 
-首次安装时，在项目根目录打开 PowerShell 并运行：
+> **源码包说明：**包含应用源码、安装脚本、测试、示例配置和项目文档。不含模型权重、历史分析结果、截图产物、虚拟环境或前端依赖目录。首次安装需要联网下载依赖和模型。
+
+如果要直接运行本仓库源码（而不是使用 Windows 分发包），在项目根目录打开 PowerShell 并运行：
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\setup-windows.ps1
 ```
 
-安装完成后双击 start-windows.bat。浏览器打开 http://127.0.0.1:8000，导入自己的视频后点击“开始分析”。要停止服务，在启动窗口按 Ctrl+C。逐步说明见 [Windows 启动说明 PDF](docs/Windows启动说明.pdf) 和 [可编辑 Markdown 版](docs/Windows启动说明.md)。
+安装完成后双击 start-windows.bat。浏览器打开 http://127.0.0.1:8000，导入自己的视频后点击“开始分析”。要停止服务，在启动窗口按 Ctrl+C。逐步说明见 [Windows 分发版启动说明](docs/Windows分发版启动说明.md)。
 
 需要 Python 3.11 或更高版本（64 位）和 Node.js 20.19+ 或 22.12+。建议安装 Python 3.11/3.12 64 位与 Node.js LTS。CPU 可运行，首次安装会下载 PyTorch 等依赖，需预留数 GB 磁盘空间。系统会在本机处理视频，默认只监听 127.0.0.1。
 
