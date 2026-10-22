@@ -41,6 +41,29 @@ def test_static_foreground_on_loop_raises_road_debris_after_duration():
     assert target['box'][0] < target['box'][2] and target['box'][1] < target['box'][3]
 
 
+def test_global_brightness_jump_rebuilds_background_without_debris():
+    detector_ = detector(debris_cooldown_seconds=0.)
+    detector_.update(0., frame())
+    detector_.update(1., frame((30, 70, 30, 70)))
+    assert detector_.loops['Lane 1']['since'] == 1.
+    bright = np.full((100, 100, 3), 90, np.uint8)
+    assert detector_.update(3., bright) == []
+    assert detector_.loops['Lane 1']['since'] is None
+    assert detector_.background[0, 0] == pytest.approx(90., abs=1.)
+    assert detector_.update(4., bright) == []
+
+
+def test_foreground_learning_absorbs_a_static_object_over_time():
+    detector_ = detector()
+    detector_._foreground(frame())
+    block = frame((30, 70, 30, 70))
+    for _ in range(1500):
+        detector_._foreground(block)
+    mask = detector_._foreground(block)
+    data = detector_.loops['Lane 1']
+    assert float(np.count_nonzero(mask[data['mask']]))/data['area'] < detector_.area_ratio
+
+
 def test_observed_vehicle_inside_loop_suppresses_debris():
     detector_ = detector()
     block = (30, 70, 30, 70)

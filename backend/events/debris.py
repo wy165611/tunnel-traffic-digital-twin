@@ -12,6 +12,12 @@ from backend.traffic.service_level import scene_loops
 
 
 class DebrisDetector:
+    # Foreground learns very slowly, so a static object survives long enough to
+    # alert while gradual exposure drift is still absorbed. A jump covering most
+    # of the frame is lighting, not debris, and rebuilds the background.
+    FOREGROUND_ALPHA = .002
+    GLOBAL_CHANGE_RATIO = .6
+
     def __init__(self, scene, config, width, height, scale=1., enabled=None):
         self.config = config
         self.size = (int(width), int(height))
@@ -59,10 +65,17 @@ class DebrisDetector:
             return None
         difference = cv2.absdiff(gray, cv2.convertScaleAbs(self.background))
         mask = (difference >= self.threshold).astype(np.uint8)
-        # Freeze foreground pixels so a stationary object is never absorbed.
-        update = (mask == 0).astype(np.float32)*self.alpha
-        self.background = self.background*(1-update)+gray.astype(np.float32)*update
+        if float(np.count_nonzero(mask))/mask.size > self.GLOBAL_CHANGE_RATIO:
+            self.background = gray.astype(np.float32)
+            self._reset_state()
+            return None
+        rate = np.where(mask > 0, self.FOREGROUND_ALPHA, self.alpha).astype(np.float32)
+        self.background = self.background*(1-rate)+gray.astype(np.float32)*rate
         return mask
+
+    def _reset_state(self):
+        for data in self.loops.values():
+            data['since'] = None
 
     def _vehicle_inside(self, data, vehicles):
         center = data['points'].mean(axis=0)
