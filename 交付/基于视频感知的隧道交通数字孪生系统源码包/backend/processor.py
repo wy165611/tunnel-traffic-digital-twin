@@ -4,16 +4,21 @@ import math
 import time
 from collections import deque
 import cv2
+import numpy as np
 from backend.calibration.homography import RoadCalibration
+from backend.alerts import WebhookNotifier
 from backend.events.rules import EventDetector
+from backend.events.debris import DebrisDetector
 from backend.exporter import CSVExporter
 from backend.evidence import capture_event
 from backend.settings import DATA
 from backend.traffic.flow_counter import FlowCounter
 from backend.traffic.lane_detector import LaneDetector
 from backend.traffic.speed_estimator import SpeedEstimator
+from backend.traffic.service_level import LoopOccupancy
 from backend.traffic.traffic_metrics import traffic_metrics
 from backend.traffic.vehicle_state import VehicleState
+from backend.vision.enhance import LowLightEnhancer
 from backend.vision.tracker import SortTracker
 
 
@@ -30,9 +35,14 @@ class TrafficProcessor:
         self.scene, self.calibration = scene, calibration
         self.segment_start = segment_start
         self.tracker = SortTracker(config['tracking'])
+        self.enhancer = LowLightEnhancer(config.get('preprocessing'))
         self.flow = FlowCounter(scene.get('counting_line'))
         self.lanes = LaneDetector(scene.get('lanes'))
-        self.events = EventDetector(config['events'])
+        self.occupancy = LoopOccupancy(self.lanes.lanes, config.get('traffic', {}).get('time_occupancy_enabled', True))
+        self.events = EventDetector(config['events'], calibration is not None)
+        self.debris = DebrisDetector(scene, config['events'], reader.display_width, reader.display_height,
+                                     reader.display_width/max(1, reader.width))
+        self.notifier = WebhookNotifier(config.get('alerts'))
         self.states, self.seen = {}, set()
         self.event_log = deque(maxlen=500)
         self.total_events = 0
@@ -47,14 +57,28 @@ class TrafficProcessor:
         with self.exporter.lock:
             return self._step_locked()
 
+    def invalidate_calibration(self):
+        """Drop the metric scale after a live stream resolution change."""
+        if self.calibration is None and not self.events.calibration_available:
+            return
+        self.calibration = None
+        self.events.calibration_available = False
+        for state in self.states.values():
+            state.estimator.reset()
+            state.world_trajectory.clear()
+            state.speed = state.acceleration = None
+
     def _step_locked(self):
         started = time.perf_counter()
         item = self.reader.read()
         if item is None:
+            if getattr(self.reader, 'live', False):
+                return None
             self.exporter.flush()
             self.exporter.update_metadata(status='completed', end_timestamp=self.exporter.last_timestamp)
             return None
         index, timestamp, frame = item
+        frame = self.enhancer.apply(frame)
         interval = self.config['video']['detection_interval']
         detection_frame = (index % interval == 0 or not self.tracker.tracks)
         detections = self.detector.detect(frame) if detection_frame else None
@@ -86,9 +110,7 @@ class TrafficProcessor:
                     if state.estimator.points and timestamp-state.estimator.points[-1][0] > max(.5, 2.5*interval/getattr(self.reader, 'fps', 30)):
                         state.estimator.reset()
                         state.world_trajectory.clear()
-                        self.events.stopped.pop(track.id, None)
-                        self.events.reverse.pop(track.id, None)
-                        self.events.previous_speed.pop(track.id, None)
+                        self.events.forget(track.id)
                     state.world_trajectory.append(dict(timestamp=timestamp, point=world))
                     state.speed, state.acceleration = state.estimator.update(timestamp, world)
                 else:
@@ -109,34 +131,48 @@ class TrafficProcessor:
             vehicle = dict(id=track.id, type=track.detection['type'], confidence=track.detection['confidence'],
                            box=box, pixel=pixel, world=world, speed=speed, acceleration=acceleration,
                            lane=lane['name'] if lane else None, timestamp=timestamp,
+                           lane_direction=lane.get('direction', self.config['traffic']['legal_direction']) if lane else self.config['traffic']['legal_direction'],
+                           lane_solid=lane.get('solid_line', True) if lane else True,
+                           pixel_speed=float(np.linalg.norm(track.filter.statePost[4:6]))*getattr(self.reader, 'fps', 30),
                            heading=heading, trajectory=trajectory, world_trajectory=wt, observed=observed)
-            if observed:
+            if observed and vehicle['type'] not in ('person', 'bicycle'):
                 self.flow.update(track.id, pixel, timestamp, vehicle['type'], vehicle['lane'])
-                new_events = self.events.update(vehicle, lane.get('direction', self.config['traffic']['legal_direction']) if lane else self.config['traffic']['legal_direction'])
+            vehicles.append(vehicle)
+        for vehicle in vehicles:
+            state = self.states[vehicle['id']]
+            if vehicle['observed']:
+                new_events = self.events.update(vehicle, vehicle['lane_direction'], vehicles,
+                                                speed_limit=self.scene.get('speed_limit_kmh'))
                 for event in new_events:
                     capture_event(self.exporter, event, vehicle, frame, index, self.reader, self.config, self.scene, self.calibration)
+                    self.notifier.notify(event, self.exporter.run_id, self.exporter.metadata.get('video_id'))
                     state.warning, state.warning_until = event['event'], timestamp+2
                     self.event_log.appendleft(event)
                     self.total_events += 1
                     self.exporter.write('events', event)
             vehicle['status'] = state.warning if timestamp < state.warning_until else 'NORMAL'
-            vehicles.append(vehicle)
-            self.exporter.write('vehicles', dict(timestamp=timestamp, frame=index, vehicle_id=track.id,
+            self.exporter.write('vehicles', dict(timestamp=timestamp, frame=index, vehicle_id=vehicle['id'],
                 vehicle_type=vehicle['type'], confidence=vehicle['confidence'], lane=vehicle['lane'],
-                x_pixel=pixel[0], y_pixel=pixel[1], x=world[0] if world else None,
-                y=world[1] if world else None, speed=speed, acceleration=acceleration,
-                status=vehicle['status'], observed=observed))
+                x_pixel=vehicle['pixel'][0], y_pixel=vehicle['pixel'][1], x=vehicle['world'][0] if vehicle['world'] else None,
+                y=vehicle['world'][1] if vehicle['world'] else None, speed=vehicle['speed'], acceleration=vehicle['acceleration'],
+                status=vehicle['status'], observed=vehicle['observed']))
+        if self.debris.enabled:
+            for event, target in self.debris.update(timestamp, frame, vehicles):
+                capture_event(self.exporter, event, target, frame, index, self.reader, self.config, self.scene, self.calibration)
+                self.notifier.notify(event, self.exporter.run_id, self.exporter.metadata.get('video_id'))
+                self.event_log.appendleft(event)
+                self.total_events += 1
+                self.exporter.write('events', event)
         live_ids = {t.id for t in self.tracker.tracks}
         # Release trajectory and rule buffers when a track expires.
         for vid in set(self.states)-live_ids:
             del self.states[vid]
-            self.events.stopped.pop(vid, None)
-            self.events.reverse.pop(vid, None)
-            self.events.previous_speed.pop(vid, None)
-            for key in [key for key in self.events.last_event if key[0] == vid]:
-                self.events.last_event.pop(key, None)
+            self.events.forget(vid)
             self.flow.previous.pop(vid, None)
-        metrics = traffic_metrics(vehicles, self.seen, self.flow, timestamp, self.calibration, self.lanes.lanes, self.segment_start)
+        metrics = traffic_metrics(vehicles, self.seen, self.flow, timestamp, self.calibration, self.lanes.lanes,
+                                  self.segment_start, self.config['events'].get('queue_speed_kmh', 10.),
+                                  self.config['events'].get('queue_pixel_speed', 5.),
+                                  self.occupancy.update(timestamp, vehicles))
         metrics['event_count'] = self.total_events
         self.exporter.write('traffic_statistics', dict(timestamp=timestamp, flow=metrics['total_flow'], **metrics))
         self.exporter.flush()
@@ -152,10 +188,19 @@ class TrafficProcessor:
                 observed = [v for v in lane_vehicles if v['observed']]
                 speeds = [v['speed'] for v in observed if v['speed'] is not None]
                 for window in (10, 30, 60):
+                    lane_metric = next((item for item in metrics['lanes'] if item['name'] == lane_name), {})
                     row = dict(timestamp=timestamp, lane=lane_name, observed_count=len(observed),
                                predicted_count=len(lane_vehicles)-len(observed),
                                average_speed=sum(speeds)/len(speeds) if speeds else None,
                                cumulative_flow=self.flow.by_lane[lane_name],
+                               queue_vehicles=lane_metric.get('queue_vehicles'),
+                               queue_length_m=lane_metric.get('queue_length_m'),
+                               queue_estimated=lane_metric.get('queue_estimated'),
+                               congestion_level=lane_metric.get('congestion_level'),
+                               congestion_label=lane_metric.get('congestion_label'),
+                               density=lane_metric.get('density'), flow_per_hour=lane_metric.get('flow_per_hour'),
+                               occupancy=lane_metric.get('occupancy'), level_of_service=lane_metric.get('level_of_service'),
+                               service_level_label=lane_metric.get('service_level_label'),
                                **self.flow.lane_window(timestamp, lane_name, window, self.segment_start))
                     lane_rows.append(row)
                     self.exporter.write('lane_statistics', row)

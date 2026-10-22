@@ -8,7 +8,13 @@ from torchvision.ops import batched_nms
 from backend.settings import DATA
 from backend.vision.weights import verified_weight
 
-VEHICLE_CLASSES = {3: 'car', 4: 'motorcycle', 6: 'bus', 8: 'truck'}
+VEHICLE_CLASSES = {1: 'person', 2: 'bicycle', 3: 'car', 4: 'motorcycle', 6: 'bus', 8: 'truck'}
+INTRUSION_TYPES = {'person', 'bicycle'}
+INTRUSION_MODELS = {'coco_yolo11n', 'ssdlite320_mobilenet_v3_large'}
+
+
+def model_supports_intrusion(model_name):
+    return model_name in INTRUSION_MODELS
 
 
 class VehicleDetector:
@@ -39,7 +45,7 @@ class VehicleDetector:
                 self.class_names = {3:'car', 4:'car', 5:'truck', 8:'bus', 9:'motorcycle'}
             elif self.model_name == 'coco_yolo11n':
                 weight_file = verified_weight('yolo11n.pt')
-                self.class_names = {2:'car', 3:'motorcycle', 5:'bus', 7:'truck'}
+                self.class_names = {0:'person', 1:'bicycle', 2:'car', 3:'motorcycle', 5:'bus', 7:'truck'}
             else:
                 raise ValueError('不支持的模型，请使用 visdrone_yolo11n、coco_yolo11n 或 ssdlite320_mobilenet_v3_large')
             self.model = YOLO(str(weight_file))

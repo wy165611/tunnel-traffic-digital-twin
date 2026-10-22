@@ -1,6 +1,6 @@
 # 基于视频感知的隧道交通数字孪生系统
 
-一个可以在 CPU 上运行的大学生竞赛演示系统。Python/FastAPI 读取真实视频，使用现成预训练模型检测车辆，使用 SORT 风格跟踪器维持车辆 ID，计算轨迹、过线流量及经实测标定后的速度，通过 WebSocket 同步 React 的真实视频与二维道路孪生。
+一个可以在 CPU 上运行的大学生竞赛演示系统。Python/FastAPI 读取真实视频或 RTSP/HTTP 实时流，使用现成预训练模型检测车辆，使用 SORT 风格跟踪器维持车辆 ID，计算轨迹、过线流量及经实测标定后的速度，通过 WebSocket 同步 React 的真实视频与二维道路孪生。v1 增加超速、低速、违规变道、跟车过近、行人/非机动车闯入、排队拥堵、虚拟线圈时间占有率、服务水平 A–F、告警推送与可开关的低照度增强。
 
 **不需要标注或训练模型。没有真实道路尺寸时，速度、加速度和速度相关报警保持关闭。**
 
@@ -10,15 +10,17 @@
 
 ## Windows 10 和 Windows 11 快速启动
 
-> **源码包说明：**包含应用源码、安装脚本、测试、示例配置和项目文档。不含模型权重、演示视频、历史分析结果、截图产物、虚拟环境或前端依赖目录。首次安装需要联网下载依赖和模型。
+> **Windows 免安装分发包（推荐给非开发者）：** 包内已含前端构建、示例视频和模型权重，解压后双击 `一键启动.bat` 即可，不需要 Node.js。启动脚本会自动检测 Python 3.10–3.12、创建 `.venv`、安装依赖并打开浏览器；完整说明见 [Windows 分发版启动说明](docs/Windows分发版启动说明.md)。
 
-首次安装时，在项目根目录打开 PowerShell 并运行：
+> **源码包说明：**包含应用源码、安装脚本、测试、示例配置和项目文档。不含模型权重、历史分析结果、截图产物、虚拟环境或前端依赖目录。首次安装需要联网下载依赖和模型。
+
+如果要直接运行本仓库源码（而不是使用 Windows 分发包），在项目根目录打开 PowerShell 并运行：
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\setup-windows.ps1
 ```
 
-安装完成后双击 start-windows.bat。浏览器打开 http://127.0.0.1:8000，导入自己的视频后点击“开始分析”。要停止服务，在启动窗口按 Ctrl+C。逐步说明见 [Windows 启动说明 PDF](docs/Windows启动说明.pdf) 和 [可编辑 Markdown 版](docs/Windows启动说明.md)。
+安装完成后双击 start-windows.bat。浏览器打开 http://127.0.0.1:8000，导入自己的视频后点击“开始分析”。要停止服务，在启动窗口按 Ctrl+C。逐步说明见 [Windows 分发版启动说明](docs/Windows分发版启动说明.md)。
 
 需要 Python 3.11 或更高版本（64 位）和 Node.js 20.19+ 或 22.12+。建议安装 Python 3.11/3.12 64 位与 Node.js LTS。CPU 可运行，首次安装会下载 PyTorch 等依赖，需预留数 GB 磁盘空间。系统会在本机处理视频，默认只监听 127.0.0.1。
 
@@ -29,7 +31,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\setup-windows.ps1
 
 **数据导出** 区可阅读当前或历史分析报告、选择统计段对照、打印/下载 HTML，以及下载车辆、交通统计、事件和车道窗口 CSV。运行明细提供 10/30/60 秒观测与预测分离的车道趋势；报警可打开保存的截图和独立原视频进行人工复核，复核记录不会改写机器测量。旧段缺少证据或来源信息时明确不可用。统计定义、文件职责及接口见 [分析与复核说明](docs/features-analysis.md)。尚未分析时提供启动入口。分析参数与道路分别提交，保存后面板保持打开并保留另一组草稿；关闭时会显示放弃未保存更改的提示。切换视频会取消原视频草稿。导航验证记录见 [工作台导航检查](docs/sidebar-navigation.md)。
 
-固定机位可在侧栏 **固定机位模板** 命名保存已保存道路，独立叠加预览后明确应用；默认只复用图像几何并清除实际尺度，另行人工确认同机位/同视野/实测尺寸仍有效才复制尺度。详见 [固定机位模板](docs/camera-templates.md)。
+固定机位可在侧栏 **固定机位模板** 命名保存已保存道路，独立叠加预览后明确应用；默认只复用图像几何并清除实际尺度，另行人工确认同机位/同视野/实测尺寸仍有效才复制尺度。模板同时保存每车道实线标记、本机位限速和自定义虚拟线圈，按机位分别配置。详见 [固定机位模板](docs/camera-templates.md)。
 
 当前及历史统计段提供 **人工过线 / 事件评测**，使用独立原视频、保存道路和实际观测 ID 辅助人工录入，明确完成类别后保存并评测；空系统 ID 的漏检事件保留为漏报，未核验类别与速度不会被当成零真值。标注、机器事件复核、测量数据分别保存，播放器不会改变实时分析。详见 [可视化人工评测](docs/visual-evaluation.md)。
 
@@ -176,19 +178,28 @@ Homography 按检测结果把四个角点映射到以行车方向为 +Y 的道�
 | 辆/小时 | 观察满 60 秒后按最近一分钟折算，仍是小时流率估计，不是实际累计小时数量 |
 | 区域密度估计 | 标定区域车辆数 / 标定道路长度（km），跨全部车道；不是全隧道密度 |
 | 平均过线时距 | 计数线连续事件时间差的平均值，汇总所有方向与车道；不是同车道跟车安全时距 |
-| 时间占有率 | 没有定义检测区域驻留观测，因此关闭 |
+| 时间占有率 | 每车道自动虚拟线圈被车辆覆盖的累计视频时间比例；可在分析参数关闭，关闭后不可用 |
+| 排队车辆 / 排队长度 | 标定后按低速车辆统计，长度取排队车辆世界坐标投影跨度；未标定时车辆数来自图像轨迹速度估计，长度不可用 |
+| 拥堵等级 | 由排队比例与车道均速给出 畅通 / 缓行 / 拥堵 / 严重拥堵；未标定时仅按图像排队比例估计 |
+| 服务水平 A–F | 按标定后的每车道密度分级，并结合观测速度降级；未标定时不可用，不输出虚构等级 |
 
 8.53 秒短视频的每分钟流率外推波动很大，不能作为长期交通负荷结论。ECharts 显示累计流量、平均车速、当前车辆数随视频时间的曲线，以及当前车辆类型分布，均来自实际分析结果。
 
 ## 异常规则
 
-只在已标定、有效世界位置和充分速度观测时运行，规则参数可在界面修改：
+速度类规则只在已标定、有效世界位置和充分速度观测时运行；行人/非机动车闯入不依赖速度标定，但只有 COCO 模型会输出这些类别。规则参数可在界面修改：
 
 - **异常停车**：平滑车速小于 3 km/h，持续超过 3 秒触发 `ABNORMAL STOP`；移动后重置计时。
 - **急减速**：在至少 0.5 秒的速度跨度内计算加速度，小于 −4 m/s² 触发 `HARD BRAKING`，不直接用单帧速度抖动报警。
 - **逆行**：最近至少 0.7 秒、按实际检测间隔扩展以包含有效观测点的轨迹方向与所在车道合法向量的余弦小于 −0.6，且车速大于停车阈值、持续至少 1 秒，触发 `WRONG WAY`。
+- **超速 / 低速**：分别超过超速阈值或低于低速阈值触发；阈值可在分析参数配置。摄像头模板设置了本机位限速时，超速规则优先使用该限速值。未标定时速度为空，规则自动静默。
+- **违规变道**：车辆从一个车道进入另一个车道并持续超过确认时间后触发。每车道可标记“实线”，未勾选实线的车道不触发；隧道内默认按实线禁变道配置。该规则不依赖速度标定，但依赖车道绘制。
+- **跟车过近**：同车道前车与后车的中心点沿车道方向间距除以本车速度得到车头时距，默认小于 2 秒触发，需要速度标定。
+- **行人 / 非机动车闯入**：COCO YOLO11n 与 COCO SSD 输出 person/bicycle 时触发；VisDrone 模型不输出这些类别，界面明确显示“当前模型不支持”。
 
-同一车辆同一种报警默认冷却 5 秒。视频框和孪生车辆同时变红并显示警告，事件面板记录视频时间、ID、类型、车道和车速，写入 `events.csv`。这些是可解释的轨迹规则，不是训练出来的异常模型，阈值应结合镜头和道路调整。当前短视频没有实测标定，因此不声称其中发生了异常；规则功能通过可控轨迹回归测试验证。
+同一车辆同一种机器事件默认冷却 5 秒（`events.cooldown_seconds`）。新事件会在页面右下角弹窗并可选提示音；提示推送另有默认 10 秒的按车辆/事件去重（`alerts.cooldown_seconds`），避免刷屏。配置 `alerts.webhook_url` 并将 `alerts.webhook_enabled` 设为 true 后，事件会在后台线程以 3 秒超时发送 Webhook，失败最多重试 2 次且不影响分析。
+
+视频框和孪生车辆同时变红并显示警告，事件面板记录视频时间、ID、类型、车道和车速，写入 `events.csv`。这些是可解释的轨迹规则，不是训练出来的异常模型，阈值应结合镜头和道路调整。当前短视频没有实测标定，因此不声称其中发生了异常；规则功能通过可控轨迹回归测试验证。
 
 ## 播放、同步与数据段
 
@@ -196,7 +207,17 @@ Homography 按检测结果把四个角点映射到以行车方向为 +Y 的道�
 
 WebSocket 每次传递一个分析快照，包含 `frame`、`timestamp`、该帧 JPEG、检测车辆、世界/像素轨迹、统计和事件。前端只接收更新的会话/revision，JPEG 解码完成后连同原帧的车辆状态一起提交；视频与孪生共用这份显示快照。道路草稿绑定视频 token 与道路修订号，后端拒绝旧视频或被其他窗口更新的道路配置（HTTP 409）。CPU 性能不足时播放会放慢以保留分析帧，不跳帧冒充实时；播放倍速是目标速率，上限受本机推理性能限制。处理 FPS 为最近 30 帧的算法吞吐，与原视频 30 FPS、浏览器渲染帧率不同。
 
-默认后端只监听 127.0.0.1，为本机演示服务。当前是单分析会话，多浏览器看到相同状态，不支持多人独立视频任务。HTTP 修改操作检查浏览器 Origin，WebSocket 拒绝缺失/非可信 Origin；允许服务同源以及 localhost/127.0.0.1 的 Vite 5173 开发来源，额外可信来源可用 `TWIN_ALLOWED_ORIGINS` 逗号分隔设置。Host 仅接受本机地址。这些是本机浏览器边界保护，尚无多人认证或公网部署支持。命令行 WebSocket 客户端须主动发送对应服务 Origin；普通本机 CLI HTTP 请求可不带 Origin。上传在 multipart 接收阶段限制请求体（2 GB 视频加 1 MB 表单开销），并继续校验最终文件大小。`VideoReader` 已保留 RTSP/RTSPS 流读取接口，但本版页面和会话控制以录制视频为准，未提供实时流配置、认证、断线重连或上线验收。
+默认后端只监听 127.0.0.1，为本机演示服务。当前是单分析会话，多浏览器看到相同状态，不支持多人独立视频任务。HTTP 修改操作检查浏览器 Origin，WebSocket 拒绝缺失/非可信 Origin；允许服务同源以及 localhost/127.0.0.1 的 Vite 5173 开发来源，额外可信来源可用 `TWIN_ALLOWED_ORIGINS` 逗号分隔设置。Host 仅接受本机地址。这些是本机浏览器边界保护，尚无多人认证或公网部署支持。命令行 WebSocket 客户端须主动发送对应服务 Origin；普通本机 CLI HTTP 请求可不带 Origin。上传在 multipart 接收阶段限制请求体（2 GB 视频加 1 MB 表单开销），并继续校验最终文件大小。
+
+## 实时视频流、低照度与虚拟线圈
+
+**实时流**：在导入弹窗输入 RTSP、RTSPS、HTTP 或 HTTPS 流地址并点击“连接实时流”。连接成功后页面显示“已连接”；读取失败时进入“已断开 · 正在重连（第 N 次）”，按 1、2、4… 秒指数退避（上限 30 秒）重新打开流，恢复后继续同一统计段并把时间戳顺延，避免图表回退。直播模式禁止拖动与 seek；暂停、重新分析和道路配置仍可用。流地址不会完整回显，仅显示主机名。当前不做鉴权重试、多码流切换或分辨率变更后的自动重标定；分辨率变化应重新选择流。无可用流时错误只影响当前连接，仍可正常选择和播放本地视频。
+
+**低照度增强**：在分析参数勾选“隧道低照度增强”，可调 CLAHE 对比度（1–10）与 Gamma（0.5–3，>1 提亮）。默认关闭，关闭时原始帧直通。增强在检测、显示和事件截图前应用。本机 960×540、300 帧合成画面实测：仅增强模块约 403 FPS（约 2.5 ms/帧），关闭为直通；使用桩检测器的完整处理循环约 181 FPS（开启）对 903 FPS（关闭），真实模型推理会主导实际帧率。详见 [新功能说明](docs/new-features-v1.md)。
+
+**虚拟线圈与服务水平**：绘制车道后，每车道自动按最小外接矩形生成细长虚拟线圈；页面以虚线叠加，也可以通过场景 JSON 的 `lanes[].loop` 提供自定义凸多边形。开启时间占有率后，统计线圈被车辆覆盖的累计视频时间比例。服务水平按每车道密度 A–F 分级，并在观测均速低于 30 或 15 km/h 时分别降级到至少 D 或 E；未标定时密度与 A–F 不可用，排队长度也保持不可用，只显示带“图像估计”标注的排队车辆数。相关字段进入 CSV 和报告。
+
+**按机位配置**：车道“实线”开关、本机位限速 `speed_limit_kmh`、自定义线圈会随道路配置保存，并进入固定机位模板；应用模板时一并恢复。未勾选实线的车道允许变道而不触发违规变道报警。
 
 ## CSV 导出与离线分析
 
@@ -205,8 +226,9 @@ WebSocket 每次传递一个分析快照，包含 `frame`、`timestamp`、该帧
 | 文件 | 字段 |
 | --- | --- |
 | `vehicles.csv` | timestamp, frame, vehicle_id, vehicle_type, confidence, lane, x_pixel, y_pixel, x, y, speed, acceleration, status, observed |
-| `traffic_statistics.csv` | timestamp, vehicle_count, total_vehicles, average_speed, max_speed, min_speed, flow, flow_per_min, flow_estimated, density, density_estimated |
+| `traffic_statistics.csv` | timestamp, vehicle_count, total_vehicles, average_speed, max_speed, min_speed, flow, flow_per_min, flow_estimated, density, density_estimated, density_per_lane, occupancy, level_of_service, service_level_label, queue_vehicles, queue_length_m, queue_estimated, congestion_level, congestion_label |
 | `events.csv` | timestamp, vehicle_id, event, lane, speed |
+| `lane_statistics.csv` | timestamp, lane, observed_count, predicted_count, average_speed, cumulative_flow, window_seconds, window_flow, covered_seconds, complete, density, flow_per_hour, occupancy, level_of_service, service_level_label, queue_vehicles, queue_length_m, queue_estimated, congestion_level, congestion_label |
 
 `timestamp` 是视频秒数，`x/y` 是米，`x_pixel/y_pixel` 是原图像素，`speed` 是 km/h，`acceleration` 是 m/s²。`observed=False` 标记 Kalman 预测帧；测速、计数和报警不会把该帧当成新的检测观测。CSV 使用 UTF-8 BOM，便于 Excel 打开中文。无事件时 `events.csv` 仍含正确表头。
 
@@ -248,6 +270,8 @@ npm run dev
 `config.yaml` 的 `detector.device: auto` 会在 PyTorch 能使用 CUDA 时启用 NVIDIA GPU，否则 CPU。CPU 无需任何 NVIDIA 驱动。本机已验证 CPU；没有在 NVIDIA 设备上实测。使用 GPU 时安装适配显卡驱动的 [PyTorch 官方 CUDA 版本](https://pytorch.org/get-started/locally/)，可用 `.venv\Scripts\python.exe -c "import torch; print(torch.cuda.is_available())"` 检查。也可显式配置 `cpu` 或 `cuda`，无可用 CUDA 时自动退回 CPU。
 
 默认参数包含置信度 0.4、输入 960、4 个 CPU 线程、检测间隔 2 帧、跟踪保留 30 帧、速度窗口 10 个检测点和上述事件阈值。界面调整在本次后端会话生效；长期默认值请修改 `config.yaml`。模型内部尺度和显示尺度分开处理。较弱 CPU 可降低 `detector.input_size`、`video.display_max_side` 或增大检测间隔；降低分辨率可能漏检小车，必须重新验证效果。
+
+新增配置集中在 `config.yaml`：`events.speeding_kmh`、`slow_speed_kmh`、`lane_change_seconds`、`tailgating_headway_seconds`、`queue_speed_kmh`、`queue_pixel_speed`，`traffic.time_occupancy_enabled`，`preprocessing.low_light_enabled`、`clahe_clip_limit`、`gamma`，以及 `alerts.webhook_enabled`、`webhook_url`、`webhook_timeout_seconds`、`webhook_retries`、`cooldown_seconds`。所有 Webhook 默认关闭。逐项原理、配置和限制见 [v1 新功能说明](docs/new-features-v1.md)。
 
 ## 运行验证
 

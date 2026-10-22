@@ -1,8 +1,27 @@
 import hashlib
 import math
+import os
+import time
 from pathlib import Path
 import cv2
 from backend.traffic.counting_line import video_orientation
+
+
+def _capture_source(path):
+    """Use a Windows 8.3 short path because OpenCV may reject Unicode paths."""
+    if os.name != 'nt':
+        return path
+    try:
+        import ctypes
+        from ctypes import wintypes
+        get_short = ctypes.windll.kernel32.GetShortPathNameW
+        get_short.argtypes = [wintypes.LPCWSTR, wintypes.LPWSTR, wintypes.DWORD]
+        get_short.restype = wintypes.DWORD
+        buffer = ctypes.create_unicode_buffer(32768)
+        length = get_short(str(path), buffer, len(buffer))
+        return buffer.value if 0 < length < len(buffer) else path
+    except (AttributeError, OSError, ValueError):
+        return path
 
 
 def video_identity(path):
@@ -15,12 +34,32 @@ def video_identity(path):
 
 
 class VideoReader:
-    """Same reader interface for recordings and future RTSP ingestion."""
-    def __init__(self, source, max_side=960):
-        self.live = str(source).startswith(('rtsp://', 'rtsps://'))
-        self.cap = cv2.VideoCapture(str(source))
+    """Same reader interface for recordings and live RTSP/HTTP ingestion."""
+    CAPTURE_OPTIONS = 'OPENCV_FFMPEG_CAPTURE_OPTIONS'
+
+    def __init__(self, source, max_side=960, open_timeout=None, read_timeout=None):
+        source = str(source)
+        self.source = source
+        self.live = source.lower().startswith(('rtsp://', 'rtsps://', 'http://', 'https://'))
+        self.open_timeout = self._timeout(open_timeout, 8.)
+        self.read_timeout = self._timeout(read_timeout, 10.)
+        self.cap = self._open_capture()
         if not self.cap.isOpened():
+            self.close()
             raise ValueError('视频无法打开，请检查文件或流地址')
+        self.last_timestamp = None
+        self.index = 0
+        self.pending = None
+        self._last_raw = None
+        self._time_offset = 0.
+        self._resume_on_next = False
+        self.stream_state = 'connected' if self.live else None
+        self.reconnect_attempt = 0
+        self.stream_error = None
+        self.resolution_changed = False
+        self.resolution_change = None
+        self._retry_delay = 1.
+        self._next_retry = 0.
         self.width = int(self.cap.get(cv2.CAP_PROP_FRAME_WIDTH))
         self.height = int(self.cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
         self.fps = self.cap.get(cv2.CAP_PROP_FPS) or 30.0
@@ -34,9 +73,6 @@ class VideoReader:
         scale = min(1., max_side / max(self.width, self.height))
         self.display_width = round(self.width * scale)
         self.display_height = round(self.height * scale)
-        self.index = 0
-        self.pending = None
-        self.last_timestamp = None
         self.duration = self.frames / self.fps
         self.duration_estimated = True
         # The last decoded PTS avoids an average-FPS duration cutting off VFR input.
@@ -51,28 +87,127 @@ class VideoReader:
                 self.close()
                 raise ValueError('视频解码器无法回到起点')
 
+    @staticmethod
+    def _timeout(value, default):
+        try:
+            return min(120., max(1., float(value)))
+        except (TypeError, ValueError):
+            return default
+
+    def _open_capture(self):
+        """Prefer RTSP over TCP and bound both open and read blocking."""
+        if not self.live:
+            return cv2.VideoCapture(_capture_source(self.source))
+        previous = os.environ.get(self.CAPTURE_OPTIONS)
+        options = previous.strip() if previous else ''
+        if 'rtsp_transport' not in options:
+            options = (options+'|' if options else '')+'rtsp_transport;tcp'
+        os.environ[self.CAPTURE_OPTIONS] = options
+        params = [cv2.CAP_PROP_OPEN_TIMEOUT_MSEC, int(self.open_timeout*1000),
+                  cv2.CAP_PROP_READ_TIMEOUT_MSEC, int(self.read_timeout*1000)]
+        try:
+            try:
+                return cv2.VideoCapture(self.source, cv2.CAP_FFMPEG, params)
+            except (TypeError, cv2.error):
+                # Older builds lack the params overload; keep a socket timeout in
+                # the ffmpeg options instead of opening an unbounded stream.
+                fallback = options
+                if 'rw_timeout' not in fallback:
+                    fallback = (fallback+'|' if fallback else '')+'rw_timeout;%d' % int(self.open_timeout*1_000_000)
+                os.environ[self.CAPTURE_OPTIONS] = fallback
+                try:
+                    return cv2.VideoCapture(self.source, cv2.CAP_FFMPEG)
+                except (TypeError, cv2.error):
+                    return cv2.VideoCapture(self.source)
+        finally:
+            # The option is process-global; never leak it to other readers.
+            if previous is None:
+                os.environ.pop(self.CAPTURE_OPTIONS, None)
+            else:
+                os.environ[self.CAPTURE_OPTIONS] = previous
+
     @property
     def metadata(self):
         return dict(width=self.width, height=self.height, fps=self.fps,
                     orientation=video_orientation(self.width, self.height),
                     frames=self.frames, duration=self.duration, duration_estimated=self.duration_estimated, timing_source='decoder_pts',
                     display_width=self.display_width, display_height=self.display_height,
-                    live=self.live)
+                    live=self.live, stream_state=self.stream_state,
+                    reconnect_attempt=self.reconnect_attempt, stream_error=self.stream_error,
+                    resolution_changed=self.resolution_changed, resolution_change=self.resolution_change)
+
+    def _schedule_retry(self, message):
+        self.stream_state, self.stream_error = 'reconnecting', message
+        self.reconnect_attempt += 1
+        self._retry_delay = min(30., 2.**(self.reconnect_attempt-1))
+        self._next_retry = time.monotonic()+self._retry_delay
+
+    def _maybe_reconnect(self):
+        if time.monotonic() < self._next_retry:
+            return False
+        cap = self._open_capture()
+        if cap.isOpened():
+            width, height = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)), int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+            if width > 0 and height > 0:
+                if (width, height) == (self.width, self.height):
+                    # Back to the calibrated coordinate space: clear a stale notice.
+                    self.resolution_changed = False
+                    self.resolution_change = None
+                else:
+                    # Keep the original coordinate space so the running pipeline
+                    # stays consistent; the saved calibration is gated until re-saved.
+                    self.resolution_changed = True
+                    self.resolution_change = dict(previous=[self.width, self.height], current=[width, height])
+            previous = self.cap
+            self.cap = cap
+            previous.release()
+            self.stream_state, self.stream_error = 'connected', None
+            self.reconnect_attempt, self._retry_delay, self._next_retry = 0, 1., 0.
+            self._last_raw = None
+            self._resume_on_next = self.last_timestamp is not None
+            return True
+        cap.release()
+        self._schedule_retry('视频流重连失败')
+        return False
+
+    def _live_timestamp(self, raw):
+        if not math.isfinite(raw) or raw < 0:
+            raw = None
+        if raw is None or (self._last_raw is not None and raw <= self._last_raw):
+            raw = (self._last_raw if self._last_raw is not None else 0.)+1/self.fps
+        self._last_raw = raw
+        if self._resume_on_next:
+            base = self.last_timestamp if self.last_timestamp is not None else 0.
+            self._time_offset = base+1/self.fps-raw
+            self._resume_on_next = False
+        return raw+self._time_offset
 
     def read(self):
         if self.pending is not None:
             index, timestamp, frame = self.pending
             self.pending = None
         else:
+            if self.live and self.stream_state == 'reconnecting' and not self._maybe_reconnect():
+                return None
             ok, frame = self.cap.read()
             if not ok:
+                if not self.live:
+                    return None
+                self._schedule_retry('视频流连接已断开')
                 return None
             index = self.index
-            timestamp = self.cap.get(cv2.CAP_PROP_POS_MSEC) / 1000
+            raw = self.cap.get(cv2.CAP_PROP_POS_MSEC)/1000
+            if self.live:
+                timestamp = self._live_timestamp(raw)
+            else:
+                timestamp = raw
         self.index = index + 1
-        if not math.isfinite(timestamp) or timestamp < 0 or (self.last_timestamp is not None and timestamp <= self.last_timestamp):
-            raise ValueError('视频解码器未提供单调时间戳，请将视频转换为恒定帧率 MP4 后重试')
-        self.last_timestamp = timestamp
+        if self.live:
+            self.last_timestamp = timestamp
+        else:
+            if not math.isfinite(timestamp) or timestamp < 0 or (self.last_timestamp is not None and timestamp <= self.last_timestamp):
+                raise ValueError('视频解码器未提供单调时间戳，请将视频转换为恒定帧率 MP4 后重试')
+            self.last_timestamp = timestamp
         self.duration = max(self.duration, timestamp + 1 / self.fps)
         frame = cv2.resize(frame, (self.display_width, self.display_height))
         return index, timestamp, frame
@@ -156,3 +291,7 @@ class VideoReader:
 
     def close(self):
         self.cap.release()
+
+    def clear_resolution_change(self):
+        self.resolution_changed = False
+        self.resolution_change = None

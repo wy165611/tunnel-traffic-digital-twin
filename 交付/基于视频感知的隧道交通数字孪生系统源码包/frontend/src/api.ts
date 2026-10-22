@@ -43,4 +43,5 @@ export const formatTime=(v:number=0)=>{
   const body=`${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}.${tenths}`;
   return hours>0?`${hours.toString().padStart(2,'0')}:${body}`:body;
 };
-export const typeNames:Record<string,string>={car:'轿车',truck:'货车',bus:'客车',motorcycle:'摩托车'};
+export const typeNames:Record<string,string>={car:'轿车',truck:'货车',bus:'客车',motorcycle:'摩托车',person:'行人',bicycle:'非机动车'};
+export const eventNames:Record<string,string>={['ABNORMAL STOP']:'异常停车',['HARD BRAKING']:'急减速',['WRONG WAY']:'逆行',SPEEDING:'超速',['SLOW SPEED']:'低速行驶',['ILLEGAL LANE CHANGE']:'违规变道',['CLOSE FOLLOWING']:'跟车过近',['PEDESTRIAN INTRUSION']:'行人闯入',['NON MOTOR INTRUSION']:'非机动车闯入'};

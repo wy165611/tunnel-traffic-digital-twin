@@ -157,6 +157,9 @@ def context_from_snapshot(data, run_id, directory):
                 video = copy.deepcopy(saved_video)
     if not video:
         reasons.append('缺少可核验的来源尺寸')
+    else:
+        # Live transport state is not a persistent source fact for annotations.
+        video = {key: value for key, value in video.items() if key in SourceVideo.model_fields}
     first = last = None
     try:
         if not (directory / 'traffic_statistics.csv').is_file():

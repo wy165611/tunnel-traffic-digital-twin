@@ -115,7 +115,7 @@ def validate_scene(scene, calibration, dimensions):
     width, height = dimensions
     if not all(isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value) and value > 0 for value in dimensions):
         raise ValueError('来源尺寸无效')
-    payload = SceneInput(**{key: scene.get(key) for key in ('counting_line', 'counting_line_mode', 'lanes')}, **(calibration or {}))
+    payload = SceneInput(**{key: scene.get(key) for key in ('counting_line', 'counting_line_mode', 'speed_limit_kmh', 'lanes')}, **(calibration or {}))
     value = payload.model_dump(mode='json', exclude={'video_token', 'scene_revision'})
     points = list(value.get('points') or []) + list(value.get('counting_line') or [])
     for lane in value['lanes']:
@@ -136,7 +136,7 @@ def create_template(data, service, name, note):
         if not service.reader:
             raise ValueError('请先选择视频')
         dimensions = [service.reader.width, service.reader.height]
-        scene = {key: copy.deepcopy(service.scene.get(key)) for key in ('counting_line', 'counting_line_mode', 'lanes')}
+        scene = {key: copy.deepcopy(service.scene.get(key)) for key in ('counting_line', 'counting_line_mode', 'speed_limit_kmh', 'lanes')}
         calibration = copy.deepcopy(service.calibration.payload) if service.calibration else None
         validate_scene(scene, calibration, dimensions)
         created = now()

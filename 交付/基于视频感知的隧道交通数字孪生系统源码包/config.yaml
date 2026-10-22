@@ -22,11 +22,49 @@ events:
   wrong_way_seconds: 1.0
   wrong_way_cosine: -0.6
   cooldown_seconds: 5.0
+  speeding_enabled: true
+  speeding_kmh: 80.0
+  slow_speed_enabled: true
+  slow_speed_kmh: 20.0
+  lane_change_enabled: true
+  lane_change_seconds: 1.0
+  tailgating_enabled: true
+  tailgating_headway_seconds: 2.0
+  # 默认 VisDrone 模型不含 person/bicycle；如需闯入检测请切换 COCO 并开启
+  intrusion_enabled: false
+  queue_speed_kmh: 10.0
+  queue_pixel_speed: 5.0
+  # 静止异物 / 抛洒物启发式：虚拟线圈持续被前景占用且圈内无观测车辆时告警
+  debris_enabled: true
+  debris_seconds: 2.0
+  debris_area_ratio: 0.18
+  debris_difference_threshold: 30
+  debris_cooldown_seconds: 30.0
 video:
   detection_interval: 2
   display_max_side: 960
   jpeg_quality: 80
   default_video: backend/data/videos/demo.mp4
+  # 实时流打开/读取超时（秒），并默认使用 rtsp_transport=tcp
+  stream_open_timeout_seconds: 8.0
+  stream_read_timeout_seconds: 10.0
 traffic:
   legal_direction: [0, 1]
   history_points: 100
+  time_occupancy_enabled: true
+preprocessing:
+  low_light_enabled: false
+  clahe_clip_limit: 2.0
+  gamma: 1.5
+alerts:
+  webhook_enabled: false
+  webhook_url: ''
+  webhook_timeout_seconds: 3.0
+  webhook_retries: 2
+  cooldown_seconds: 10.0
+  # 自定义请求头（键值对），用于网关鉴权等；不会写入投递日志
+  webhook_headers: {}
+  # 非空时发送 X-Twin-Timestamp，并对 `时间戳 + "." + 原始 JSON body` 计算 HMAC-SHA256，形如 sha256=<hex>
+  # 接收端应校验时间偏差（建议 ±5 分钟）以防重放；本系统仅发送，不实现接收端验签
+  webhook_hmac_secret: ''
+  webhook_hmac_header: X-Twin-Signature
