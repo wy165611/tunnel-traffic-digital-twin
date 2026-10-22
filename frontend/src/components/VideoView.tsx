@@ -25,7 +25,13 @@ export default function VideoView({state,image,editing,scene,calibration,pending
   };
   s.scene.lanes.forEach((l,i)=>{path(l.points,theme.series[i%4],true,true);if(l.points.length){ctx.fillStyle=theme.text;ctx.font='12px sans-serif';ctx.fillText(l.name,l.points[0][0]*sx+5,l.points[0][1]*sy+18);}});
   (s.scene.virtual_loops||[]).forEach((loop,i)=>{ctx.setLineDash([5,4]);path(loop.points,theme.series[(i+1)%4]);ctx.setLineDash([]);});
-  if(s.calibration){path(s.calibration.points,theme.warning,true,true);s.calibration.points.forEach((p,i)=>{ctx.fillStyle=theme.warning;ctx.beginPath();ctx.arc(p[0]*sx,p[1]*sy,5,0,Math.PI*2);ctx.fill();ctx.fillText('P'+(i+1),p[0]*sx+7,p[1]*sy-7);});}
+  if(s.calibration){
+   path(s.calibration.points,theme.warning,true,true);s.calibration.points.forEach((p,i)=>{ctx.fillStyle=theme.warning;ctx.beginPath();ctx.arc(p[0]*sx,p[1]*sy,5,0,Math.PI*2);ctx.fill();ctx.fillText('P'+(i+1),p[0]*sx+7,p[1]*sy-7);});
+   const [p1,p2,p3]=s.calibration.points;
+   ctx.font='11px '+theme.font;ctx.fillStyle=theme.warning;
+   if(s.calibration.edge_1_2_m!=null){const x=(p1[0]+p2[0])/2*sx,y=(p1[1]+p2[1])/2*sy;ctx.fillText('1→2 · '+s.calibration.edge_1_2_m.toFixed(1)+' m',x,y-8);}
+   if(s.calibration.edge_2_3_m!=null){const x=(p2[0]+p3[0])/2*sx,y=(p2[1]+p3[1])/2*sy;ctx.fillText('2→3 · '+s.calibration.edge_2_3_m.toFixed(1)+' m',x+8,y);}
+  }
   if(s.scene.counting_line){ctx.setLineDash([8,5]);path(s.scene.counting_line,theme.warning);ctx.setLineDash([]);}
   const labels:LabelRect[]=[];
   if(!s.editing) (s.state.vehicles||[]).forEach(v=>{

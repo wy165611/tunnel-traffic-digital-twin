@@ -8,6 +8,7 @@ import numpy as np
 from backend.calibration.homography import RoadCalibration
 from backend.alerts import WebhookNotifier
 from backend.events.rules import EventDetector
+from backend.events.debris import DebrisDetector
 from backend.exporter import CSVExporter
 from backend.evidence import capture_event
 from backend.settings import DATA
@@ -38,7 +39,9 @@ class TrafficProcessor:
         self.flow = FlowCounter(scene.get('counting_line'))
         self.lanes = LaneDetector(scene.get('lanes'))
         self.occupancy = LoopOccupancy(self.lanes.lanes, config.get('traffic', {}).get('time_occupancy_enabled', True))
-        self.events = EventDetector(config['events'])
+        self.events = EventDetector(config['events'], calibration is not None)
+        self.debris = DebrisDetector(scene, config['events'], reader.display_width, reader.display_height,
+                                     reader.display_width/max(1, reader.width))
         self.notifier = WebhookNotifier(config.get('alerts'))
         self.states, self.seen = {}, set()
         self.event_log = deque(maxlen=500)
@@ -53,6 +56,17 @@ class TrafficProcessor:
     def step(self):
         with self.exporter.lock:
             return self._step_locked()
+
+    def invalidate_calibration(self):
+        """Drop the metric scale after a live stream resolution change."""
+        if self.calibration is None and not self.events.calibration_available:
+            return
+        self.calibration = None
+        self.events.calibration_available = False
+        for state in self.states.values():
+            state.estimator.reset()
+            state.world_trajectory.clear()
+            state.speed = state.acceleration = None
 
     def _step_locked(self):
         started = time.perf_counter()
@@ -142,6 +156,13 @@ class TrafficProcessor:
                 x_pixel=vehicle['pixel'][0], y_pixel=vehicle['pixel'][1], x=vehicle['world'][0] if vehicle['world'] else None,
                 y=vehicle['world'][1] if vehicle['world'] else None, speed=vehicle['speed'], acceleration=vehicle['acceleration'],
                 status=vehicle['status'], observed=vehicle['observed']))
+        if self.debris.enabled:
+            for event, target in self.debris.update(timestamp, frame, vehicles):
+                capture_event(self.exporter, event, target, frame, index, self.reader, self.config, self.scene, self.calibration)
+                self.notifier.notify(event, self.exporter.run_id, self.exporter.metadata.get('video_id'))
+                self.event_log.appendleft(event)
+                self.total_events += 1
+                self.exporter.write('events', event)
         live_ids = {t.id for t in self.tracker.tracks}
         # Release trajectory and rule buffers when a track expires.
         for vid in set(self.states)-live_ids:
