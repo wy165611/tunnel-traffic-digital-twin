@@ -38,6 +38,9 @@ video:
   display_max_side: 960
   jpeg_quality: 80
   default_video: backend/data/videos/demo.mp4
+  # 实时流打开/读取超时（秒），并默认使用 rtsp_transport=tcp
+  stream_open_timeout_seconds: 8.0
+  stream_read_timeout_seconds: 10.0
 traffic:
   legal_direction: [0, 1]
   history_points: 100

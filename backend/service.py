@@ -154,7 +154,8 @@ class AnalysisService:
         url = url.strip()
         if not url.lower().startswith(('rtsp://', 'rtsps://', 'http://', 'https://')):
             raise ValueError('流地址必须以 rtsp://、rtsps://、http:// 或 https:// 开头')
-        reader = VideoReader(url)
+        reader = VideoReader(url, open_timeout=self.config['video'].get('stream_open_timeout_seconds'),
+                             read_timeout=self.config['video'].get('stream_read_timeout_seconds'))
         try:
             identity = 'stream-'+hashlib.sha256(url.encode('utf-8')).hexdigest()[:24]
             scene_file = DATA / 'calibrations' / f'{identity}-scene.json'

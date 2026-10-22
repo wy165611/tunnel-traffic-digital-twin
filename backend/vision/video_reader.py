@@ -35,11 +35,15 @@ def video_identity(path):
 
 class VideoReader:
     """Same reader interface for recordings and live RTSP/HTTP ingestion."""
-    def __init__(self, source, max_side=960):
+    CAPTURE_OPTIONS = 'OPENCV_FFMPEG_CAPTURE_OPTIONS'
+
+    def __init__(self, source, max_side=960, open_timeout=None, read_timeout=None):
         source = str(source)
         self.source = source
         self.live = source.lower().startswith(('rtsp://', 'rtsps://', 'http://', 'https://'))
-        self.cap = cv2.VideoCapture(source if self.live else _capture_source(source))
+        self.open_timeout = self._timeout(open_timeout, 8.)
+        self.read_timeout = self._timeout(read_timeout, 10.)
+        self.cap = self._open_capture()
         if not self.cap.isOpened():
             self.close()
             raise ValueError('视频无法打开，请检查文件或流地址')
@@ -81,6 +85,29 @@ class VideoReader:
                 self.close()
                 raise ValueError('视频解码器无法回到起点')
 
+    @staticmethod
+    def _timeout(value, default):
+        try:
+            return min(120., max(1., float(value)))
+        except (TypeError, ValueError):
+            return default
+
+    def _open_capture(self):
+        """Prefer RTSP over TCP and bound both open and read blocking."""
+        if not self.live:
+            return cv2.VideoCapture(_capture_source(self.source))
+        options = os.environ.get(self.CAPTURE_OPTIONS, '').strip()
+        if 'rtsp_transport' not in options:
+            options = (options+';' if options else '')+'rtsp_transport;tcp'
+        os.environ[self.CAPTURE_OPTIONS] = options
+        params = [cv2.CAP_PROP_OPEN_TIMEOUT_MSEC, int(self.open_timeout*1000),
+                  cv2.CAP_PROP_READ_TIMEOUT_MSEC, int(self.read_timeout*1000)]
+        try:
+            return cv2.VideoCapture(self.source, cv2.CAP_FFMPEG, params)
+        except (TypeError, cv2.error):
+            # Older OpenCV builds lack the params overload; keep the stream usable.
+            return cv2.VideoCapture(self.source)
+
     @property
     def metadata(self):
         return dict(width=self.width, height=self.height, fps=self.fps,
@@ -99,7 +126,7 @@ class VideoReader:
     def _maybe_reconnect(self):
         if time.monotonic() < self._next_retry:
             return False
-        cap = cv2.VideoCapture(self.source)
+        cap = self._open_capture()
         if cap.isOpened():
             previous = self.cap
             self.cap = cap

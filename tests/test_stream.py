@@ -1,3 +1,4 @@
+import os
 import types
 import cv2
 import numpy as np
@@ -19,10 +20,11 @@ class FakeCapture:
     instances = []
     opened_plan = [True, False, False, True]
 
-    def __init__(self, source):
+    def __init__(self, source, api=None, params=None):
         self.number = len(FakeCapture.instances)
         FakeCapture.instances.append(self)
         self.source = source
+        self.api, self.params = api, params
         self.raw_ms = 1000. if self.number == 0 else 5000.
         self.reads = 0
     def isOpened(self): return self.opened_plan[self.number]
@@ -36,6 +38,20 @@ class FakeCapture:
         return False, None
     def set(self, *args): return True
     def release(self): pass
+
+
+def test_live_reader_prefers_tcp_and_bounds_open_and_read_timeouts(monkeypatch):
+    FakeCapture.instances = []
+    monkeypatch.setenv('OPENCV_FFMPEG_CAPTURE_OPTIONS', '')
+    monkeypatch.setattr(video_reader.cv2, 'VideoCapture', FakeCapture)
+    reader = VideoReader('rtsp://camera.local/live', open_timeout=5, read_timeout=7)
+    capture = FakeCapture.instances[0]
+    assert capture.api == cv2.CAP_FFMPEG
+    assert capture.params == [cv2.CAP_PROP_OPEN_TIMEOUT_MSEC, 5000,
+                              cv2.CAP_PROP_READ_TIMEOUT_MSEC, 7000]
+    assert 'rtsp_transport;tcp' in os.environ['OPENCV_FFMPEG_CAPTURE_OPTIONS']
+    assert reader.open_timeout == 5 and reader.read_timeout == 7
+    reader.close()
 
 
 def test_live_reader_reconnects_with_exponential_backoff(monkeypatch):
@@ -52,6 +68,7 @@ def test_live_reader_reconnects_with_exponential_backoff(monkeypatch):
     assert reader.read() is None and len(FakeCapture.instances) == 1  # waits one second
     clock.value = 1.
     assert reader.read() is None and len(FakeCapture.instances) == 2  # first retry fails
+    assert FakeCapture.instances[1].api == cv2.CAP_FFMPEG and FakeCapture.instances[1].params
     assert reader.metadata['reconnect_attempt'] == 2
     clock.value = 3.
     assert reader.read() is None and len(FakeCapture.instances) == 3  # waits two seconds
@@ -90,7 +107,7 @@ def test_stream_api_validates_url_and_keeps_local_video_working(client, monkeypa
     class StreamReader:
         width = 320; height = 240; fps = 10.; frames = 0; duration = 0.; duration_estimated = True
         display_width = 320; display_height = 240; live = True; index = 0
-        def __init__(self, source, max_side=960): self.source = source
+        def __init__(self, source, max_side=960, **kwargs): self.source = source
         @property
         def metadata(self):
             return dict(width=320, height=240, fps=10., frames=0, duration=0., live=True,
