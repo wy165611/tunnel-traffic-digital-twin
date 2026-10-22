@@ -80,7 +80,7 @@ alerts:
 - 鉴权：`webhook_headers` 中的自定义 Header 原样附加（保留 `Content-Type`、`Content-Length`、`Host` 等保留头不可覆盖，含换行的非法值被忽略）。设置 `webhook_hmac_secret` 后额外发送 `X-Twin-Timestamp`（Unix 秒）和签名头，签名为 `sha256=HMAC_SHA256(secret, "<timestamp>.<原始 JSON body>")`；每次重试重新生成时间戳与签名。
 - 投递日志：每次实际投递（成功或失败）记录事件 ID、尝试次数、HTTP 状态码或错误类型，`GET /api/webhook-log?limit&offset&status=success|failed` 可查询；日志为进程内环形缓冲（最多 500 条），不记录 URL、密钥或自定义 Header 值，进程重启后清空。
 - 所有异常（DNS、超时、连接错误）被捕获并忽略，不影响分析、CSV 和事件证据；重试间隔为 0.2、0.4 秒，仍失败则放弃本次推送。
-- 已知限制：本系统只负责发送，不实现接收端验签与时间窗口校验，**未做防重放**；接收端需自行比较 `X-Twin-Timestamp` 与当前时间并拒绝过期/重复签名。进程退出时未完成的重试会丢失，无可持久化队列。
+- 接收端校验：先比较 `X-Twin-Timestamp` 与本地时间，偏差超过 5 分钟直接拒收；再用同一密钥对 `"<timestamp>.<原始 body>"` 重算签名，并拒绝重复时间戳。发送端只负责生成时间戳与签名，不实现接收端验签与防重放逻辑。
 
 ## 3. 虚拟线圈、时间占有率与服务水平
 

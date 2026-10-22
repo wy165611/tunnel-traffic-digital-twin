@@ -65,6 +65,6 @@ alerts:
   # 自定义请求头（键值对），用于网关鉴权等；不会写入投递日志
   webhook_headers: {}
   # 非空时发送 X-Twin-Timestamp，并对 `时间戳 + "." + 原始 JSON body` 计算 HMAC-SHA256，形如 sha256=<hex>
-  # 接收端应校验时间窗口以防重放；本系统仅发送，不实现接收端验签
+  # 接收端应校验时间偏差（建议 ±5 分钟）以防重放；本系统仅发送，不实现接收端验签
   webhook_hmac_secret: ''
   webhook_hmac_header: X-Twin-Signature
