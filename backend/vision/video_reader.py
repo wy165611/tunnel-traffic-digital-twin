@@ -132,11 +132,16 @@ class VideoReader:
         cap = self._open_capture()
         if cap.isOpened():
             width, height = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)), int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-            if width > 0 and height > 0 and (width, height) != (self.width, self.height):
-                # Keep the original coordinate space so the running pipeline stays
-                # consistent; the saved calibration is gated until re-saved.
-                self.resolution_changed = True
-                self.resolution_change = dict(previous=[self.width, self.height], current=[width, height])
+            if width > 0 and height > 0:
+                if (width, height) == (self.width, self.height):
+                    # Back to the calibrated coordinate space: clear a stale notice.
+                    self.resolution_changed = False
+                    self.resolution_change = None
+                else:
+                    # Keep the original coordinate space so the running pipeline
+                    # stays consistent; the saved calibration is gated until re-saved.
+                    self.resolution_changed = True
+                    self.resolution_change = dict(previous=[self.width, self.height], current=[width, height])
             previous = self.cap
             self.cap = cap
             previous.release()

@@ -64,6 +64,21 @@ def test_foreground_learning_absorbs_a_static_object_over_time():
     assert float(np.count_nonzero(mask[data['mask']]))/data['area'] < detector_.area_ratio
 
 
+def test_debris_rebuilds_loop_masks_when_frame_size_changes():
+    detector_ = detector()
+    detector_.update(0., frame())
+    bigger = np.zeros((200, 200, 3), np.uint8)
+    assert detector_.update(1., bigger) == []  # rebuilds and skips this frame
+    assert detector_.size == (200, 200)
+    assert detector_.loops['Lane 1']['mask'].shape == (200, 200)
+    assert detector_.loops['Lane 1']['points'].max() > 90
+    assert detector_.update(2., bigger) == []  # initializes the new background
+    blob_big = bigger.copy()
+    blob_big[60:140, 60:140] = 255
+    assert detector_.update(3., blob_big) == []
+    assert detector_.loops['Lane 1']['since'] == 3.
+
+
 def test_observed_vehicle_inside_loop_suppresses_debris():
     detector_ = detector()
     block = (30, 70, 30, 70)

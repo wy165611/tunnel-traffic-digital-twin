@@ -22,14 +22,17 @@ class DebrisDetector:
         self.config = config
         self.size = (int(width), int(height))
         self.scale = float(scale) or 1.
+        self.source_width = max(1., width/self.scale)
         self.seconds = max(.5, self._number(config.get('debris_seconds'), 2.))
         self.area_ratio = min(1., max(.01, self._number(config.get('debris_area_ratio'), .18)))
         self.threshold = int(min(255, max(1, self._number(config.get('debris_difference_threshold'), 30))))
         self.cooldown = max(0., self._number(config.get('debris_cooldown_seconds'), 30.))
         self.alpha = .05
         self.background = None
-        self.loops = self._loops(scene.get('lanes') or [])
-        self.enabled = bool(config.get('debris_enabled', True) if enabled is None else enabled) and bool(self.loops)
+        self.lanes = scene.get('lanes') or []
+        self.loops = self._loops(self.lanes)
+        self.switch = bool(config.get('debris_enabled', True) if enabled is None else enabled)
+        self.enabled = self.switch and bool(self.loops)
 
     @staticmethod
     def _number(value, default):
@@ -56,6 +59,14 @@ class DebrisDetector:
             loops[item['lane']] = dict(mask=mask.astype(bool), points=points, contour=contour,
                                        area=area, since=None, last_event=-1e9)
         return loops
+
+    def _resize(self, width, height):
+        """Rebuild loop masks when the display frame size changes."""
+        self.size = (int(width), int(height))
+        self.scale = self.size[0]/self.source_width
+        self.background = None
+        self.loops = self._loops(self.lanes)
+        self.enabled = self.switch and bool(self.loops)
 
     def _foreground(self, frame):
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -95,6 +106,10 @@ class DebrisDetector:
     def update(self, timestamp, frame, vehicles=None):
         """Return [(event, pseudo_vehicle)] for loops newly judged as debris."""
         if not self.enabled:
+            return []
+        height, width = frame.shape[:2]
+        if (width, height) != self.size:
+            self._resize(width, height)
             return []
         foreground = self._foreground(frame)
         if foreground is None:
