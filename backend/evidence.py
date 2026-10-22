@@ -34,14 +34,17 @@ def capture_event(exporter, event, vehicle, frame, index, reader, config, scene,
                    max(0, min(reader.display_width-1, box[2])), max(0, min(reader.display_height-1, box[3]))]
             cv2.rectangle(image, tuple(box[:2]), tuple(box[2:]), (50, 80, 255), 2)
             cv2.putText(image, f"#{vehicle['id']} {event['event']}", (box[0], max(18, box[1]-6)), cv2.FONT_HERSHEY_SIMPLEX, .45, (50, 80, 255), 1)
-            if not cv2.imwrite(str(temporary / 'screenshot.jpg'), image):
+            encoded, buffer = cv2.imencode('.jpg', image)
+            if not encoded:
                 raise OSError('无法保存报警截图')
+            (temporary / 'screenshot.jpg').write_bytes(buffer.tobytes())
             metadata = dict(event=event.copy(), frame=index, timestamp=event['timestamp'],
                             original_dimensions=[reader.width, reader.height], display_dimensions=[reader.display_width, reader.display_height],
                             display_box=box, vehicle=vehicle, observed_trajectory=vehicle['world_trajectory'],
                             rule_config=config['events'], legal_direction=next((lane.get('direction') for lane in scene.get('lanes', []) if lane['name'] == vehicle['lane']), config['traffic']['legal_direction']),
                             calibration=calibration.payload if calibration else None,
-                            source={key: exporter.metadata.get(key) for key in ('video_id', 'video_identity', 'segment_start')},
+                            source={key: exporter.metadata.get(key) for key in ('video_id', 'video_identity', 'segment_start')}
+                                   | dict(live=bool(getattr(reader, 'live', False))),
                             created_at=datetime.now(timezone.utc).isoformat())
             atomic_json(temporary / 'capture.json', metadata)
             temporary.rename(final)

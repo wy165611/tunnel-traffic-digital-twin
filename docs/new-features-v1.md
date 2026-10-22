@@ -70,12 +70,17 @@ alerts:
   webhook_timeout_seconds: 3.0 # 单次请求超时
   webhook_retries: 2           # 首次失败后最多重试 2 次（共 3 次尝试）
   cooldown_seconds: 10.0       # 同车同事件推送冷却
+  webhook_headers: {}          # 自定义请求头（如网关 Token），不写入日志
+  webhook_hmac_secret: ''      # 非空时启用 HMAC-SHA256 签名
+  webhook_hmac_header: X-Twin-Signature
 ```
 
 - 事件保存证据后调用 `WebhookNotifier.notify`；发送在独立 daemon 线程中执行，视频处理主循环不等待网络。
 - POST JSON：`type=traffic_event`、`run_id`、`video_id`、`sent_at` 和完整 `event`（含事件 ID、视频时间、车辆 ID、类型、车道、速度）。
-- 所有异常（DNS、超时、非 2xx 之外的连接错误）被捕获并忽略；重试间隔为 0.2、0.4 秒，仍失败则放弃本次推送。推送失败不影响分析、CSV 和事件证据。
-- Webhook 无认证头、签名或持久化队列；进程退出时未完成的重试会丢失。生产使用应由接收端鉴权并自行保证幂等。
+- 鉴权：`webhook_headers` 中的自定义 Header 原样附加（保留 `Content-Type`、`Content-Length`、`Host` 等保留头不可覆盖，含换行的非法值被忽略）。设置 `webhook_hmac_secret` 后额外发送 `X-Twin-Timestamp`（Unix 秒）和签名头，签名为 `sha256=HMAC_SHA256(secret, "<timestamp>.<原始 JSON body>")`；每次重试重新生成时间戳与签名。
+- 投递日志：每次实际投递（成功或失败）记录事件 ID、尝试次数、HTTP 状态码或错误类型，`GET /api/webhook-log?limit&offset&status=success|failed` 可查询；日志为进程内环形缓冲（最多 500 条），不记录 URL、密钥或自定义 Header 值，进程重启后清空。
+- 所有异常（DNS、超时、连接错误）被捕获并忽略，不影响分析、CSV 和事件证据；重试间隔为 0.2、0.4 秒，仍失败则放弃本次推送。
+- 接收端校验：先比较 `X-Twin-Timestamp` 与本地时间，偏差超过 5 分钟直接拒收；再用同一密钥对 `"<timestamp>.<原始 body>"` 重算签名，并拒绝重复时间戳。发送端只负责生成时间戳与签名，不实现接收端验签与防重放逻辑。
 
 ## 3. 虚拟线圈、时间占有率与服务水平
 
@@ -124,13 +129,13 @@ alerts:
 - 重试等待序列为 1、2、4、8、16 秒，上限 30 秒；每次失败后重新创建 `VideoCapture` 并重读帧。
 - 重连后新流的解码时间可能从 0 重新开始；读取器记录断线前最后时间，把恢复后的第一帧映射为“最后时间 + 1 帧”，保持 WebSocket 时间戳单调，图表和统计段不会倒退。
 - 直播模式 `seek` 在前后端均被禁止；前端拖动条禁用并显示“LIVE”。
-- 重连使用原显示尺寸缩放新帧；如果流分辨率变化，车道/标定坐标不会自动重算，应重新选择流或重新标定。
+- 重连使用原显示尺寸缩放新帧以保持坐标空间一致；检测到新流宽高变化时置 `video.resolution_changed=true` 并记录旧/新尺寸，原标定立即失效（测速、跟车时距、排队米数、密度、服务水平停用），前端提示重新标定；重新保存标定后清除标记。
 
 ### 4.3 限制
 
-- 没有 RTSP 认证重试、TCP/UDP 传输策略、码流切换、录像回放或断流持久化队列。
-- 未在真实 RTSP 设备/长时间弱网环境完成上线验收；测试使用确定性假视频源验证退避、状态和时间戳连续性。
-- OpenCV/FFmpeg 连接超时由底层实现决定，离线/不可达地址可能阻塞打开阶段；页面请求失败后仍可继续使用本地视频。
+- RTSP 默认优先 `rtsp_transport=tcp`，并通过 `CAP_PROP_OPEN_TIMEOUT_MSEC / CAP_PROP_READ_TIMEOUT_MSEC` 限制打开与读取阻塞（`video.stream_open_timeout_seconds / stream_read_timeout_seconds`，默认 8/10 秒）；仍没有 RTSP 认证重试、码流切换、录像回放或断流持久化队列。
+- 未在真实 RTSP 设备/长时间弱网环境完成上线验收；测试使用确定性假视频源验证退避、状态、TCP/超时参数和时间戳连续性。
+- OpenCV/FFmpeg 对超时参数的支持取决于构建版本；旧版本会退化为普通 `VideoCapture`，打开阶段仍可能较慢。
 
 ## 5. 隧道低照度 / 明暗适应预处理
 
@@ -163,13 +168,13 @@ alerts:
 
 1. **3D 数字孪生**：仍为二维道路平面与同帧车辆；3D 需要相机外参、车辆三维尺寸和渲染管线。
 2. **多摄像头接力**：当前是单分析会话；跨机位 ID 保持、时间同步和轨迹拼接需要额外基础设施。
-3. **抛洒物与烟火识别**：需要专门检测模型和训练/验证数据，不能用现有车辆模型推测。
+3. **抛洒物分类与烟火识别**：已提供基于虚拟线圈前景占用的“路面异物”启发式（只判断异常占用，不区分异物类别）；真正的抛洒物分类与烟火识别需要专门检测模型和训练/验证数据。
 
 后续可按以下顺序推进：真实隧道多光照数据采集与标定 → 事件阈值现场校准 → RTSP 长稳测试与鉴权 → 专门模型评估 → 3D/多机位。
 
 ## 测试与兼容性
 
-- 新增 `tests/test_tunnel_events.py`（事件与场景）、`test_alerts.py`（Webhook 冷却/重试/失败隔离）、`test_service_level.py`（线圈、占有率、A–F、导出/报告）、`test_stream.py`（指数退避、状态、seek 禁止、本地视频回归）、`test_preprocessing.py`（CLAHE/Gamma 与设置 API）。
+- 新增 `tests/test_tunnel_events.py`（事件与场景）、`test_alerts.py` / `test_webhook_auth.py`（Webhook 冷却/重试/失败隔离、Header 鉴权、HMAC 时间戳与投递日志）、`test_service_level.py`（线圈、占有率、A–F、导出/报告）、`test_stream.py`（指数退避、TCP/超时、分辨率变化、直播仅截图、seek 禁止、本地视频回归）、`test_debris.py`（路面异物启发式）、`test_calibration_gate.py`（标定门控与分辨率失效）、`test_preprocessing.py`（CLAHE/Gamma 与设置 API）。
 - 前端新增事件标签与冷却、提示音偏好测试；原有几何、快照顺序、报告、复核、上传和标定回归全部保留。
 - 旧场景没有 `solid_line`、`speed_limit_kmh`、`loop` 时按“实线、无限速、自动线圈”解释；旧 CSV/报告仍可读取，新增字段显示不可用。
 - 所有速度、密度、排队长度与服务水平在无实测尺度时保持关闭或明确标注估计，不补造数据。

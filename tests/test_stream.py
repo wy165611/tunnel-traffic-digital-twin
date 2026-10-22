@@ -1,3 +1,4 @@
+import os
 import types
 import cv2
 import numpy as np
@@ -19,10 +20,12 @@ class FakeCapture:
     instances = []
     opened_plan = [True, False, False, True]
 
-    def __init__(self, source):
+    def __init__(self, source, api=None, params=None):
         self.number = len(FakeCapture.instances)
         FakeCapture.instances.append(self)
         self.source = source
+        self.api, self.params = api, params
+        self.env_at_open = os.environ.get('OPENCV_FFMPEG_CAPTURE_OPTIONS')
         self.raw_ms = 1000. if self.number == 0 else 5000.
         self.reads = 0
     def isOpened(self): return self.opened_plan[self.number]
@@ -36,6 +39,39 @@ class FakeCapture:
         return False, None
     def set(self, *args): return True
     def release(self): pass
+
+
+def test_live_reader_prefers_tcp_and_bounds_open_and_read_timeouts(monkeypatch):
+    FakeCapture.instances = []
+    monkeypatch.setenv('OPENCV_FFMPEG_CAPTURE_OPTIONS', '')
+    monkeypatch.setattr(video_reader.cv2, 'VideoCapture', FakeCapture)
+    reader = VideoReader('rtsp://camera.local/live', open_timeout=5, read_timeout=7)
+    capture = FakeCapture.instances[0]
+    assert capture.api == cv2.CAP_FFMPEG
+    assert capture.params == [cv2.CAP_PROP_OPEN_TIMEOUT_MSEC, 5000,
+                              cv2.CAP_PROP_READ_TIMEOUT_MSEC, 7000]
+    assert 'rtsp_transport;tcp' in capture.env_at_open
+    assert reader.open_timeout == 5 and reader.read_timeout == 7
+    assert os.environ['OPENCV_FFMPEG_CAPTURE_OPTIONS'] == ''
+    reader.close()
+
+
+def test_live_reader_fallback_keeps_socket_timeout_and_restores_env(monkeypatch):
+    class LegacyCapture(FakeCapture):
+        opened_plan = [True]
+        def __init__(self, source, api=None, params=None):
+            if params is not None:
+                raise TypeError('params overload unsupported')
+            super().__init__(source, api, params)
+    FakeCapture.instances = []
+    monkeypatch.setenv('OPENCV_FFMPEG_CAPTURE_OPTIONS', 'buffer_size;1024')
+    monkeypatch.setattr(video_reader.cv2, 'VideoCapture', LegacyCapture)
+    reader = VideoReader('rtsp://camera.local/live', open_timeout=4)
+    capture = LegacyCapture.instances[0]
+    assert 'buffer_size;1024|rtsp_transport;tcp' in capture.env_at_open
+    assert 'rw_timeout;4000000' in capture.env_at_open
+    assert os.environ['OPENCV_FFMPEG_CAPTURE_OPTIONS'] == 'buffer_size;1024'
+    reader.close()
 
 
 def test_live_reader_reconnects_with_exponential_backoff(monkeypatch):
@@ -52,6 +88,7 @@ def test_live_reader_reconnects_with_exponential_backoff(monkeypatch):
     assert reader.read() is None and len(FakeCapture.instances) == 1  # waits one second
     clock.value = 1.
     assert reader.read() is None and len(FakeCapture.instances) == 2  # first retry fails
+    assert FakeCapture.instances[1].api == cv2.CAP_FFMPEG and FakeCapture.instances[1].params
     assert reader.metadata['reconnect_attempt'] == 2
     clock.value = 3.
     assert reader.read() is None and len(FakeCapture.instances) == 3  # waits two seconds
@@ -62,6 +99,41 @@ def test_live_reader_reconnects_with_exponential_backoff(monkeypatch):
     assert reader.metadata['stream_state'] == 'connected' and reader.metadata['reconnect_attempt'] == 0
     with pytest.raises(ValueError, match='实时流'):
         reader.seek(1)
+
+
+def test_live_reconnect_flags_resolution_change_and_keeps_original_space(monkeypatch):
+    class ChangingCapture(FakeCapture):
+        opened_plan = [True, True, True]
+        def get(self, prop):
+            if prop == cv2.CAP_PROP_FRAME_WIDTH: return [320., 640., 320.][self.number]
+            if prop == cv2.CAP_PROP_FRAME_HEIGHT: return [240., 480., 240.][self.number]
+            return super().get(prop)
+        def read(self):
+            self.reads += 1
+            if self.number == 0 and self.reads == 1: return True, np.zeros((240, 320, 3), np.uint8)
+            if self.number == 1 and self.reads == 1: return True, np.zeros((480, 640, 3), np.uint8)
+            if self.number == 2: return True, np.zeros((240, 320, 3), np.uint8)
+            return False, None
+    FakeCapture.instances = []
+    clock = Clock()
+    monkeypatch.setattr(video_reader.cv2, 'VideoCapture', ChangingCapture)
+    monkeypatch.setattr(video_reader, 'time', types.SimpleNamespace(monotonic=clock.now))
+    reader = VideoReader('rtsp://camera.local/live')
+    assert reader.metadata['resolution_changed'] is False
+    assert reader.read() is not None and reader.read() is None
+    clock.value = 7.
+    assert reader.read() is not None
+    metadata = reader.metadata
+    assert metadata['resolution_changed'] is True
+    assert metadata['resolution_change'] == dict(previous=[320, 240], current=[640, 480])
+    assert (reader.width, reader.height, reader.display_width, reader.display_height) == (320, 240, 320, 240)
+    assert reader.read() is None
+    clock.value = 8.
+    assert reader.read() is not None
+    assert reader.metadata['resolution_changed'] is False and reader.metadata['resolution_change'] is None
+    reader.clear_resolution_change()
+    assert reader.metadata['resolution_changed'] is False
+    reader.close()
 
 
 def test_live_processor_does_not_finalize_run_on_missing_frame():
@@ -82,6 +154,31 @@ def test_live_processor_does_not_finalize_run_on_missing_frame():
     processor.close()
 
 
+def test_capture_event_marks_live_source_as_screenshot_only():
+    from backend.evidence import capture_event, event_detail
+    from backend.exporter import CSVExporter
+    exporter = CSVExporter()
+
+    class Reader:
+        live = True
+        width = height = display_width = display_height = 100
+
+    frame = np.zeros((100, 100, 3), np.uint8)
+    vehicle = dict(id=1, box=[10, 10, 50, 50], lane='Lane 1', type='car', confidence=.9,
+                   pixel=[30, 50], world_trajectory=[])
+    event = dict(timestamp=1., vehicle_id=1, event='SPEEDING', label='超速', lane='Lane 1', speed=90.)
+    exporter.update_metadata(video_id='实时流 · camera', video_identity='stream-abc', segment_start=0.)
+    try:
+        capture_event(exporter, event, vehicle, frame, 0, Reader(), load_config(), dict(lanes=[]), None)
+        detail = event_detail(exporter.directory.parent.parent, exporter.run_id, event['event_id'])
+        assert detail['source'] == dict(video_id='实时流 · camera', video_identity='stream-abc',
+                                        segment_start=0., live=True)
+        assert detail['source_available'] is False and detail['source_url'] is None
+        assert detail['source_reason']
+    finally:
+        exporter.close()
+
+
 def test_stream_api_validates_url_and_keeps_local_video_working(client, monkeypatch):
     c, s = client
     assert c.post('/api/video/stream', json={'url': 'file:///etc/passwd'}).status_code == 400
@@ -90,7 +187,7 @@ def test_stream_api_validates_url_and_keeps_local_video_working(client, monkeypa
     class StreamReader:
         width = 320; height = 240; fps = 10.; frames = 0; duration = 0.; duration_estimated = True
         display_width = 320; display_height = 240; live = True; index = 0
-        def __init__(self, source, max_side=960): self.source = source
+        def __init__(self, source, max_side=960, **kwargs): self.source = source
         @property
         def metadata(self):
             return dict(width=320, height=240, fps=10., frames=0, duration=0., live=True,

@@ -39,15 +39,19 @@ class AnalysisService:
         # Publish complete immutable snapshots once; worker threads never expose a half-swapped video.
         scene = copy.deepcopy(self.scene)
         scene['virtual_loops'] = scene_loops(scene.get('lanes') or [])
+        calibration = self.effective_calibration
         self._state = dict(**self.snapshot, status=self.status, error=self.error, rate=self.rate,
             session_id=self.session_id, revision=self.revision, video_id=self.video_id,
             video_token=self.video_token, scene_revision=self.scene_revision,
             video=self.reader.metadata if self.reader else None, template_provenance=copy.deepcopy(self.template_provenance), scene=scene,
             calibration=copy.deepcopy(self.calibration.payload) if self.calibration else None,
+            calibration_notice=self.calibration_notice,
             counting_line_suggestion=automatic_counting_line(self.reader.width, self.reader.height, self.scene.get('lanes')) if self.reader else None,
             settings=dict(model=self.config['detector']['model'], confidence=self.config['detector']['confidence'],
                 detection_interval=self.config['video']['detection_interval'], smoothing_frames=self.config['speed']['smoothing_frames'],
                 intrusion_supported=model_supports_intrusion(self.config['detector']['model']),
+                calibration_available=calibration is not None,
+                calibration_required_metrics=['speed', 'tailgating', 'queue_length_m', 'density', 'service_level'],
                 alert_cooldown_seconds=float(self.config.get('alerts', {}).get('cooldown_seconds', 10)),
                 occupancy_enabled=bool(self.config['traffic'].get('time_occupancy_enabled', True)),
                 low_light_enabled=bool(self.config.get('preprocessing', {}).get('low_light_enabled', False)),
@@ -57,6 +61,21 @@ class AnalysisService:
 
     def state(self):
         return dict(self._state)
+
+    @property
+    def calibration_notice(self):
+        """A live resolution switch makes the saved metric scale untrustworthy."""
+        change = getattr(self.reader, 'resolution_change', None) if self.reader else None
+        if not change or not getattr(self.reader, 'resolution_changed', False):
+            return None
+        previous, current = change['previous'], change['current']
+        return dict(reason='resolution_changed',
+                    message=f"实时流分辨率已从 {previous[0]}×{previous[1]} 变为 {current[0]}×{current[1]}，原标定已失效，请重新标定后再启用测速、跟车时距、排队米数与服务水平。",
+                    previous=list(previous), current=list(current))
+
+    @property
+    def effective_calibration(self):
+        return None if self.calibration_notice else self.calibration
 
     def changed(self):
         self.revision += 1
@@ -69,10 +88,10 @@ class AnalysisService:
         direction (the legacy default on landscape roads) is reset to +Y,
         which always follows the auto-detected road-length edge.
         """
-        if not self.calibration:
+        if not self.effective_calibration:
             return
         current = normalised_direction(self.config['traffic']['legal_direction'])
-        travel = self.calibration.travel_direction.tolist()
+        travel = self.effective_calibration.travel_direction.tolist()
         if abs(current[0]*travel[0]+current[1]*travel[1]) < .5:
             current = travel
         self.config['traffic']['legal_direction'] = current
@@ -136,11 +155,12 @@ class AnalysisService:
             self.processor.close()
             self.processor = None
         preview = self.read_preview(self.reader, seconds)
-        self.processor = TrafficProcessor(self.reader, self.detector, copy.deepcopy(self.config), self.scene, self.calibration, preview['timestamp'])
+        calibration = self.effective_calibration
+        self.processor = TrafficProcessor(self.reader, self.detector, copy.deepcopy(self.config), self.scene, calibration, preview['timestamp'])
         self.processor.exporter.update_metadata(video_id=self.video_id, video_identity=self.identity,
-            segment_start=preview['timestamp'], calibrated=self.calibration is not None,
+            segment_start=preview['timestamp'], calibrated=calibration is not None,
             config=copy.deepcopy(self.config), scene=copy.deepcopy(self.scene),
-            calibration=self.calibration.payload if self.calibration else None,
+            calibration=calibration.payload if calibration else None,
             video=self.reader.metadata, template_provenance=copy.deepcopy(self.template_provenance))
         self.snapshot = dict(**preview, run_id=self.processor.exporter.run_id, segment_start=preview['timestamp'])
 
@@ -152,7 +172,8 @@ class AnalysisService:
         url = url.strip()
         if not url.lower().startswith(('rtsp://', 'rtsps://', 'http://', 'https://')):
             raise ValueError('流地址必须以 rtsp://、rtsps://、http:// 或 https:// 开头')
-        reader = VideoReader(url)
+        reader = VideoReader(url, open_timeout=self.config['video'].get('stream_open_timeout_seconds'),
+                             read_timeout=self.config['video'].get('stream_read_timeout_seconds'))
         try:
             identity = 'stream-'+hashlib.sha256(url.encode('utf-8')).hexdigest()[:24]
             scene_file = DATA / 'calibrations' / f'{identity}-scene.json'
@@ -265,6 +286,9 @@ class AnalysisService:
             self.processor.close()
             self.processor = None
         self.scene, self.calibration, self.snapshot = scene, calibration, preview
+        if self.reader:
+            # Re-drawn corners on the current stream restore the metric gate.
+            self.reader.clear_resolution_change()
         self._sync_legal_direction()
         self.template_provenance = copy.deepcopy(provenance)
         self.scene_revision += 1
@@ -286,7 +310,9 @@ class AnalysisService:
             for name in ('stop_speed', 'stop_seconds', 'hard_braking_acceleration', 'wrong_way_seconds',
                          'speeding_enabled', 'speeding_kmh', 'slow_speed_enabled', 'slow_speed_kmh',
                          'lane_change_enabled', 'lane_change_seconds', 'tailgating_enabled',
-                         'tailgating_headway_seconds', 'intrusion_enabled', 'queue_speed_kmh'):
+                         'tailgating_headway_seconds', 'intrusion_enabled', 'queue_speed_kmh',
+                         'debris_enabled', 'debris_seconds', 'debris_area_ratio',
+                         'debris_difference_threshold', 'debris_cooldown_seconds'):
                 self.config['events'][name] = getattr(settings, name)
             self.config['traffic']['legal_direction'] = normalised_direction(settings.legal_direction)
             self.config['traffic']['time_occupancy_enabled'] = settings.occupancy_enabled
@@ -330,6 +356,8 @@ class AnalysisService:
                                 self.status, self.error = 'playing', None
                             if previous is not None and frame['timestamp'] > previous:
                                 frame_interval = frame['timestamp'] - previous
+                            if self.reader and self.reader.metadata.get('resolution_changed') and self.processor:
+                                self.processor.invalidate_calibration()
                             self.snapshot = frame
                         self.changed()
                     except Exception as exc:

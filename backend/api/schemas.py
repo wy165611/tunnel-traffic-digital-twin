@@ -102,8 +102,13 @@ class RuntimeSettings(BaseModel):
     lane_change_seconds: float = Field(default=1, ge=.5, le=30)
     tailgating_enabled: bool = True
     tailgating_headway_seconds: float = Field(default=2, ge=.2, le=10)
-    intrusion_enabled: bool = True
+    intrusion_enabled: bool = False
     queue_speed_kmh: float = Field(default=10, ge=0, le=50)
+    debris_enabled: bool = True
+    debris_seconds: float = Field(default=2, ge=.5, le=30)
+    debris_area_ratio: float = Field(default=.18, ge=.01, le=1)
+    debris_difference_threshold: int = Field(default=30, ge=1, le=255)
+    debris_cooldown_seconds: float = Field(default=30, ge=0, le=3600)
     occupancy_enabled: bool = True
     low_light_enabled: bool = False
     low_light_clahe_clip: float = Field(default=2, ge=1, le=10)
