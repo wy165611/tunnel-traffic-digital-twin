@@ -17,6 +17,7 @@ class DebrisDetector:
     # of the frame is lighting, not debris, and rebuilds the background.
     FOREGROUND_ALPHA = .002
     GLOBAL_CHANGE_RATIO = .6
+    VEHICLE_OVERLAP_RATIO = .1
 
     def __init__(self, scene, config, width, height, scale=1., enabled=None):
         self.config = config
@@ -89,17 +90,24 @@ class DebrisDetector:
             data['since'] = None
 
     def _vehicle_inside(self, data, vehicles):
-        center = data['points'].mean(axis=0)
+        """A loop is vehicle-occupied when the observed box overlaps enough of it."""
+        loop = data['points'].astype(np.float32)
+        minimum = self.VEHICLE_OVERLAP_RATIO*data['area']
         for vehicle in vehicles or []:
-            if not vehicle.get('observed') or vehicle.get('pixel') is None:
+            if not vehicle.get('observed'):
                 continue
-            x, y = float(vehicle['pixel'][0])*self.scale, float(vehicle['pixel'][1])*self.scale
-            if cv2.pointPolygonTest(data['contour'], (x, y), False) >= 0:
-                return True
             box = vehicle.get('box')
             if box and len(box) == 4:
                 x1, y1, x2, y2 = [float(value)*self.scale for value in box]
-                if x1 <= center[0] <= x2 and y1 <= center[1] <= y2:
+                rectangle = np.array([[x1, y1], [x2, y1], [x2, y2], [x1, y2]], np.float32)
+                overlap, _ = cv2.intersectConvexConvex(loop, rectangle)
+                if overlap > minimum:
+                    return True
+                continue
+            pixel = vehicle.get('pixel')
+            if pixel is not None:
+                point = (float(pixel[0])*self.scale, float(pixel[1])*self.scale)
+                if cv2.pointPolygonTest(data['contour'], point, False) >= 0:
                     return True
         return False
 

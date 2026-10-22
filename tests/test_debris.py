@@ -89,6 +89,22 @@ def test_observed_vehicle_inside_loop_suppresses_debris():
     assert len(detector_.update(7., frame(block))) == 1
 
 
+def test_vehicle_overlap_area_not_center_point_decides_suppression():
+    block = (30, 70, 30, 70)
+    detector_ = detector()
+    detector_.update(0., frame())
+    # The box centre is outside the loop, but it covers >10% of the loop area.
+    partial = vehicle(pixel=(90, 45), box=(60, 35, 84, 55))
+    for timestamp in (1., 2., 3.):
+        assert detector_.update(timestamp, frame(block), [partial]) == []
+    tiny = vehicle(pixel=(90, 45), box=(66, 35, 84, 55))
+    detector_ = detector()
+    detector_.update(0., frame())
+    detector_.update(1., frame(block), [tiny])
+    detector_.update(2., frame(block), [tiny])
+    assert len(detector_.update(3., frame(block), [tiny])) == 1
+
+
 def test_cooldown_limits_repeated_debris_events():
     detector_ = detector(debris_cooldown_seconds=5.)
     block = (30, 70, 30, 70)
