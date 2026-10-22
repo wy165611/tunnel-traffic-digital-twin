@@ -129,6 +129,31 @@ def test_live_processor_does_not_finalize_run_on_missing_frame():
     processor.close()
 
 
+def test_capture_event_marks_live_source_as_screenshot_only():
+    from backend.evidence import capture_event, event_detail
+    from backend.exporter import CSVExporter
+    exporter = CSVExporter()
+
+    class Reader:
+        live = True
+        width = height = display_width = display_height = 100
+
+    frame = np.zeros((100, 100, 3), np.uint8)
+    vehicle = dict(id=1, box=[10, 10, 50, 50], lane='Lane 1', type='car', confidence=.9,
+                   pixel=[30, 50], world_trajectory=[])
+    event = dict(timestamp=1., vehicle_id=1, event='SPEEDING', label='超速', lane='Lane 1', speed=90.)
+    exporter.update_metadata(video_id='实时流 · camera', video_identity='stream-abc', segment_start=0.)
+    try:
+        capture_event(exporter, event, vehicle, frame, 0, Reader(), load_config(), dict(lanes=[]), None)
+        detail = event_detail(exporter.directory.parent.parent, exporter.run_id, event['event_id'])
+        assert detail['source'] == dict(video_id='实时流 · camera', video_identity='stream-abc',
+                                        segment_start=0., live=True)
+        assert detail['source_available'] is False and detail['source_url'] is None
+        assert detail['source_reason']
+    finally:
+        exporter.close()
+
+
 def test_stream_api_validates_url_and_keeps_local_video_working(client, monkeypatch):
     c, s = client
     assert c.post('/api/video/stream', json={'url': 'file:///etc/passwd'}).status_code == 400

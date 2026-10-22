@@ -43,7 +43,8 @@ def capture_event(exporter, event, vehicle, frame, index, reader, config, scene,
                             display_box=box, vehicle=vehicle, observed_trajectory=vehicle['world_trajectory'],
                             rule_config=config['events'], legal_direction=next((lane.get('direction') for lane in scene.get('lanes', []) if lane['name'] == vehicle['lane']), config['traffic']['legal_direction']),
                             calibration=calibration.payload if calibration else None,
-                            source={key: exporter.metadata.get(key) for key in ('video_id', 'video_identity', 'segment_start')},
+                            source={key: exporter.metadata.get(key) for key in ('video_id', 'video_identity', 'segment_start')}
+                                   | dict(live=bool(getattr(reader, 'live', False))),
                             created_at=datetime.now(timezone.utc).isoformat())
             atomic_json(temporary / 'capture.json', metadata)
             temporary.rename(final)
