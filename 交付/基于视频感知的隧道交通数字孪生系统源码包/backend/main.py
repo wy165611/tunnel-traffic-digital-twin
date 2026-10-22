@@ -12,6 +12,7 @@ from fastapi.responses import FileResponse, HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 from backend.api.schemas import VideoSelection, PathImport, StreamInput, PlaybackControl, SceneInput, RuntimeSettings, TemplateCreate, TemplateRename, TemplateRevision, TemplatePreview, TemplateApply
+from backend.alerts import DELIVERY_LOG
 from backend.settings import DATA, ROOT
 from backend.service import AnalysisService, StaleVideoError
 from backend.security import UploadBodyLimit, MAX_VIDEO_BYTES, trusted_origin
@@ -183,6 +184,15 @@ async def settings(payload: RuntimeSettings):
         raise HTTPException(409, str(exc)) from exc
     except (ValueError, OSError) as exc:
         raise HTTPException(400, str(exc)) from exc
+
+
+@app.get('/api/webhook-log')
+def webhook_log(limit: int = 50, offset: int = 0, status: Literal['all', 'success', 'failed'] = 'all'):
+    if not 1 <= limit <= 200 or offset < 0:
+        raise HTTPException(400, '无效分页参数')
+    alerts = service.config.get('alerts') or {}
+    enabled = bool(alerts.get('webhook_enabled')) and bool(str(alerts.get('webhook_url') or '').strip())
+    return dict(enabled=enabled, **DELIVERY_LOG.query(limit, offset, None if status == 'all' else status))
 
 
 @app.get('/api/runs')

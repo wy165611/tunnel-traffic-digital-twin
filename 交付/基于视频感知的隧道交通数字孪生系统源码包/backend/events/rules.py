@@ -10,6 +10,7 @@ EVENT_NAMES = {
     'CLOSE FOLLOWING': '跟车过近',
     'PEDESTRIAN INTRUSION': '行人闯入',
     'NON MOTOR INTRUSION': '非机动车闯入',
+    'ROAD DEBRIS': '路面异物',
 }
 INTRUSION_TYPES = {'person': 'PEDESTRIAN INTRUSION', 'bicycle': 'NON MOTOR INTRUSION'}
 
@@ -17,8 +18,11 @@ INTRUSION_TYPES = {'person': 'PEDESTRIAN INTRUSION', 'bicycle': 'NON MOTOR INTRU
 class EventDetector:
     """Per-track trajectory rules; speed rules only run with calibrated speed."""
 
-    def __init__(self, config):
+    def __init__(self, config, calibration_available=True):
         self.config = config
+        # Speed, headway and queue rules are one calibration-dependent group.
+        # Without a metric road scale they stay silent instead of faking values.
+        self.calibration_available = calibration_available
         self.stopped = {}
         self.reverse = {}
         self.last_event = {}
@@ -84,7 +88,7 @@ class EventDetector:
             candidates.append('ILLEGAL LANE CHANGE')
         if intrusion:
             pass
-        elif speed is None:
+        elif speed is None or not self.calibration_available:
             for values in (self.stopped, self.reverse, self.previous_speed):
                 values.pop(vid, None)
         else:

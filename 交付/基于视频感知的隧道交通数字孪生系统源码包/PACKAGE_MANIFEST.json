@@ -1,11 +1,11 @@
 {
   "package": "基于视频感知的隧道交通数字孪生系统源码包",
-  "version": "tunnel-features-v1",
-  "package_revision": "v2",
-  "created_date": "2026-10-20",
-  "source_commit": "52cf66a7a8c74a72fc02c0037b7c4f7fa0653d94",
+  "version": "tunnel-features-v2",
+  "package_revision": "v3",
+  "created_date": "2026-10-22",
+  "source_commit": "c6aa02fb49df3c72747d82b38e7468d5a45ccdd8",
   "source_branch": "main",
-  "file_count_excluding_manifest": 164,
+  "file_count_excluding_manifest": 179,
   "files": [
     {
       "path": ".gitignore",
@@ -29,8 +29,8 @@
     },
     {
       "path": "README.md",
-      "size_bytes": 35617,
-      "sha256": "53f633710e30f425e9492fee35e672913228555ff1110f0e17eb488b03ede642"
+      "size_bytes": 35990,
+      "sha256": "c873cc5cd27bcd32c0f8bc4c656f394d0ff226ab2003a1c8a3c2b586ddda4c4a"
     },
     {
       "path": "TEST_REPORT.json",
@@ -44,8 +44,8 @@
     },
     {
       "path": "backend/alerts.py",
-      "size_bytes": 2576,
-      "sha256": "6abbf6c8200f377a899fa7f86ab15faa3c69592098f848963374d817a7f71c8b"
+      "size_bytes": 5661,
+      "sha256": "c2f6858bcb561f4423dda813afc9af3d5bbd7339a3ccfc2359cb358ffaf57a6f"
     },
     {
       "path": "backend/annotations.py",
@@ -59,8 +59,8 @@
     },
     {
       "path": "backend/api/schemas.py",
-      "size_bytes": 6428,
-      "sha256": "dbc404684f7bcd3a8065596d291d7f25a3ae2202eaf04137609ebbccb0e39bb2"
+      "size_bytes": 6725,
+      "sha256": "6e657d1863a757abf5dfb3e0e80e28c0357ce700f027a75b3197f3b50b400051"
     },
     {
       "path": "backend/calibration/__init__.py",
@@ -98,14 +98,19 @@
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     {
+      "path": "backend/events/debris.py",
+      "size_bytes": 6777,
+      "sha256": "d8edcfc680f07bd488947712587bf8d30863a4c7fd157fdaf0148985a286c505"
+    },
+    {
       "path": "backend/events/rules.py",
-      "size_bytes": 6335,
-      "sha256": "353d07de2fa1b230c35653c9adf2884462318c770baaaf5799798295e544f546"
+      "size_bytes": 6650,
+      "sha256": "87c0463c5c0e4f92c67d706be5345b8748cb2476c4aacb1f0ff407a2626cfebf"
     },
     {
       "path": "backend/evidence.py",
-      "size_bytes": 6447,
-      "sha256": "5908d1ce4e5c906d6400f19c80cd93345a7f83f3e251c98208f9698e650c4a4e"
+      "size_bytes": 6617,
+      "sha256": "25209f8bf007df48d3e8ee9b083f372fd8f39846118b935e4779a36047ab9c86"
     },
     {
       "path": "backend/exporter.py",
@@ -114,13 +119,13 @@
     },
     {
       "path": "backend/main.py",
-      "size_bytes": 22094,
-      "sha256": "bf64c83011ff898da308bac822bbced260eb4c06a81ad0946521ed409026c6e6"
+      "size_bytes": 22628,
+      "sha256": "b933be8c6fcdd5f9ddf39f9a758dff73059f9ff27d8741694592b3bb1ad9e3c9"
     },
     {
       "path": "backend/processor.py",
-      "size_bytes": 12071,
-      "sha256": "78a5ecc977f63de79545ab2c929f1410f393c0aa6073c96cbfed8f3653232c0f"
+      "size_bytes": 13290,
+      "sha256": "a8396881b3265654b8b70818d63553f0a97d28c43359caa5edf0c9f55dbbdcfb"
     },
     {
       "path": "backend/reports.py",
@@ -134,8 +139,8 @@
     },
     {
       "path": "backend/service.py",
-      "size_bytes": 17983,
-      "sha256": "e6d2db400f67182787f1f199243031a94785391a5359074898c2c39dbc91e033"
+      "size_bytes": 19843,
+      "sha256": "76ab18dbd3cb8ad42e15bb7a61094f833e6c50c21026d4884b2c6cd031f199a2"
     },
     {
       "path": "backend/settings.py",
@@ -209,8 +214,8 @@
     },
     {
       "path": "backend/vision/video_reader.py",
-      "size_bytes": 9502,
-      "sha256": "d6f62f8ad97b0d7fcf4757a04827ed4579c4726a02c35cedb381189a005ac358"
+      "size_bytes": 13273,
+      "sha256": "a4d0cad5032699aad9ddb3551f0935b010b69e63ac5d5cd5cc5e702a88bb4800"
     },
     {
       "path": "backend/vision/weights.py",
@@ -219,18 +224,23 @@
     },
     {
       "path": "config.yaml",
-      "size_bytes": 1136,
-      "sha256": "af79dbd2e8f111437740c28a0afe99ee4a9908c9821ed237f81a4e5a84098efe"
+      "size_bytes": 2043,
+      "sha256": "105f23c516437b120a630d81a8028a2400a632556f207c70e8496b09194877e8"
+    },
+    {
+      "path": "docs/Windows分发版启动说明.md",
+      "size_bytes": 7691,
+      "sha256": "88efa9d779533ec74d3c2143d1d41f4ab491d41564a0fe09107387e2229f3ffb"
+    },
+    {
+      "path": "docs/Windows分发版启动说明.txt",
+      "size_bytes": 7497,
+      "sha256": "e408c65b8b70a86769edd278f2831194c8d5eed4dedfcc0df9404fe139e83175"
     },
     {
       "path": "docs/Windows启动说明.md",
       "size_bytes": 3661,
       "sha256": "fb6a847de1a164979d7a1631af35be58ceb36fc53f12d96b68e9340fd394b8d2"
-    },
-    {
-      "path": "docs/Windows启动说明.pdf",
-      "size_bytes": 128334,
-      "sha256": "8374a709c30e67c4d91de87feac1f5eb73366efdcaf560942e813161fdfd09bf"
     },
     {
       "path": "docs/accuracy-evaluation.md",
@@ -264,13 +274,18 @@
     },
     {
       "path": "docs/features-analysis.md",
-      "size_bytes": 6463,
-      "sha256": "760f90808346c86c350abefe4920346f4f96e9981003aac8741b70b54f8da5a5"
+      "size_bytes": 6684,
+      "sha256": "586537bb239a4a89be3c815d4d7808eb13c4fd17fe76be93905c6194dfc34257"
     },
     {
       "path": "docs/final-result.jpg",
       "size_bytes": 97275,
       "sha256": "14280a20cf01285f76830da938e5f5a0b42106f127c245c04c207200fd3dab74"
+    },
+    {
+      "path": "docs/improvements-v2.md",
+      "size_bytes": 5189,
+      "sha256": "79a9e5f4d9c20481cb223f845d8c4eda0a9b2c4ae5589e5eed149f727f0b1d78"
     },
     {
       "path": "docs/linear-design/README.md",
@@ -364,8 +379,8 @@
     },
     {
       "path": "docs/new-features-v1.md",
-      "size_bytes": 13562,
-      "sha256": "fbd030fc81ba72918202ee937e455aa13f1dca04a6e809012c33da963000b6c8"
+      "size_bytes": 15316,
+      "sha256": "c96d1e1ded25b7683c2cef7a1ad5db124be681d7e0f628430543526f03bcb3a6"
     },
     {
       "path": "docs/review-smoke-2026-10-02.json",
@@ -381,6 +396,16 @@
       "path": "docs/system-preview.jpg",
       "size_bytes": 157085,
       "sha256": "dca0cf6f74c8791e16c10ae62be8c079909d2d97c3a849d345e57c6a05224290"
+    },
+    {
+      "path": "docs/tasks/tunnel-improve-v2-PROGRESS.md",
+      "size_bytes": 5138,
+      "sha256": "8a442e46e896c4d16d6e6a6dd7a0c2cc367cdc804a87db572ed5d7c531eb248a"
+    },
+    {
+      "path": "docs/tasks/tunnel-improve-v2.md",
+      "size_bytes": 1305,
+      "sha256": "64877b31d16d7fe9eb416fa8a4af342b99c34e59162f50e4ae962ae8019b64f9"
     },
     {
       "path": "docs/twin-orientation.md",
@@ -401,6 +426,16 @@
       "path": "examples/evaluation_truth.template.json",
       "size_bytes": 203,
       "sha256": "439534bf3ddd3c88644122bcdb31efad25cc555e818ca739745eedc89bfb4efa"
+    },
+    {
+      "path": "examples/tunnel-demo-LICENSE.md",
+      "size_bytes": 697,
+      "sha256": "ef176d55312eb1f4bd5111850eaee8c70a8b2fa28a555fcd62258e5837795c30"
+    },
+    {
+      "path": "examples/tunnel-demo.mp4",
+      "size_bytes": 577306,
+      "sha256": "48d1795d10f2270d23e7d46faea195d9e056da7a68588d86177d6e9452e7b88d"
     },
     {
       "path": "frontend/index.html",
@@ -424,8 +459,8 @@
     },
     {
       "path": "frontend/src/App.tsx",
-      "size_bytes": 23622,
-      "sha256": "cb104d5de40114d0f7a9d59a8a4dd3a7fd39134fdd0266d42cb390593c7742a9"
+      "size_bytes": 24127,
+      "sha256": "06823aaddf73b828e471140fb169646055285d74bc8c668a15f17035e0be7029"
     },
     {
       "path": "frontend/src/api.ts",
@@ -448,14 +483,19 @@
       "sha256": "8a02b2f9875b9877173fe5abda4973fa28e223f9105b2347c2a328fd82381056"
     },
     {
+      "path": "frontend/src/components/BirdseyePreview.tsx",
+      "size_bytes": 3229,
+      "sha256": "980376cd6af298616e12693ff385d0820f2694049862d5ced42dc47045200130"
+    },
+    {
       "path": "frontend/src/components/BrandMark.tsx",
       "size_bytes": 328,
       "sha256": "40c407198fb3928acf374e1b2f09e60a0681c2ec779fc68488e19b77d1cb281c"
     },
     {
       "path": "frontend/src/components/CalibrationPanel.tsx",
-      "size_bytes": 12417,
-      "sha256": "a9507ab2b1ff3c2572feb70cb0cf8d2b7039cc953bad7ae608cd5eabdd90a16f"
+      "size_bytes": 16915,
+      "sha256": "c580a76db03834e0e72ab05157dcc1b70df2db843c0a74b376c063fbb4197632"
     },
     {
       "path": "frontend/src/components/CameraTemplatesDialog.tsx",
@@ -469,8 +509,8 @@
     },
     {
       "path": "frontend/src/components/Dashboard.tsx",
-      "size_bytes": 1564,
-      "sha256": "fe252d8a932e72dee71582e043ccc667d967ddab52625ff9543e7bd404e2842b"
+      "size_bytes": 1615,
+      "sha256": "8ad5c27e96b239effdaec904dd17327e8187d983f795444cabd0765a4293c7e2"
     },
     {
       "path": "frontend/src/components/DataExportPanel.tsx",
@@ -489,8 +529,8 @@
     },
     {
       "path": "frontend/src/components/EvidenceDialog.tsx",
-      "size_bytes": 5580,
-      "sha256": "a06b2e22a056e9868c793cc016007d7f003c7b73f7c76c3824c666b2f1cffa28"
+      "size_bytes": 5737,
+      "sha256": "6e666baaaf9a61dc587b6eee4582c7ec65bae4cc2722be71d58c36d4c0bc272e"
     },
     {
       "path": "frontend/src/components/ImportDialog.tsx",
@@ -519,8 +559,8 @@
     },
     {
       "path": "frontend/src/components/ServiceLevelPanel.tsx",
-      "size_bytes": 2149,
-      "sha256": "2eb77dfb841c2821cbf07a2a4dd2e4791454d8ee5c69ae0cb32c8d1c6d858a8e"
+      "size_bytes": 2182,
+      "sha256": "760468e188eb7d24919f87872b74baa07cb33fb2f428fec55c0e17918f2ef45b"
     },
     {
       "path": "frontend/src/components/Sidebar.tsx",
@@ -529,8 +569,8 @@
     },
     {
       "path": "frontend/src/components/VideoView.tsx",
-      "size_bytes": 4496,
-      "sha256": "679b03cb78669f4c0afd612510694bfd23f9201fcc8bf1dbd59bf2b1f0e6d04b"
+      "size_bytes": 4927,
+      "sha256": "086006835729d599b2ead1ebb2517d403eea9c6900a0ec1aeb27e6121aa3befe"
     },
     {
       "path": "frontend/src/hooks/useDecodedSnapshot.ts",
@@ -549,8 +589,8 @@
     },
     {
       "path": "frontend/src/styles.css",
-      "size_bytes": 40630,
-      "sha256": "2223ce6ecff855bcd7e211613283ef7e258bc451b4a86e3f19c481a20d538c55"
+      "size_bytes": 43480,
+      "sha256": "b228ebeb183d547bf1fd2d2188928cf7a7528c1ac2b7e30ed81f736c48ccd14d"
     },
     {
       "path": "frontend/src/theme.ts",
@@ -559,13 +599,18 @@
     },
     {
       "path": "frontend/src/types/index.ts",
-      "size_bytes": 8754,
-      "sha256": "a6b48763c3eccc983cff8c5a8f58ca9e69e0247af4edfd71c3af830774ae7255"
+      "size_bytes": 9152,
+      "sha256": "7e60d0b16e23e4748b8dfa02bc5276d2b48e61ccb30c3487d4f3c76c19d83972"
     },
     {
       "path": "frontend/src/utils/analysisData.ts",
       "size_bytes": 736,
       "sha256": "e934c85ad874e3b79432ad97cc7b5973523228cfb7c5e8f411cf6a26c946f6f1"
+    },
+    {
+      "path": "frontend/src/utils/birdseye.ts",
+      "size_bytes": 3507,
+      "sha256": "8bf2a5f11639f0c70f9d9a239b1bb8897ffb38e8b353dda6cc7a30ba43982465"
     },
     {
       "path": "frontend/src/utils/calibrationGeometry.ts",
@@ -611,6 +656,11 @@
       "path": "frontend/tests/api.test.mjs",
       "size_bytes": 2330,
       "sha256": "90b18cea621b6e5b0346fafaf04cef0830f5016999d0fbeb7a69cfc0d343ce5e"
+    },
+    {
+      "path": "frontend/tests/birdseye.test.mjs",
+      "size_bytes": 2598,
+      "sha256": "4badf7ee912dc585a4ebeed97c1bca92270ea59b363689653e978ac46a675c7f"
     },
     {
       "path": "frontend/tests/calibrationGeometry.test.mjs",
@@ -739,8 +789,8 @@
     },
     {
       "path": "start-windows.bat",
-      "size_bytes": 806,
-      "sha256": "233b7235a3585732219b8676efa7298b3aef1e3a790e4cd9e02205ecb6132665"
+      "size_bytes": 5533,
+      "sha256": "464f99b9de996ea400deb92738f86e705a9322441c2c2c2ea9264c9689ce1cd5"
     },
     {
       "path": "start.sh",
@@ -773,6 +823,11 @@
       "sha256": "702271157e60cd5a76d042865f670a88a0b66595da06263689c4782fd7732583"
     },
     {
+      "path": "tests/test_calibration_gate.py",
+      "size_bytes": 4272,
+      "sha256": "a575b31dcf22ee004823d92d705348962869d9a0df22e639d8c7681b5320279a"
+    },
+    {
       "path": "tests/test_camera_templates.py",
       "size_bytes": 10361,
       "sha256": "7af68f23b038ab6e51cee052ee1a9e61bda5225f4a916b1ff9445cc03c8c2bd6"
@@ -791,6 +846,11 @@
       "path": "tests/test_counting_line.py",
       "size_bytes": 2010,
       "sha256": "8bd8d6f9433572b47062142cf852d6b808cc4c0d4cbbd0c2b0dde9b6f277814b"
+    },
+    {
+      "path": "tests/test_debris.py",
+      "size_bytes": 5702,
+      "sha256": "c48c7af9b99d1154644ffec50277e8a2ba14dbcbad81291795a0b12b1c27856c"
     },
     {
       "path": "tests/test_evaluation.py",
@@ -814,18 +874,33 @@
     },
     {
       "path": "tests/test_stream.py",
-      "size_bytes": 4957,
-      "sha256": "104e432ec0ea475627130bad311fea0efa6a3c3775153d8d632817586d6f066b"
+      "size_bytes": 9898,
+      "sha256": "5cf2a2c3fbf192c684e13af4fe6308d0ad81c1bdf38d7337027c4fc761b64d66"
     },
     {
       "path": "tests/test_tunnel_events.py",
-      "size_bytes": 8797,
-      "sha256": "be35dc0c93abf1e7baeee33e4b889c95e8bceb245ce729aac41de66aa7eeedd5"
+      "size_bytes": 8904,
+      "sha256": "361f2ce4d7ce167c5d0d29f1bd7e43b7e338655d2acc7de1df242078292da66e"
     },
     {
       "path": "tests/test_video_timing.py",
-      "size_bytes": 4285,
-      "sha256": "df315e5385c1766ac7f9a83c4af7c6693710dba64a4b57ee6fedf5bf0f1f96cc"
+      "size_bytes": 4907,
+      "sha256": "afe859b3da9c7004a3fe1ea71ef692956d953816bc955bbe6b5852290fe99d7b"
+    },
+    {
+      "path": "tests/test_webhook_auth.py",
+      "size_bytes": 5293,
+      "sha256": "4408e1605f9620d6ce21e88153393291b47c26e04e74d6d79468351da80e42a9"
+    },
+    {
+      "path": "一键启动.bat",
+      "size_bytes": 198,
+      "sha256": "505dbdde525fce62faa42355a9c956d6cb8d1d0cbfb1a10ec0ec765a2a22da7c"
+    },
+    {
+      "path": "停止.bat",
+      "size_bytes": 1203,
+      "sha256": "93204640003427c7722260e6edece9bc691e8deb88e1ec1ad215809b3e10d18d"
     }
   ]
 }

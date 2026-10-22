@@ -65,7 +65,7 @@ def test_close_following_uses_time_headway_in_same_lane():
 
 
 def test_pedestrian_and_bicycle_intrusion_only_for_supported_types():
-    events = detector(cooldown_seconds=0)
+    events = detector(cooldown_seconds=0, intrusion_enabled=True)
     pedestrian = vehicle(1, None, kind='person', vid=5)
     bicycle = vehicle(1, None, kind='bicycle', vid=6)
     assert [e['event'] for e in events.update(pedestrian, [0, 1])] == ['PEDESTRIAN INTRUSION']
@@ -80,7 +80,7 @@ def test_pedestrian_and_bicycle_intrusion_only_for_supported_types():
 
 
 def test_person_is_not_scored_as_speeding_even_when_speed_exists():
-    events = detector(cooldown_seconds=0)
+    events = detector(cooldown_seconds=0, intrusion_enabled=True)
     person = vehicle(1, 120, kind='person', vid=11)
     assert [e['event'] for e in events.update(person, [0, 1])] == ['PEDESTRIAN INTRUSION']
 
@@ -142,6 +142,7 @@ def test_settings_api_exposes_thresholds_and_model_support(client):
     state = c.get('/api/state').json()
     assert state['settings']['speeding_kmh'] == 80
     assert state['settings']['intrusion_supported'] is False
+    assert state['settings']['intrusion_enabled'] is False
     response = c.post('/api/settings', json={'speeding_kmh': 90, 'slow_speed_kmh': 15, 'lane_change_enabled': False,
                                              'tailgating_headway_seconds': 1.5, 'queue_speed_kmh': 8, 'model': 'coco_yolo11n'})
     assert response.status_code == 200
