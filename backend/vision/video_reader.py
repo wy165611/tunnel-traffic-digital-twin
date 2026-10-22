@@ -98,17 +98,33 @@ class VideoReader:
         """Prefer RTSP over TCP and bound both open and read blocking."""
         if not self.live:
             return cv2.VideoCapture(_capture_source(self.source))
-        options = os.environ.get(self.CAPTURE_OPTIONS, '').strip()
+        previous = os.environ.get(self.CAPTURE_OPTIONS)
+        options = previous.strip() if previous else ''
         if 'rtsp_transport' not in options:
-            options = (options+';' if options else '')+'rtsp_transport;tcp'
+            options = (options+'|' if options else '')+'rtsp_transport;tcp'
         os.environ[self.CAPTURE_OPTIONS] = options
         params = [cv2.CAP_PROP_OPEN_TIMEOUT_MSEC, int(self.open_timeout*1000),
                   cv2.CAP_PROP_READ_TIMEOUT_MSEC, int(self.read_timeout*1000)]
         try:
-            return cv2.VideoCapture(self.source, cv2.CAP_FFMPEG, params)
-        except (TypeError, cv2.error):
-            # Older OpenCV builds lack the params overload; keep the stream usable.
-            return cv2.VideoCapture(self.source)
+            try:
+                return cv2.VideoCapture(self.source, cv2.CAP_FFMPEG, params)
+            except (TypeError, cv2.error):
+                # Older builds lack the params overload; keep a socket timeout in
+                # the ffmpeg options instead of opening an unbounded stream.
+                fallback = options
+                if 'rw_timeout' not in fallback:
+                    fallback = (fallback+'|' if fallback else '')+'rw_timeout;%d' % int(self.open_timeout*1_000_000)
+                os.environ[self.CAPTURE_OPTIONS] = fallback
+                try:
+                    return cv2.VideoCapture(self.source, cv2.CAP_FFMPEG)
+                except (TypeError, cv2.error):
+                    return cv2.VideoCapture(self.source)
+        finally:
+            # The option is process-global; never leak it to other readers.
+            if previous is None:
+                os.environ.pop(self.CAPTURE_OPTIONS, None)
+            else:
+                os.environ[self.CAPTURE_OPTIONS] = previous
 
     @property
     def metadata(self):

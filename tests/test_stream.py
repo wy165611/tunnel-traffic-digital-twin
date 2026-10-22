@@ -25,6 +25,7 @@ class FakeCapture:
         FakeCapture.instances.append(self)
         self.source = source
         self.api, self.params = api, params
+        self.env_at_open = os.environ.get('OPENCV_FFMPEG_CAPTURE_OPTIONS')
         self.raw_ms = 1000. if self.number == 0 else 5000.
         self.reads = 0
     def isOpened(self): return self.opened_plan[self.number]
@@ -49,8 +50,27 @@ def test_live_reader_prefers_tcp_and_bounds_open_and_read_timeouts(monkeypatch):
     assert capture.api == cv2.CAP_FFMPEG
     assert capture.params == [cv2.CAP_PROP_OPEN_TIMEOUT_MSEC, 5000,
                               cv2.CAP_PROP_READ_TIMEOUT_MSEC, 7000]
-    assert 'rtsp_transport;tcp' in os.environ['OPENCV_FFMPEG_CAPTURE_OPTIONS']
+    assert 'rtsp_transport;tcp' in capture.env_at_open
     assert reader.open_timeout == 5 and reader.read_timeout == 7
+    assert os.environ['OPENCV_FFMPEG_CAPTURE_OPTIONS'] == ''
+    reader.close()
+
+
+def test_live_reader_fallback_keeps_socket_timeout_and_restores_env(monkeypatch):
+    class LegacyCapture(FakeCapture):
+        opened_plan = [True]
+        def __init__(self, source, api=None, params=None):
+            if params is not None:
+                raise TypeError('params overload unsupported')
+            super().__init__(source, api, params)
+    FakeCapture.instances = []
+    monkeypatch.setenv('OPENCV_FFMPEG_CAPTURE_OPTIONS', 'buffer_size;1024')
+    monkeypatch.setattr(video_reader.cv2, 'VideoCapture', LegacyCapture)
+    reader = VideoReader('rtsp://camera.local/live', open_timeout=4)
+    capture = LegacyCapture.instances[0]
+    assert 'buffer_size;1024|rtsp_transport;tcp' in capture.env_at_open
+    assert 'rw_timeout;4000000' in capture.env_at_open
+    assert os.environ['OPENCV_FFMPEG_CAPTURE_OPTIONS'] == 'buffer_size;1024'
     reader.close()
 
 
