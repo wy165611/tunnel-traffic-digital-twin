@@ -30,7 +30,8 @@ events:
   lane_change_seconds: 1.0
   tailgating_enabled: true
   tailgating_headway_seconds: 2.0
-  intrusion_enabled: true
+  # 默认 VisDrone 模型不含 person/bicycle；如需闯入检测请切换 COCO 并开启
+  intrusion_enabled: false
   queue_speed_kmh: 10.0
   queue_pixel_speed: 5.0
   # 静止异物 / 抛洒物启发式：虚拟线圈持续被前景占用且圈内无观测车辆时告警
