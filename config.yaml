@@ -33,6 +33,12 @@ events:
   intrusion_enabled: true
   queue_speed_kmh: 10.0
   queue_pixel_speed: 5.0
+  # 静止异物 / 抛洒物启发式：虚拟线圈持续被前景占用且圈内无观测车辆时告警
+  debris_enabled: true
+  debris_seconds: 2.0
+  debris_area_ratio: 0.18
+  debris_difference_threshold: 30
+  debris_cooldown_seconds: 30.0
 video:
   detection_interval: 2
   display_max_side: 960

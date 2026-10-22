@@ -310,7 +310,9 @@ class AnalysisService:
             for name in ('stop_speed', 'stop_seconds', 'hard_braking_acceleration', 'wrong_way_seconds',
                          'speeding_enabled', 'speeding_kmh', 'slow_speed_enabled', 'slow_speed_kmh',
                          'lane_change_enabled', 'lane_change_seconds', 'tailgating_enabled',
-                         'tailgating_headway_seconds', 'intrusion_enabled', 'queue_speed_kmh'):
+                         'tailgating_headway_seconds', 'intrusion_enabled', 'queue_speed_kmh',
+                         'debris_enabled', 'debris_seconds', 'debris_area_ratio',
+                         'debris_difference_threshold', 'debris_cooldown_seconds'):
                 self.config['events'][name] = getattr(settings, name)
             self.config['traffic']['legal_direction'] = normalised_direction(settings.legal_direction)
             self.config['traffic']['time_occupancy_enabled'] = settings.occupancy_enabled

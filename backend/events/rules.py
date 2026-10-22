@@ -10,6 +10,7 @@ EVENT_NAMES = {
     'CLOSE FOLLOWING': '跟车过近',
     'PEDESTRIAN INTRUSION': '行人闯入',
     'NON MOTOR INTRUSION': '非机动车闯入',
+    'ROAD DEBRIS': '路面异物',
 }
 INTRUSION_TYPES = {'person': 'PEDESTRIAN INTRUSION', 'bicycle': 'NON MOTOR INTRUSION'}
 
