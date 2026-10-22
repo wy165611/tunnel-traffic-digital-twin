@@ -48,6 +48,8 @@ class AnalysisService:
             settings=dict(model=self.config['detector']['model'], confidence=self.config['detector']['confidence'],
                 detection_interval=self.config['video']['detection_interval'], smoothing_frames=self.config['speed']['smoothing_frames'],
                 intrusion_supported=model_supports_intrusion(self.config['detector']['model']),
+                calibration_available=self.calibration is not None,
+                calibration_required_metrics=['speed', 'tailgating', 'queue_length_m', 'density', 'service_level'],
                 alert_cooldown_seconds=float(self.config.get('alerts', {}).get('cooldown_seconds', 10)),
                 occupancy_enabled=bool(self.config['traffic'].get('time_occupancy_enabled', True)),
                 low_light_enabled=bool(self.config.get('preprocessing', {}).get('low_light_enabled', False)),
