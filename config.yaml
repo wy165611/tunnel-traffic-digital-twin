@@ -52,3 +52,8 @@ alerts:
   webhook_timeout_seconds: 3.0
   webhook_retries: 2
   cooldown_seconds: 10.0
+  # 自定义请求头（键值对），用于网关鉴权等；不会写入投递日志
+  webhook_headers: {}
+  # 非空时对原始 JSON body 计算 HMAC-SHA256，形如 sha256=<hex>
+  webhook_hmac_secret: ''
+  webhook_hmac_header: X-Twin-Signature
