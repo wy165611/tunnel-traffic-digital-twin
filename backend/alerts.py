@@ -11,6 +11,7 @@ import urllib.error
 import urllib.request
 
 RESERVED_HEADERS = {'content-length', 'host', 'content-type'}
+TIMESTAMP_HEADER = 'X-Twin-Timestamp'
 
 
 class WebhookLog:
@@ -75,10 +76,11 @@ class WebhookNotifier:
             headers[name] = text
         return headers
 
-    def _signature(self, body):
+    def _signature(self, body, timestamp):
         if not self.secret:
             return None
-        return 'sha256='+hmac.new(self.secret, body, hashlib.sha256).hexdigest()
+        signed = timestamp.encode('ascii')+b'.'+body
+        return 'sha256='+hmac.new(self.secret, signed, hashlib.sha256).hexdigest()
 
     def notify(self, event, run_id=None, video_id=None):
         if not self.enabled:
@@ -106,9 +108,10 @@ class WebhookNotifier:
             for attempt in range(self.retries+1):
                 entry['attempts'] = attempt+1
                 headers = {'Content-Type': 'application/json; charset=utf-8', **self.headers}
-                signature = self._signature(body)
-                if signature:
-                    headers[self.signature_header] = signature
+                if self.secret:
+                    timestamp = str(int(time.time()))
+                    headers[TIMESTAMP_HEADER] = timestamp
+                    headers[self.signature_header] = self._signature(body, timestamp)
                 try:
                     request = urllib.request.Request(self.url, data=body, headers=headers, method='POST')
                     with urllib.request.urlopen(request, timeout=self.timeout) as response:

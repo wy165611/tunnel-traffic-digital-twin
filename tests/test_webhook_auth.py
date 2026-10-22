@@ -38,11 +38,26 @@ def test_custom_headers_and_hmac_signature_cover_raw_body(monkeypatch):
     request = calls[0]
     headers = {name.lower(): value for name, value in request.headers.items()}
     assert headers['x-api-key'] == 'gateway-token' and headers['x-env'] == 'prod'
-    expected = hmac.new(b'top-secret', request.data, hashlib.sha256).hexdigest()
+    timestamp = headers['x-twin-timestamp']
+    assert timestamp.isdigit()
+    signed = timestamp.encode('ascii')+b'.'+request.data
+    expected = hmac.new(b'top-secret', signed, hashlib.sha256).hexdigest()
     assert headers['x-signature'] == 'sha256='+expected
+    body_only = hmac.new(b'top-secret', request.data, hashlib.sha256).hexdigest()
+    assert headers['x-signature'] != 'sha256='+body_only
     entry = log.query()['items'][0]
     assert entry['ok'] is True and entry['attempts'] == 1 and entry['run_id'] == 'run-1'
     assert entry['event_id'] == 'a' * 32 and entry['status_code'] == 204
+
+
+def test_timestamp_header_only_accompanies_an_hmac_signature(monkeypatch):
+    calls = []
+    monkeypatch.setattr(alerts.urllib.request, 'urlopen', lambda request, timeout: calls.append(request) or Response())
+    hook, _ = notifier(webhook_headers={'X-Api-Key': 'token-only'})
+    deliver(hook)
+    headers = {name.lower() for name in calls[0].headers}
+    assert 'x-twin-timestamp' not in headers
+    assert 'x-twin-signature' not in headers and 'x-api-key' in headers
 
 
 def test_reserved_or_malformed_headers_are_ignored(monkeypatch):
