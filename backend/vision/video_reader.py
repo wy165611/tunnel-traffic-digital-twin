@@ -1,9 +1,27 @@
 import hashlib
 import math
+import os
 import time
 from pathlib import Path
 import cv2
 from backend.traffic.counting_line import video_orientation
+
+
+def _capture_source(path):
+    """Use a Windows 8.3 short path because OpenCV may reject Unicode paths."""
+    if os.name != 'nt':
+        return path
+    try:
+        import ctypes
+        from ctypes import wintypes
+        get_short = ctypes.windll.kernel32.GetShortPathNameW
+        get_short.argtypes = [wintypes.LPCWSTR, wintypes.LPWSTR, wintypes.DWORD]
+        get_short.restype = wintypes.DWORD
+        buffer = ctypes.create_unicode_buffer(32768)
+        length = get_short(str(path), buffer, len(buffer))
+        return buffer.value if 0 < length < len(buffer) else path
+    except (AttributeError, OSError, ValueError):
+        return path
 
 
 def video_identity(path):
@@ -21,7 +39,7 @@ class VideoReader:
         source = str(source)
         self.source = source
         self.live = source.lower().startswith(('rtsp://', 'rtsps://', 'http://', 'https://'))
-        self.cap = cv2.VideoCapture(source)
+        self.cap = cv2.VideoCapture(source if self.live else _capture_source(source))
         if not self.cap.isOpened():
             self.close()
             raise ValueError('视频无法打开，请检查文件或流地址')

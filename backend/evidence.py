@@ -34,8 +34,10 @@ def capture_event(exporter, event, vehicle, frame, index, reader, config, scene,
                    max(0, min(reader.display_width-1, box[2])), max(0, min(reader.display_height-1, box[3]))]
             cv2.rectangle(image, tuple(box[:2]), tuple(box[2:]), (50, 80, 255), 2)
             cv2.putText(image, f"#{vehicle['id']} {event['event']}", (box[0], max(18, box[1]-6)), cv2.FONT_HERSHEY_SIMPLEX, .45, (50, 80, 255), 1)
-            if not cv2.imwrite(str(temporary / 'screenshot.jpg'), image):
+            encoded, buffer = cv2.imencode('.jpg', image)
+            if not encoded:
                 raise OSError('无法保存报警截图')
+            (temporary / 'screenshot.jpg').write_bytes(buffer.tobytes())
             metadata = dict(event=event.copy(), frame=index, timestamp=event['timestamp'],
                             original_dimensions=[reader.width, reader.height], display_dimensions=[reader.display_width, reader.display_height],
                             display_box=box, vehicle=vehicle, observed_trajectory=vehicle['world_trajectory'],
