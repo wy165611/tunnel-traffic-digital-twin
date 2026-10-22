@@ -81,6 +81,36 @@ def test_live_reader_reconnects_with_exponential_backoff(monkeypatch):
         reader.seek(1)
 
 
+def test_live_reconnect_flags_resolution_change_and_keeps_original_space(monkeypatch):
+    class ChangingCapture(FakeCapture):
+        opened_plan = [True, True]
+        def get(self, prop):
+            if prop == cv2.CAP_PROP_FRAME_WIDTH: return 320. if self.number == 0 else 640.
+            if prop == cv2.CAP_PROP_FRAME_HEIGHT: return 240. if self.number == 0 else 480.
+            return super().get(prop)
+        def read(self):
+            self.reads += 1
+            if self.number == 0 and self.reads == 1: return True, np.zeros((240, 320, 3), np.uint8)
+            if self.number == 1: return True, np.zeros((480, 640, 3), np.uint8)
+            return False, None
+    FakeCapture.instances = []
+    clock = Clock()
+    monkeypatch.setattr(video_reader.cv2, 'VideoCapture', ChangingCapture)
+    monkeypatch.setattr(video_reader, 'time', types.SimpleNamespace(monotonic=clock.now))
+    reader = VideoReader('rtsp://camera.local/live')
+    assert reader.metadata['resolution_changed'] is False
+    assert reader.read() is not None and reader.read() is None
+    clock.value = 7.
+    assert reader.read() is not None
+    metadata = reader.metadata
+    assert metadata['resolution_changed'] is True
+    assert metadata['resolution_change'] == dict(previous=[320, 240], current=[640, 480])
+    assert (reader.width, reader.height, reader.display_width, reader.display_height) == (320, 240, 320, 240)
+    reader.clear_resolution_change()
+    assert reader.metadata['resolution_changed'] is False
+    reader.close()
+
+
 def test_live_processor_does_not_finalize_run_on_missing_frame():
     class Reader:
         live = True

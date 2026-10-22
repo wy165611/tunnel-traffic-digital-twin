@@ -54,6 +54,17 @@ class TrafficProcessor:
         with self.exporter.lock:
             return self._step_locked()
 
+    def invalidate_calibration(self):
+        """Drop the metric scale after a live stream resolution change."""
+        if self.calibration is None and not self.events.calibration_available:
+            return
+        self.calibration = None
+        self.events.calibration_available = False
+        for state in self.states.values():
+            state.estimator.reset()
+            state.world_trajectory.clear()
+            state.speed = state.acceleration = None
+
     def _step_locked(self):
         started = time.perf_counter()
         item = self.reader.read()

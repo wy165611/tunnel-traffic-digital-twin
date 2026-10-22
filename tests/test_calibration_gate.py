@@ -48,3 +48,25 @@ def test_state_exposes_calibration_gate_and_clears_it_after_saving(client):
                     lanes=[dict(name='Lane 1', points=[[40, 0], [160, 0], [160, 400], [40, 400]], direction=[0, 1])])
     assert c.post('/api/calibration', json=geometry).status_code == 200
     assert c.get('/api/state').json()['settings']['calibration_available'] is True
+
+
+def test_resolution_change_invalidates_saved_calibration_until_resaved(client):
+    c, service = client
+    geometry = dict(points=[[40, 0], [160, 0], [160, 400], [40, 400]], edge_1_2_m=12, edge_2_3_m=40,
+                    travel_edge_mode='auto', counting_line=[[40, 65], [160, 65]], counting_line_mode='manual',
+                    lanes=[dict(name='Lane 1', points=[[40, 0], [160, 0], [160, 400], [40, 400]], direction=[0, 1])])
+    assert c.post('/api/calibration', json=geometry).status_code == 200
+    service.reader.resolution_changed = True
+    service.reader.resolution_change = dict(previous=[200, 400], current=[400, 800])
+    service.changed()
+    state = service.state()
+    notice = state['calibration_notice']
+    assert notice['reason'] == 'resolution_changed' and notice['previous'] == [200, 400]
+    assert '重新标定' in notice['message'] and state['settings']['calibration_available'] is False
+    assert state['calibration']['points']  # 保留已存标定，便于重新绘制或确认
+    service.reset_processor_sync(0)
+    assert service.processor.calibration is None
+    assert service.processor.events.calibration_available is False
+    assert c.post('/api/calibration', json=geometry).status_code == 200
+    cleared = service.state()
+    assert cleared['calibration_notice'] is None and cleared['settings']['calibration_available'] is True

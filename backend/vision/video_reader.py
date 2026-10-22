@@ -56,6 +56,8 @@ class VideoReader:
         self.stream_state = 'connected' if self.live else None
         self.reconnect_attempt = 0
         self.stream_error = None
+        self.resolution_changed = False
+        self.resolution_change = None
         self._retry_delay = 1.
         self._next_retry = 0.
         self.width = int(self.cap.get(cv2.CAP_PROP_FRAME_WIDTH))
@@ -115,7 +117,8 @@ class VideoReader:
                     frames=self.frames, duration=self.duration, duration_estimated=self.duration_estimated, timing_source='decoder_pts',
                     display_width=self.display_width, display_height=self.display_height,
                     live=self.live, stream_state=self.stream_state,
-                    reconnect_attempt=self.reconnect_attempt, stream_error=self.stream_error)
+                    reconnect_attempt=self.reconnect_attempt, stream_error=self.stream_error,
+                    resolution_changed=self.resolution_changed, resolution_change=self.resolution_change)
 
     def _schedule_retry(self, message):
         self.stream_state, self.stream_error = 'reconnecting', message
@@ -128,6 +131,12 @@ class VideoReader:
             return False
         cap = self._open_capture()
         if cap.isOpened():
+            width, height = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)), int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+            if width > 0 and height > 0 and (width, height) != (self.width, self.height):
+                # Keep the original coordinate space so the running pipeline stays
+                # consistent; the saved calibration is gated until re-saved.
+                self.resolution_changed = True
+                self.resolution_change = dict(previous=[self.width, self.height], current=[width, height])
             previous = self.cap
             self.cap = cap
             previous.release()
@@ -261,3 +270,7 @@ class VideoReader:
 
     def close(self):
         self.cap.release()
+
+    def clear_resolution_change(self):
+        self.resolution_changed = False
+        self.resolution_change = None
