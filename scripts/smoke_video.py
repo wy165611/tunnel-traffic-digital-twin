@@ -35,9 +35,9 @@ config = load_config()
 reader = VideoReader(args.video, config['video']['display_max_side'])
 detector = VehicleDetector(config['detector'])
 w,h=reader.width,reader.height
-scene=dict(counting_line=[[w*.25,h*.5],[w*.82,h*.5]],lanes=[
-    dict(name='Left carriageway',points=[[w*.25,0],[w*.5,0],[w*.5,h],[w*.25,h]],direction=[0,-1]),
-    dict(name='Right carriageway',points=[[w*.54,0],[w*.82,0],[w*.82,h],[w*.54,h]],direction=[0,1])])
+scene=dict(counting_line=[[w*.05,h*.72],[w*.95,h*.72]],lanes=[
+    dict(name='Left carriageway',points=[[0,h*.45],[w*.58,h*.45],[w*.45,h],[0,h]],direction=[1,-1]),
+    dict(name='Right carriageway',points=[[w*.58,h*.45],[w,h*.45],[w,h],[w*.45,h]],direction=[-1,1])])
 processor=TrafficProcessor(reader,detector,config,scene)
 processor.exporter.update_metadata(video_id=Path(args.video).name, video_identity=video_identity(args.video), segment_start=0, calibrated=False, scene=scene, calibration=None, config=config)
 counts,ids,continuities=[],Counter(),[]
