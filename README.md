@@ -4,15 +4,34 @@
 
 **不需要标注或训练模型。没有真实道路尺寸时，速度、加速度和速度相关报警保持关闭。**
 
+## Windows 下载与部署
+
+[![Windows 下载](https://img.shields.io/badge/Windows-%E4%B8%8B%E8%BD%BD-2563eb?logo=windows)](https://github.com/wy165611/tunnel-traffic-digital-twin/releases/latest)
+
+适用于 **Windows 10 / 11（64 位）**，推荐 8 GB 以上内存，CPU 即可运行。无需摄像头，所有视频均在本机处理。
+
+1. 在 [GitHub Releases 最新版](https://github.com/wy165611/tunnel-traffic-digital-twin/releases/latest) 下载 `TunnelTwin-Windows-x64-portable.zip`。
+2. 完整解压到可写目录，例如 `D:\TunnelTwin`（中文和带空格的路径也支持，不要直接在 zip 预览中运行）。
+3. 双击 `一键启动.bat`，浏览器打开 <http://127.0.0.1:8000>；若 8000 被占用，脚本会自动换端口并打开实际地址。
+
+| 发布包 | 适用场景 | 运行环境 |
+| --- | --- | --- |
+| 便携完整版 `portable.zip` | 推荐，解压后离线运行 | 内置 Python 3.11、pip、CPU 版 PyTorch、全部依赖、前端、模型和演示视频，无需安装 Python/Node.js |
+| 轻量在线版 `lite.zip` | 希望减少首次下载体积 | 包含前端、模型和演示视频，不含 Python；需本机 Python 3.10–3.12，首次联网创建 `.venv` 并安装依赖 |
+
+`SHA256SUMS.txt` 提供两个 zip 的 SHA-256，可用 `certutil -hashfile 文件名 SHA256` 校验。发布包将配置、模型、视频、日志和分析结果保存在解压目录的 `data/` 下，请避免放入需要管理员权限的 `Program Files`。
+
+**常见问题：**杀毒软件可能对 Python、PyTorch 或批处理误报，请核对 GitHub 来源及 SHA-256，不要关闭系统防护；SmartScreen 提示时选择“更多信息”并确认发布者来源后再决定是否运行；端口占用时以黑色窗口显示的实际地址为准。详细说明见 [Windows 分发版启动说明](docs/Windows分发版启动说明.md)。
+
+YOLO 模型权重及 Ultralytics 实现遵循 **AGPL-3.0**；VisDrone 权重还受其数据集非商业研究条件约束。分发或商业使用前请阅读 `models.json` 中的来源和许可。
+
 ![系统实际运行截图](docs/linear-design/desktop.jpg)
 
 界面采用奶油米白、浅杏与琥珀的浅色暖调，保留交通绿色和红黄报警语义。按中文仪表盘密度适配 Linear 的表面层级、排版和间距规则；React、TypeScript、ECharts 及本地分析功能保留。统一约定见 [设计规范](DESIGN.md)，桌面、平板及手机实际截图与验证结果见 [界面检查记录](docs/linear-design/README.md)。
 
-## Windows 10 和 Windows 11 快速启动
+## Windows 源码启动
 
-> **Windows 免安装分发包（推荐给非开发者）：** 包内已含前端构建、示例视频和模型权重，解压后双击 `一键启动.bat` 即可，不需要 Node.js。启动脚本会自动检测 Python 3.10–3.12、创建 `.venv`、安装依赖并打开浏览器；完整说明见 [Windows 分发版启动说明](docs/Windows分发版启动说明.md)。
-
-> **源码包说明：**包含应用源码、安装脚本、测试、示例配置和项目文档。不含模型权重、历史分析结果、截图产物、虚拟环境或前端依赖目录。首次安装需要联网下载依赖和模型。
+> **源码包说明：**包含应用源码、安装脚本、测试、示例配置和项目文档。GitHub 的 “Download ZIP” 不含预构建前端、模型权重、虚拟环境或前端依赖目录；非开发者请使用上文 Releases 中的 Windows 发布包。
 
 如果要直接运行本仓库源码（而不是使用 Windows 分发包），在项目根目录打开 PowerShell 并运行：
 

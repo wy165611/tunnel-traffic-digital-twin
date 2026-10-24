@@ -1,110 +1,102 @@
 # 隧道交通数字孪生系统 · Windows 版启动说明
 
 适用系统：Windows 10 / Windows 11（64 位）  
-版本：1.0.0（2026-10-20）
+版本：1.1.0（2026-10-24）
 
-> **最简单的用法：** 解压后双击 `一键启动.bat`，等待浏览器自动打开即可。  
-> 不需要安装 Node.js，不需要连接摄像头，包内自带示例视频和模型。
+> **最简单的用法：** 从 GitHub Releases 下载便携完整版，完整解压后双击 `一键启动.bat`。不需要安装 Python 或 Node.js，也不需要联网下载依赖。
 
-## 一、这个软件能做什么
+## 一、下载与解压
 
-软件读取本地视频或 RTSP/HTTP 实时流，用现成的人工智能模型检测车辆，显示车辆位置、轨迹、过线流量、事件和统计图表。所有计算都在本机完成，视频不会上传到互联网。
+1. 打开最新版发布页：<https://github.com/wy165611/tunnel-traffic-digital-twin/releases/latest>。
+2. 下载 `TunnelTwin-Windows-x64-portable.zip`，不要点击 GitHub 页面的 “Download ZIP”（那是源码，不含预构建网页和模型）。
+3. 右键 zip，选择 **全部解压缩**。建议解压到 `D:\TunnelTwin` 等可写目录；`D:\隧道 数字孪生` 这类中文、带空格路径也已纳入发布冒烟测试。
+4. 确认目录中有 `一键启动.bat`、`start-windows.bat`、`runtime`、`backend`、`frontend`、`data` 等文件。不要放入 `C:\Program Files` 等需要管理员权限的目录。
 
-## 二、电脑要求
+可用 `SHA256SUMS.txt` 校验下载完整性，例如在 PowerShell 中运行 `Get-FileHash .\TunnelTwin-Windows-x64-portable.zip -Algorithm SHA256`，再对照清单。
+
+## 二、两种发布包
+
+| 项目 | 便携完整版 | 轻量在线版 |
+| --- | --- | --- |
+| 文件名 | `TunnelTwin-Windows-x64-portable.zip` | `TunnelTwin-Windows-x64-lite.zip` |
+| Python、pip 和全部依赖 | 已内置在 `runtime\` | 不包含 |
+| CPU 版 PyTorch | 已内置 | 首次启动联网安装 |
+| 前端 `frontend\dist` | 已内置 | 已内置 |
+| 模型和演示视频 | 已内置，模型按 `models.json` 校验 | 已内置，模型按 `models.json` 校验 |
+| 首次启动联网 | 不需要 | 需要 |
+| 用户需安装 | 无 | 64 位 Python 3.10、3.11 或 3.12 |
+
+轻量版沿用 `.venv` 安装流程。首次安装约需 5–20 分钟并建议预留 5 GB 空间；可交互选择清华 PyPI 镜像，也可预先设置 `TWIN_PIP_INDEX`。前端需要重新构建时，可通过 `TWIN_NPM_REGISTRY=https://registry.npmmirror.com` 选择 npmmirror。
+
+## 三、电脑要求
 
 - Windows 10 或 Windows 11，64 位。
 - 推荐 8 GB 以上内存；CPU 即可运行，不需要独立显卡。
-- 首次安装需要联网，建议预留 5 GB 以上磁盘空间。
-- 第一次装依赖约需 5–20 分钟，之后启动只需几秒到几十秒。
-- 无需 Node.js；网页部分已经预先构建好。
+- 便携版解压和运行需要足够磁盘空间；轻量版首次安装还需联网。
+- 无需 Node.js。只有源码启动且 `frontend\dist` 缺失时，脚本才会在检测到 Node.js 后自动执行 `npm ci` 和 `npm run build`。
 
-## 三、安装 Python（只需做一次）
+## 四、启动软件
 
-软件需要 Python 3.10、3.11 或 3.12，推荐 **Python 3.12（64 位）**。如果电脑已装 3.12，可跳过本节。
+1. 双击 `一键启动.bat`。
+2. 便携版会优先使用 `runtime\python.exe`，不会创建 `.venv` 或联网安装依赖；轻量版和源码使用 `.venv`。
+3. 默认地址是 <http://127.0.0.1:8000>。若端口被占用，会从起始端口向后尝试最多 11 个端口，浏览器自动打开实际地址。
+4. 若浏览器没有打开，手动输入黑色窗口中显示的 `http://127.0.0.1:端口`。
+5. **运行期间不要关闭黑色命令窗口**。关闭窗口或按 `Ctrl+C` 即停止服务。
 
-1. 打开官网下载页：<https://www.python.org/downloads/windows/>
-2. 找到 **Python 3.12.x**，点击 **Windows installer (64-bit)** 下载。
-3. 双击安装包。**务必勾选最下方的 “Add python.exe to PATH”**，然后点 **Install Now**。
-4. 安装完成后，按 `Win + R`，输入 `cmd` 并回车，在黑窗口中输入：
-   ```
-   python --version
-   ```
-   能看到 `Python 3.12.x` 即可。如果提示找不到命令，请重新安装并确认勾选了 PATH，然后重启电脑。
+源码安装仍可在项目根目录运行：
 
-> 说明：Python 3.13 暂不支持；同时装有 3.13 也没关系，启动脚本会优先寻找 3.10–3.12。  
-> 不建议使用 Microsoft Store 里的 Python，容易出现权限和路径问题。
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\setup-windows.ps1
+```
 
-## 四、解压压缩包
+## 五、用示例视频演示
 
-1. 右键 `隧道交通数字孪生系统-Windows版.zip`，选择 **全部解压缩**（不要直接双击 zip 后在预览窗口里运行）。
-2. 建议解压到 `D:\TunnelTwin` 或 `D:\隧道数字孪生` 这类可写目录。
-3. 确认解压后的文件夹中有 `一键启动.bat`、`start-windows.bat`、`backend`、`frontend` 等文件。
-4. 不要把软件放在 `C:\Program Files` 等需要管理员权限的目录，否则无法保存分析结果。
+1. 发布包已在 `data\videos\demo.mp4` 准备示例，页面会自动载入。
+2. 点击页面上的 **开始分析**，第一次载入模型需要等待几秒。
+3. 左侧可切换监测总览、感知与孪生、交通分析、事件记录、车辆明细和数据导出。
+4. 示例没有真实道路尺寸标定，因此速度、加速度等米制数据显示“未标定”；检测、跟踪、过线流量和事件仍可演示。需要测速时，请在 **道路标定** 中输入实测距离。
+5. 在 **视频管理** 中可上传或导入 MP4/MOV/AVI/MKV/WebM（单个不超过 2 GB），也可接入 RTSP/HTTP(S) 实时流。
 
-## 五、第一次启动
+## 六、文件和数据
 
-1. 双击 `一键启动.bat`（如果杀毒软件询问，请先阅读第九节）。
-2. 第一次会提示是否使用清华镜像。国内网络建议按 `Y`，无法访问清华镜像时按 `N` 使用官方源。
-3. 脚本会自动创建 `.venv` 环境并安装依赖。窗口会显示 `[1/3]`、`[2/3]`、`[3/3]`，请保持窗口打开，不要关闭。
-4. 安装完成后，浏览器会自动打开 `http://127.0.0.1:8000`。如果没有自动打开，请手动在浏览器输入黑窗口里显示的地址。
-5. **运行期间不要关闭黑色命令窗口**。关闭窗口或按 `Ctrl + C` 即停止服务。
+所有可变数据都在解压目录的 `data/` 下，不使用系统临时目录保存用户数据：
 
-以后再次使用，只需双击 `一键启动.bat`，不会重复安装依赖。
+- `data\videos`：导入的视频和默认演示视频。
+- `data\models`：预训练模型权重。
+- `data\runs`：分析结果 CSV、报告和事件截图。
+- `data\calibrations`：道路、车道、计数线和标定配置。
+- `data\logs`：发布冒烟等诊断日志（如生成）。
 
-## 六、用示例视频演示（无需摄像头）
+备份时复制整个 `data` 即可。软件只监听本机 `127.0.0.1`，局域网其他电脑默认无法访问。
 
-1. 首次启动时，脚本会把 `examples\tunnel-demo.mp4` 复制为默认视频，页面会自动载入它。
-2. 看到视频画面后，点击页面上的 **开始分析**。第一次载入模型需要等待几秒。
-3. 左侧导航可切换 **监测总览、感知与孪生、交通分析、事件记录、车辆明细、数据导出**。
-4. 示例视频没有真实道路尺寸标定，因此速度、加速度等需要米制尺度的数据会显示“未标定”；检测、跟踪、过线流量和事件仍可正常演示。需要测速时，请在 **道路标定** 中按提示设置实际距离。
-5. 想换自己的视频：打开 **视频管理**，上传或导入 MP4/MOV/AVI/MKV/WebM 文件（单个不超过 2 GB），再点 **开始分析**。
-
-## 七、关闭软件
-
-- 在黑色命令窗口按 `Ctrl + C`，或直接关闭该窗口。
-- 也可以双击 `停止.bat`，确认后停止后端进程。
-- 关闭后浏览器页面会失效，属于正常现象。
-
-## 八、文件和数据
-
-- `backend\data\videos`：导入的视频。
-- `backend\data\models`：预训练模型权重（包内已附带 VisDrone、COCO YOLO11n 和 SSD Lite，可离线切换）。
-- `backend\data\runs`：分析结果 CSV、事件截图。
-- `backend\data\calibrations`：道路标定和车道配置。
-- 删除这些文件夹会清空对应数据；备份时复制整个 `backend\data` 即可。
-- 软件只监听本机 `127.0.0.1`，同一局域网内的其他电脑默认无法访问。
-
-## 九、常见问题
+## 七、常见问题
 
 | 现象 | 处理方法 |
 | --- | --- |
-| 提示“未找到 Python 3.10、3.11 或 3.12” | 按第三节安装 64 位 Python 3.12，勾选 Add python.exe to PATH，重启电脑后重试。 |
-| 双击后窗口一闪而过 | 可能文件没有解压完整，重新“全部解压缩”；或在文件夹地址栏输入 `cmd`，再执行 `一键启动.bat` 查看报错。 |
-| 依赖安装很慢或失败 | 保持网络畅通，重新运行并尝试另一个镜像；关闭代理/VPN 后重试；确认磁盘空间足够；仍失败可删除 `.venv` 文件夹后重试。 |
-| 端口 8000 被占用 | 启动脚本会自动尝试 8001–8010，请以黑窗口显示的地址为准；也可关闭占用程序，或在命令行先执行 `set TWIN_PORT=8123` 再启动。 |
-| 浏览器没有自动打开 | 手动打开浏览器，输入黑窗口中显示的 `http://127.0.0.1:端口`。不要用 `file://` 打开文件。 |
-| 浏览器显示无法访问 | 确认黑色窗口仍在运行且没有报错；等待几秒后刷新；检查地址端口是否与窗口一致。 |
-| 杀毒软件报警或拦截 | 本软件不含 exe，`.bat` 是可阅读的文本脚本；误报常来自 Python、pip 或 PyTorch。请从可信来源获取压缩包，必要时将整个软件目录加入杀毒软件白名单，或从隔离区恢复被误删文件。不要关闭系统防护。 |
-| 中文路径下无法打开视频 | 软件会尝试用 Windows 短路径兼容中文目录；若仍失败，请把软件和视频移到 `D:\TunnelTwin` 这类短的英文路径后重试。 |
-| 提示模型缺失或校验失败 | 确认 `backend\data\models` 未被杀毒软件删除；联网后运行 `.venv\Scripts\python.exe scripts\download_models.py` 重新下载校验。 |
-| 分析速度慢 | CPU 分析取决于电脑性能；可降低视频分辨率，或在 **分析参数** 中增大“检测间隔 / 帧”。首次载入模型较慢，请耐心等待。 |
-| 页面卡住或没有画面 | 刷新页面；确认视频格式受支持；重新启动软件。 |
+| 提示缺少 `frontend\dist` | 非开发者请从 Releases 重新下载发布包。源码用户可安装 Node.js 后重试自动构建，或手动执行 `npm --prefix frontend ci` 和 `npm --prefix frontend run build`。 |
+| 提示便携运行环境损坏 | 重新完整解压便携版，确认 `runtime\python.exe` 和 `runtime\Lib\site-packages` 存在，不要只复制 bat 文件。 |
+| 轻量版提示未找到 Python | 安装 64 位 Python 3.12 并勾选 “Add python.exe to PATH”，然后重新双击。便携版不需要安装 Python。 |
+| 依赖安装很慢或失败 | 检查网络，换用官方源或清华镜像；仍失败可删除 `.venv` 后重试。便携版不执行此步骤。 |
+| 端口 8000 被占用 | 脚本会自动换端口，以窗口实际地址为准；也可先执行 `set TWIN_PORT=8123` 再启动。 |
+| 浏览器没有自动打开 | 手动输入窗口显示的地址，不要用 `file://` 打开 HTML。 |
+| Windows SmartScreen 提示 | 确认 zip 来自本项目 GitHub Releases 且 SHA-256 一致；阅读提示后自行决定是否继续，不要从不明镜像下载。 |
+| 杀毒软件报警或拦截 | Python、pip、PyTorch 或批处理可能触发误报。核对来源和摘要，必要时仅将可信的软件目录加入白名单，不要关闭系统防护。 |
+| 提示模型缺失或校验失败 | 确认 `data\models` 未被删除；便携版建议重新下载。轻量版可用 `.venv\Scripts\python.exe scripts\download_models.py` 重新下载校验。 |
+| 分析速度慢 | CPU 性能会影响速度；可降低视频分辨率或增大“检测间隔 / 帧”，首次载入模型请耐心等待。 |
+| 双击后窗口一闪而过 | 确认已完整解压；在目录地址栏输入 `cmd`，执行 `一键启动.bat` 查看错误。 |
 
-## 十、示例视频与第三方许可
+## 八、示例视频与第三方许可
 
 - 示例视频来自 Wikimedia Commons 的 `The Rantatunneli of Tampere.webm`，作者 Sounds of Changes / Työväenmuseo Werstas / Mikael Maffei，许可 CC BY 3.0。本包截取 20 秒并转码，详见 `examples\tunnel-demo-LICENSE.md`。
-- 检测模型来源、SHA-256 与许可见 `models.json` 和 `README.md`。YOLO 权重及 Ultralytics 实现遵循 AGPL-3.0；VisDrone 权重另受其数据集的非商业研究条件约束；Torchvision SSD 遵循 BSD-3-Clause。
-- 本项目不训练模型，模型能力归原作者所有。请遵守相应许可证，尤其是商业使用限制。
+- YOLO 权重及 Ultralytics 实现遵循 **AGPL-3.0**；VisDrone 权重另受其数据集非商业研究条件约束；Torchvision SSD 遵循 BSD-3-Clause。
+- 权重来源、SHA-256 和许可见 `models.json`。本项目不训练模型，分发或商业使用前请遵守对应许可。
 
-## 十一、目录速查
+## 九、构建和发布（维护者）
 
+在 Windows 构建机运行以下命令可本地生成两个 zip 和 `SHA256SUMS.txt`：
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\build_windows_release.ps1
 ```
-一键启动.bat          双击启动
-停止.bat              停止后端
-start-windows.bat     实际启动逻辑（可单独双击）
-backend\              后端程序
-frontend\dist\        已构建网页
-examples\             示例视频、示例配置、视频许可
-requirements.txt      Python 依赖清单
-启动说明.txt          纯文本版说明
-```
+
+GitHub Actions 会在 PR 和手动触发时构建、在中文且含空格的路径中冒烟测试并上传 artifact。维护者推送 `v1.1.0` 标签后，同一工作流会重新构建和验证，再发布 GitHub Release；验证失败不会发布。
