@@ -33,14 +33,26 @@ def test_workflow_yaml_and_required_jobs_are_valid():
         "frontend/**",
     ]
     assert workflow["jobs"]["windows-release"]["runs-on"] == "windows-latest"
-    assert workflow["jobs"]["windows-release"]["needs"] == "ubuntu-tests"
+    assert workflow["jobs"]["windows-release"]["needs"] == [
+        "ubuntu-tests",
+        "windows-install-test",
+        "macos-install-test",
+    ]
     assert workflow["jobs"]["ubuntu-tests"]["runs-on"] == "ubuntu-latest"
+    assert workflow["jobs"]["windows-install-test"]["runs-on"] == "windows-latest"
+    macos_job = workflow["jobs"]["macos-install-test"]
+    assert macos_job["runs-on"] == "${{ matrix.os }}"
+    assert macos_job["strategy"]["matrix"]["os"] == ["macos-14", "macos-15-intel"]
+    assert "macos-13" not in read(WORKFLOW)
 
 
 def test_workflow_builds_smoke_tests_uploads_and_publishes_assets():
     text = read(WORKFLOW)
     assert "TunnelTwin 中文 路径 Smoke" in text
     assert "便携版 Package" in text
+    assert "pwsh -NoProfile -File .\\scripts\\setup-windows.ps1" in text
+    assert "run: bash scripts/setup.sh" in text
+    assert "./start.sh > backend/data/logs/install-smoke.log" in text
     assert "/api/health" in text
     assert "$FrontPage" in text
     assert "$Home" not in text

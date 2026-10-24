@@ -18,8 +18,145 @@ permissions:
   contents: write
 
 jobs:
-  windows-release:
+  windows-install-test:
     needs: ubuntu-tests
+    runs-on: windows-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install from source on Windows
+        shell: pwsh
+        run: pwsh -NoProfile -File .\scripts\setup-windows.ps1
+
+      - name: Smoke test Windows source installation
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $Package = $PWD.Path
+          $LogDirectory = Join-Path $Package 'data\logs'
+          New-Item -ItemType Directory -Path $LogDirectory -Force | Out-Null
+          $Stdout = Join-Path $LogDirectory 'install-smoke-stdout.log'
+          $Stderr = Join-Path $LogDirectory 'install-smoke-stderr.log'
+          $env:TWIN_NO_BROWSER = '1'
+          $env:TWIN_NO_PAUSE = '1'
+          $env:TWIN_PORT = '18080'
+          $Process = $null
+          $Ready = $false
+          try {
+            $Launcher = Join-Path $Package 'start-windows.bat'
+            $Process = Start-Process -FilePath 'cmd.exe' -ArgumentList @('/d', '/c', "`"$Launcher`"") -WorkingDirectory $Package -WindowStyle Hidden -RedirectStandardOutput $Stdout -RedirectStandardError $Stderr -PassThru
+            for ($Attempt = 0; $Attempt -lt 90; $Attempt++) {
+              if ($Process.HasExited) {
+                Get-Content $Stdout, $Stderr -ErrorAction SilentlyContinue
+                throw "Windows source launcher exited with code $($Process.ExitCode)."
+              }
+              try {
+                $Health = Invoke-WebRequest -UseBasicParsing -Uri 'http://127.0.0.1:18080/api/health' -TimeoutSec 2
+                $FrontPage = Invoke-WebRequest -UseBasicParsing -Uri 'http://127.0.0.1:18080/' -TimeoutSec 2
+                if ($Health.StatusCode -eq 200 -and $FrontPage.StatusCode -eq 200 -and $FrontPage.Content -match 'id="root"') {
+                  $Ready = $true
+                  Write-Host 'Windows source installation passed health and frontend checks.'
+                  break
+                }
+              } catch {
+                Write-Host "Waiting for the Windows source server: $($_.Exception.Message)"
+              }
+              Start-Sleep -Seconds 2
+            }
+            if (-not $Ready) {
+              Get-Content $Stdout, $Stderr -ErrorAction SilentlyContinue
+              throw 'Timed out waiting for the Windows source installation.'
+            }
+            if (-not (Test-Path (Join-Path $Package 'data\videos\demo.mp4'))) {
+              throw 'The Windows installer did not prepare the demo video.'
+            }
+          } finally {
+            if ($Process -and -not $Process.HasExited) {
+              & taskkill.exe /PID $Process.Id /T /F | Out-Null
+            }
+          }
+
+  macos-install-test:
+    needs: ubuntu-tests
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - macos-14
+          - macos-15-intel
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: pip
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install from source on macOS
+        run: bash scripts/setup.sh
+
+      - name: Smoke test macOS source installation
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p backend/data/logs
+          export TWIN_PORT=18080
+          ./start.sh > backend/data/logs/install-smoke.log 2>&1 &
+          server_pid=$!
+          cleanup() {
+            kill "$server_pid" 2>/dev/null || true
+            wait "$server_pid" 2>/dev/null || true
+          }
+          trap cleanup EXIT
+          ready=0
+          for attempt in {1..90}; do
+            if ! kill -0 "$server_pid" 2>/dev/null; then
+              cat backend/data/logs/install-smoke.log
+              exit 1
+            fi
+            if health=$(curl -fsS http://127.0.0.1:18080/api/health) && front_page=$(curl -fsS http://127.0.0.1:18080/); then
+              case "$front_page" in
+                *'id="root"'*) ready=1; break ;;
+              esac
+            fi
+            sleep 2
+          done
+          if [ "$ready" -ne 1 ]; then
+            cat backend/data/logs/install-smoke.log
+            exit 1
+          fi
+          test -n "$health"
+          test -f frontend/dist/index.html
+          test -f backend/data/videos/demo.mp4
+
+  windows-release:
+    needs: [ubuntu-tests, windows-install-test, macos-install-test]
     runs-on: windows-latest
     timeout-minutes: 90
     steps:
