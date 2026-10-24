@@ -7,6 +7,7 @@
 - Windows 启动优先使用 `runtime\python.exe`，保留源码 `.venv` 流程；可变数据统一保存到包内 `data/`，支持中文和空格路径，8000 被占用时自动换端口并打开实际地址。缺少前端时可用 Node.js 自动构建，否则提供 Releases 下载指引。
 - 新增 Windows/Ubuntu GitHub Actions：后端 pytest、前端测试和构建通过后，才在中文且含空格的解压路径执行便携包健康、首页、动态端口及真实视频冒烟；PR 上传构建 artifact，推送 `v*` 标签自动发布 Release。
 - README 和 Windows 启动文档增加下载按钮、三步部署、两种包区别、系统要求、SmartScreen/杀毒/端口说明及 YOLO AGPL-3.0 许可提示；新增 10 项发布配置回归测试。
+- README 顶部新增 Windows/macOS 各三步安装速览，详细指南覆盖三种 Windows 部署、macOS Apple Silicon/Intel、MPS、依赖锁定、镜像、Gatekeeper 与终端权限；macOS 安装脚本支持文档中的镜像变量并准备内置演示视频。
 
 ## 隧道功能 v1 · 2026-10-20
 
