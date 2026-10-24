@@ -1,5 +1,14 @@
 # 更新说明
 
+## 1.1.0 · 2026-10-24
+
+- 新增 Windows GitHub Releases 分发：便携完整版内置 Python 3.11、pip、CPU 版 PyTorch、全部依赖、预构建前端、校验后的模型和演示视频，解压后无需安装 Python/Node.js 即可离线运行；轻量在线版保留前端和演示视频，但省略 Python 环境与模型权重，首次启动通过 `.venv` 联网安装依赖并下载校验模型，HuggingFace 权重可选 `HF_ENDPOINT` 镜像。
+- 新增 `scripts/build_windows_release.ps1`，统一处理前端构建、内嵌 Python `._pth`、一次性依赖解析、模型 SHA-256 校验、演示数据、双 zip 和 `SHA256SUMS.txt`，并限制单个资产小于 2 GB。
+- Windows 启动优先使用 `runtime\python.exe`，保留源码 `.venv` 流程；可变数据统一保存到包内 `data/`，支持中文和空格路径，8000 被占用时自动换端口并打开实际地址。缺少前端时可用 Node.js 自动构建，否则提供 Releases 下载指引。
+- 新增 Windows/macOS/Ubuntu GitHub Actions：Ubuntu 运行 pytest、前端测试和构建，Windows 与 macos-14（Apple Silicon）执行真实源码安装及启动健康检查；全部通过后才在中文且含空格的解压路径执行便携包健康、首页、动态端口及真实视频冒烟，PR 上传构建 artifact，推送 `v*` 标签自动发布 Release。
+- README 和 Windows 启动文档增加下载按钮、三步部署、两种包区别、系统要求、SmartScreen/杀毒/端口说明及 YOLO AGPL-3.0 许可提示；新增 11 项发布配置与模型镜像回归测试。
+- README 顶部新增 Windows/macOS 各三步安装速览，详细指南覆盖三种 Windows 部署、macOS Apple Silicon（M 系列）、MPS、依赖锁定、镜像、Gatekeeper 与终端权限，并明确 Intel 芯片 Mac 暂不支持；macOS 安装脚本支持文档中的镜像变量、区分 Rosetta 与 Intel，并准备内置演示视频。
+
 ## 隧道功能 v1 · 2026-10-20
 
 - 事件规则新增超速、低速、违规变道、跟车过近、行人/非机动车闯入；速度类规则在未标定时自动静默，COCO 模型才支持闯入类别，VisDrone 界面明确提示不支持。实线车道与限速值随摄像头/机位配置保存并进入固定机位模板。

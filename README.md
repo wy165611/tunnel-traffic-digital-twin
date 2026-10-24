@@ -4,26 +4,29 @@
 
 **不需要标注或训练模型。没有真实道路尺寸时，速度、加速度和速度相关报警保持关闭。**
 
+## 安装与使用
+
+### Windows 10/11（64 位）
+
+[![Windows 下载](https://img.shields.io/badge/Windows-%E4%B8%8B%E8%BD%BD-2563eb?logo=windows)](https://github.com/wy165611/tunnel-traffic-digital-twin/releases/latest)
+
+1. 从 [Releases 最新版](https://github.com/wy165611/tunnel-traffic-digital-twin/releases/latest) 下载 `TunnelTwin-Windows-x64-portable.zip`。
+2. 将 zip 完整解压到 `D:\TunnelTwin` 等可写目录，中文和带空格的路径也支持。
+3. 双击 `一键启动.bat`，看到浏览器打开 <http://127.0.0.1:8000> 后导入视频并点击“开始分析”。
+
+便携版无需安装 Python/Node.js，可离线运行；轻量版、源码部署和故障处理见 [Windows 安装使用说明](docs/install-windows.md)，原 [Windows 分发版启动说明](docs/Windows分发版启动说明.md) 仍保留。
+
+### macOS（仅 Apple Silicon）
+
+1. 安装先决条件后执行 `git clone https://github.com/wy165611/tunnel-traffic-digital-twin.git && cd tunnel-traffic-digital-twin`，终端应进入项目目录。
+2. 执行 `bash scripts/setup.sh`，看到模型校验和前端 `✓ built` 输出即安装完成。
+3. 执行 `./start.sh`，看到 `Uvicorn running` 后打开 <http://127.0.0.1:8000>，按 `Ctrl+C` 停止。
+
+仅支持 Apple Silicon（M 系列），**Intel 芯片 Mac 暂不支持**；详细 brew 命令、MPS、锁定依赖、Rosetta 原生终端及权限问题见 [macOS 安装使用说明](docs/install-macos.md)。
+
 ![系统实际运行截图](docs/linear-design/desktop.jpg)
 
 界面采用奶油米白、浅杏与琥珀的浅色暖调，保留交通绿色和红黄报警语义。按中文仪表盘密度适配 Linear 的表面层级、排版和间距规则；React、TypeScript、ECharts 及本地分析功能保留。统一约定见 [设计规范](DESIGN.md)，桌面、平板及手机实际截图与验证结果见 [界面检查记录](docs/linear-design/README.md)。
-
-## Windows 10 和 Windows 11 快速启动
-
-> **Windows 免安装分发包（推荐给非开发者）：** 包内已含前端构建、示例视频和模型权重，解压后双击 `一键启动.bat` 即可，不需要 Node.js。启动脚本会自动检测 Python 3.10–3.12、创建 `.venv`、安装依赖并打开浏览器；完整说明见 [Windows 分发版启动说明](docs/Windows分发版启动说明.md)。
-
-> **源码包说明：**包含应用源码、安装脚本、测试、示例配置和项目文档。不含模型权重、历史分析结果、截图产物、虚拟环境或前端依赖目录。首次安装需要联网下载依赖和模型。
-
-如果要直接运行本仓库源码（而不是使用 Windows 分发包），在项目根目录打开 PowerShell 并运行：
-
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\setup-windows.ps1
-```
-
-安装完成后双击 start-windows.bat。浏览器打开 http://127.0.0.1:8000，导入自己的视频后点击“开始分析”。要停止服务，在启动窗口按 Ctrl+C。逐步说明见 [Windows 分发版启动说明](docs/Windows分发版启动说明.md)。
-
-需要 Python 3.11 或更高版本（64 位）和 Node.js 20.19+ 或 22.12+。建议安装 Python 3.11/3.12 64 位与 Node.js LTS。CPU 可运行，首次安装会下载 PyTorch 等依赖，需预留数 GB 磁盘空间。系统会在本机处理视频，默认只监听 127.0.0.1。
-
 
 导入新视频后会自动判断横竖屏并生成过线计数线，点击 **开始分析** 即可查看累计过线流量，无需先手工画线或设置真实道路尺寸。
 
@@ -34,16 +37,6 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\setup-windows.ps1
 固定机位可在侧栏 **固定机位模板** 命名保存已保存道路，独立叠加预览后明确应用；默认只复用图像几何并清除实际尺度，另行人工确认同机位/同视野/实测尺寸仍有效才复制尺度。模板同时保存每车道实线标记、本机位限速和自定义虚拟线圈，按机位分别配置。详见 [固定机位模板](docs/camera-templates.md)。
 
 当前及历史统计段提供 **人工过线 / 事件评测**，使用独立原视频、保存道路和实际观测 ID 辅助人工录入，明确完成类别后保存并评测；空系统 ID 的漏检事件保留为漏报，未核验类别与速度不会被当成零真值。标注、机器事件复核、测量数据分别保存，播放器不会改变实时分析。详见 [可视化人工评测](docs/visual-evaluation.md)。
-
-### Windows 安装脚本会执行的步骤
-
-setup-windows.ps1 创建独立虚拟环境，安装官方 CPU 版 PyTorch 和 requirements.txt 中的其他依赖，下载并校验 models.json 中的预训练权重，再安装前端依赖并构建页面。锁定文件 requirements-locked-macos-py313.txt 仅适用于 macOS arm64 / Python 3.13，不要在 Windows 上使用。首次安装需联网；接收者需另外提供视频。
-
-也可以将视频复制到项目目录并准备为默认演示：
-
-```powershell
-.\.venv\Scripts\python.exe scripts\prepare_demo.py --video "D:\Videos\traffic.mp4"
-```
 
 ## 提供的视频与模型选择
 

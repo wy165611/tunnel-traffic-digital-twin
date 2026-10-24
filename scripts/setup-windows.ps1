@@ -1,6 +1,12 @@
 ﻿$ErrorActionPreference = 'Stop'
 $Root = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 Set-Location $Root
+$env:TWIN_DATA_DIR = Join-Path $Root 'data'
+$NpmRegistry = if ($env:TWIN_NPM_REGISTRY) { $env:TWIN_NPM_REGISTRY } else { 'https://registry.npmjs.org' }
+$PipArgs = @()
+if ($env:TWIN_PIP_INDEX) {
+    $PipArgs = @('--index-url', $env:TWIN_PIP_INDEX)
+}
 
 function Assert-LastExitCode([string]$Step) {
     if ($LASTEXITCODE -ne 0) {
@@ -45,7 +51,7 @@ Write-Host 'Installing official CPU-only PyTorch packages...'
 Assert-LastExitCode 'Installing CPU-only PyTorch'
 
 Write-Host 'Installing Python dependencies...'
-& $python -m pip install -r requirements.txt
+& $python -m pip install -r requirements.txt @PipArgs
 Assert-LastExitCode 'Installing Python dependencies'
 & $python scripts\lock_dependencies.py --check
 Assert-LastExitCode 'Checking installed dependencies'
@@ -53,13 +59,13 @@ Assert-LastExitCode 'Checking installed dependencies'
 Write-Host 'Downloading and verifying pretrained model weights...'
 & $python scripts\download_models.py
 Assert-LastExitCode 'Downloading model weights'
-& $python scripts\prepare_demo.py
-Assert-LastExitCode 'Preparing optional demo data'
+& $python scripts\prepare_demo.py --video (Join-Path $Root 'examples\tunnel-demo.mp4')
+Assert-LastExitCode 'Preparing demo data'
 
 Write-Host 'Installing frontend dependencies and building the web interface...'
 Push-Location (Join-Path $Root 'frontend')
 try {
-    & npm.cmd ci --registry=https://registry.npmjs.org
+    & npm.cmd ci --registry=$NpmRegistry
     Assert-LastExitCode 'Installing frontend dependencies'
     & npm.cmd run build
     Assert-LastExitCode 'Building the frontend'
