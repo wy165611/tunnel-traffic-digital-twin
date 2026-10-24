@@ -7,6 +7,8 @@
 
 $ErrorActionPreference = 'Stop'
 $Root = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
+$env:PYTHONUTF8 = '1'
+$env:PYTHONIOENCODING = 'utf-8'
 if ($env:OS -ne 'Windows_NT') {
     throw 'Windows release packages must be built on Windows so native dependencies target win_amd64.'
 }
@@ -153,7 +155,11 @@ try {
     } finally {
         Pop-Location
     }
-    Copy-Tree (Join-Path $Portable 'data') (Join-Path $Lite 'data')
+    Copy-Tree (Join-Path $Portable 'data') (Join-Path $Lite 'data') @('models')
+    $LiteModelFiles = @(Get-ChildItem -Path (Join-Path $Lite 'data\models') -Recurse -File -ErrorAction SilentlyContinue)
+    if ($LiteModelFiles.Count -ne 0) {
+        throw 'The lite package must not contain model weights.'
+    }
 
     $PortableZip = Join-Path $Output 'TunnelTwin-Windows-x64-portable.zip'
     $LiteZip = Join-Path $Output 'TunnelTwin-Windows-x64-lite.zip'

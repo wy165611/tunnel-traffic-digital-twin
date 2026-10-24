@@ -36,7 +36,7 @@
 
 ## 方式二：轻量在线版
 
-轻量版 `TunnelTwin-Windows-x64-lite.zip` 同样包含预构建前端、模型和演示视频，只是不包含 `runtime`  Python 环境，因此首次启动需要联网。
+轻量版 `TunnelTwin-Windows-x64-lite.zip` 包含预构建前端和演示视频，但不包含 `runtime` Python 环境与模型权重，因此首次启动需要联网安装依赖并下载、校验模型。
 
 1. 安装 64 位 Python 3.10、3.11 或 3.12（推荐 3.12）并勾选 “Add python.exe to PATH”，在新 PowerShell 中执行 `python --version` 应显示对应版本。
 2. 从 Releases 下载并完整解压 `TunnelTwin-Windows-x64-lite.zip`，成功后目录中应有 `一键启动.bat`，但没有便携版的 `runtime`。

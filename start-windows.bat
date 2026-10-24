@@ -35,7 +35,7 @@ echo [3/3] 正在安装其余依赖 ...
 "%VENV_PY%" -m pip install -r requirements.txt %PIP_ARGS%
 if errorlevel 1 goto pip_fail
 > ".venv\.twin-version" echo %PKG_VER%
-goto start_server
+goto prepare_models
 
 :portable_env
 set "APP_PY=%RUNTIME_PY%"
@@ -50,12 +50,12 @@ if errorlevel 1 goto reinstall
 if not exist ".venv\.twin-version" goto write_version
 set "VENV_VER="
 set /p VENV_VER=<".venv\.twin-version"
-if "%VENV_VER%"=="%PKG_VER%" goto start_server
+if "%VENV_VER%"=="%PKG_VER%" goto prepare_models
 goto reinstall
 
 :write_version
 > ".venv\.twin-version" echo %PKG_VER%
-goto start_server
+goto prepare_models
 
 :reinstall
 echo 检测到运行环境需要更新，正在安装 requirements.txt 中的依赖 ...
@@ -63,6 +63,12 @@ call :choose_mirror
 "%APP_PY%" -m pip install -r requirements.txt %PIP_ARGS%
 if errorlevel 1 goto pip_fail
 > ".venv\.twin-version" echo %PKG_VER%
+goto prepare_models
+
+:prepare_models
+echo 正在校验模型权重；缺失或损坏时会自动下载...
+"%APP_PY%" scripts\download_models.py
+if errorlevel 1 goto model_fail
 goto start_server
 
 :ensure_frontend
@@ -172,6 +178,11 @@ goto fail_pause
 :runtime_fail
 echo [错误] 包内 runtime 环境不完整或依赖损坏，请重新下载并完整解压便携版。
 echo 下载地址：https://github.com/wy165611/tunnel-traffic-digital-twin/releases/latest
+goto fail_pause
+
+:model_fail
+echo [错误] 模型下载或 SHA-256 校验失败，请检查网络后重试。
+echo 轻量版首次启动需要联网；已有完整模型的源码安装可离线启动。
 goto fail_pause
 
 :venv_fail

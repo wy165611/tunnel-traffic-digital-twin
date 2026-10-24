@@ -2,7 +2,7 @@
 
 ## 1.1.0 · 2026-10-24
 
-- 新增 Windows GitHub Releases 分发：便携完整版内置 Python 3.11、pip、CPU 版 PyTorch、全部依赖、预构建前端、校验后的模型和演示视频，解压后无需安装 Python/Node.js 即可离线运行；轻量在线版保留模型和前端，仅省略 Python 环境，首次启动通过 `.venv` 联网安装依赖。
+- 新增 Windows GitHub Releases 分发：便携完整版内置 Python 3.11、pip、CPU 版 PyTorch、全部依赖、预构建前端、校验后的模型和演示视频，解压后无需安装 Python/Node.js 即可离线运行；轻量在线版保留前端和演示视频，但省略 Python 环境与模型权重，首次启动通过 `.venv` 联网安装依赖并下载校验模型。
 - 新增 `scripts/build_windows_release.ps1`，统一处理前端构建、内嵌 Python `._pth`、一次性依赖解析、模型 SHA-256 校验、演示数据、双 zip 和 `SHA256SUMS.txt`，并限制单个资产小于 2 GB。
 - Windows 启动优先使用 `runtime\python.exe`，保留源码 `.venv` 流程；可变数据统一保存到包内 `data/`，支持中文和空格路径，8000 被占用时自动换端口并打开实际地址。缺少前端时可用 Node.js 自动构建，否则提供 Releases 下载指引。
 - 新增 Windows/Ubuntu GitHub Actions：后端 pytest、前端测试和构建通过后，才在中文且含空格的解压路径执行便携包健康、首页、动态端口及真实视频冒烟；PR 上传构建 artifact，推送 `v*` 标签自动发布 Release。

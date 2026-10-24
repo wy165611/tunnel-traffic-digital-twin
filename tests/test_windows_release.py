@@ -68,6 +68,7 @@ def test_build_script_creates_frontend_models_demo_and_both_archives():
     assert "npm.cmd run build" in text
     assert "scripts\\download_models.py" in text
     assert "scripts\\prepare_demo.py" in text
+    assert "Copy-Tree (Join-Path $Portable 'data') (Join-Path $Lite 'data') @('models')" in text
     assert "TunnelTwin-Windows-x64-portable.zip" in text
     assert "TunnelTwin-Windows-x64-lite.zip" in text
     assert "Get-FileHash -Algorithm SHA256" in text
@@ -77,6 +78,8 @@ def test_build_script_creates_frontend_models_demo_and_both_archives():
 
 def test_build_script_prepares_offline_embedded_python_correctly():
     text = read(BUILD_SCRIPT)
+    assert "$env:PYTHONUTF8 = '1'" in text
+    assert "$env:PYTHONIOENCODING = 'utf-8'" in text
     assert "python-$PythonVersion-embed-amd64.zip" in text
     assert "get-pip.py" in text
     assert "python*._pth" in text
@@ -98,6 +101,9 @@ def test_launcher_prefers_embedded_runtime_and_keeps_venv_fallback():
     assert text.index('if exist "%RUNTIME_PY%" goto portable_env') < text.index('if exist "%VENV_PY%" goto check_env')
     assert 'set "TWIN_DATA_DIR=%~dp0data"' in text
     assert 'if not exist "data\\videos\\demo.mp4"' in text
+    assert ':prepare_models' in text
+    assert '"%APP_PY%" scripts\\download_models.py' in text
+    assert 'if errorlevel 1 goto model_fail' in text
     assert '"%APP_PY%" -m uvicorn backend.main:app' in text
 
 

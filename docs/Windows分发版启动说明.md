@@ -24,7 +24,7 @@
 | Python、pip 和全部依赖 | 已内置在 `runtime\` | 不包含 |
 | CPU 版 PyTorch | 已内置 | 首次启动联网安装 |
 | 前端 `frontend\dist` | 已内置 | 已内置 |
-| 模型和演示视频 | 已内置，模型按 `models.json` 校验 | 已内置，模型按 `models.json` 校验 |
+| 模型和演示视频 | 均已内置，模型按 `models.json` 校验 | 演示视频已内置；模型首次启动下载并按 `models.json` 校验 |
 | 首次启动联网 | 不需要 | 需要 |
 | 用户需安装 | 无 | 64 位 Python 3.10、3.11 或 3.12 |
 

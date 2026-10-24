@@ -133,7 +133,7 @@ jobs:
             2. 完整解压到可写目录，例如 `D:\TunnelTwin`；中文和带空格的路径也可使用。
             3. 双击 `一键启动.bat`，浏览器打开窗口显示的 `http://127.0.0.1:端口` 地址。
 
-            便携版内置 Python 3.11、CPU 版 PyTorch、依赖、网页、模型和演示视频，解压后可离线运行，无需安装 Python 或 Node.js。轻量版 `TunnelTwin-Windows-x64-lite.zip` 不含 Python 运行环境，首次启动需要本机 Python 3.10–3.12 并联网安装依赖。
+            便携版内置 Python 3.11、CPU 版 PyTorch、依赖、网页、模型和演示视频，解压后可离线运行，无需安装 Python 或 Node.js。轻量版 `TunnelTwin-Windows-x64-lite.zip` 不含 Python 运行环境和模型权重，首次启动需要本机 Python 3.10–3.12，并联网安装依赖、下载校验模型。
 
             适用于 Windows 10/11 64 位。SHA256SUMS.txt 可用于校验下载完整性。若 8000 端口被占用，启动脚本会自动选择后续端口。SmartScreen 或杀毒软件提示时，请核对下载来源和 SHA-256，不要关闭系统防护。
           files: |
