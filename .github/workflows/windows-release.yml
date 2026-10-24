@@ -47,6 +47,18 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
+          function Read-LiveLog([string]$Path) {
+            if (-not (Test-Path $Path)) { return '' }
+            $FileStream = $null
+            $StreamReader = $null
+            try {
+              $FileStream = [System.IO.File]::Open($Path, [System.IO.FileMode]::Open, [System.IO.FileAccess]::Read, [System.IO.FileShare]::ReadWrite)
+              $StreamReader = [System.IO.StreamReader]::new($FileStream, [System.Text.Encoding]::UTF8)
+              return $StreamReader.ReadToEnd()
+            } finally {
+              if ($StreamReader) { $StreamReader.Dispose() } elseif ($FileStream) { $FileStream.Dispose() }
+            }
+          }
           $Package = $PWD.Path
           $LogDirectory = Join-Path $Package 'data\logs'
           New-Item -ItemType Directory -Path $LogDirectory -Force | Out-Null
@@ -62,7 +74,8 @@ jobs:
             $Process = Start-Process -FilePath 'cmd.exe' -ArgumentList @('/d', '/c', "`"$Launcher`"") -WorkingDirectory $Package -WindowStyle Hidden -RedirectStandardOutput $Stdout -RedirectStandardError $Stderr -PassThru
             for ($Attempt = 0; $Attempt -lt 90; $Attempt++) {
               if ($Process.HasExited) {
-                Get-Content $Stdout, $Stderr -ErrorAction SilentlyContinue
+                Read-LiveLog $Stdout
+                Read-LiveLog $Stderr
                 throw "Windows source launcher exited with code $($Process.ExitCode)."
               }
               try {
@@ -79,7 +92,8 @@ jobs:
               Start-Sleep -Seconds 2
             }
             if (-not $Ready) {
-              Get-Content $Stdout, $Stderr -ErrorAction SilentlyContinue
+              Read-LiveLog $Stdout
+                Read-LiveLog $Stderr
               throw 'Timed out waiting for the Windows source installation.'
             }
             if (-not (Test-Path (Join-Path $Package 'data\videos\demo.mp4'))) {
@@ -177,6 +191,18 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
+          function Read-LiveLog([string]$Path) {
+            if (-not (Test-Path $Path)) { return '' }
+            $FileStream = $null
+            $StreamReader = $null
+            try {
+              $FileStream = [System.IO.File]::Open($Path, [System.IO.FileMode]::Open, [System.IO.FileAccess]::Read, [System.IO.FileShare]::ReadWrite)
+              $StreamReader = [System.IO.StreamReader]::new($FileStream, [System.Text.Encoding]::UTF8)
+              return $StreamReader.ReadToEnd()
+            } finally {
+              if ($StreamReader) { $StreamReader.Dispose() } elseif ($FileStream) { $FileStream.Dispose() }
+            }
+          }
           Add-Type -AssemblyName System.IO.Compression.FileSystem
           $Archive = Join-Path $PWD 'artifacts\windows-release\TunnelTwin-Windows-x64-portable.zip'
           $SmokeRoot = Join-Path $env:RUNNER_TEMP 'TunnelTwin 中文 路径 Smoke'
@@ -200,11 +226,17 @@ jobs:
             $Process = Start-Process -FilePath 'cmd.exe' -ArgumentList @('/d', '/c', "`"$Launcher`"") -WorkingDirectory $Package -WindowStyle Hidden -RedirectStandardOutput $Stdout -RedirectStandardError $Stderr -PassThru
             for ($Attempt = 0; $Attempt -lt 180; $Attempt++) {
               if ($Process.HasExited) {
-                Get-Content $Stdout, $Stderr -ErrorAction SilentlyContinue
+                Read-LiveLog $Stdout
+                Read-LiveLog $Stderr
                 throw "Portable launcher exited with code $($Process.ExitCode)."
               }
               if (Test-Path $Stdout) {
-                $Log = [System.IO.File]::ReadAllText($Stdout, [System.Text.Encoding]::UTF8)
+                try {
+                  $Log = Read-LiveLog $Stdout
+                } catch {
+                  Write-Host "Log read is temporarily unavailable: $($_.Exception.Message)"
+                  $Log = ''
+                }
                 $Match = [regex]::Match($Log, 'http://127\.0\.0\.1:(\d+)')
                 if ($Match.Success) {
                   $Port = $Match.Groups[1].Value
@@ -227,7 +259,8 @@ jobs:
               Start-Sleep -Seconds 2
             }
             if (-not $Ready) {
-              Get-Content $Stdout, $Stderr -ErrorAction SilentlyContinue
+              Read-LiveLog $Stdout
+                Read-LiveLog $Stderr
               throw 'Timed out waiting for health and frontend responses.'
             }
           } finally {

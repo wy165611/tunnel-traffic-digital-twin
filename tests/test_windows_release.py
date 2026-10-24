@@ -58,6 +58,10 @@ def test_workflow_builds_smoke_tests_uploads_and_publishes_assets():
     assert "$FrontPage" in text
     assert "$Home" not in text
     assert "$($_.Exception.Message)" in text
+    assert text.count("[System.IO.FileShare]::ReadWrite") == 2
+    assert "ReadAllText" not in text
+    assert "Get-Content $Stdout" not in text
+    assert "Log read is temporarily unavailable" in text
     assert "scripts\\smoke_video.py" in text
     assert "actions/upload-artifact@v4" in text
     assert "softprops/action-gh-release@v2" in text
