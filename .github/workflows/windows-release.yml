@@ -98,7 +98,6 @@ jobs:
       matrix:
         os:
           - macos-14
-          - macos-15-intel
     runs-on: ${{ matrix.os }}
     timeout-minutes: 45
     steps:

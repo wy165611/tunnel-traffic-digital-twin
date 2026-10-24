@@ -42,8 +42,9 @@ def test_workflow_yaml_and_required_jobs_are_valid():
     assert workflow["jobs"]["windows-install-test"]["runs-on"] == "windows-latest"
     macos_job = workflow["jobs"]["macos-install-test"]
     assert macos_job["runs-on"] == "${{ matrix.os }}"
-    assert macos_job["strategy"]["matrix"]["os"] == ["macos-14", "macos-15-intel"]
+    assert macos_job["strategy"]["matrix"]["os"] == ["macos-14"]
     assert "macos-13" not in read(WORKFLOW)
+    assert "macos-15-intel" not in read(WORKFLOW)
 
 
 def test_workflow_builds_smoke_tests_uploads_and_publishes_assets():

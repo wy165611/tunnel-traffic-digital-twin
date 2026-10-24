@@ -1,5 +1,13 @@
 #!/bin/bash
 set -euo pipefail
+if [ "$(uname -s)" = "Darwin" ] && [ "$(uname -m)" = "x86_64" ]; then
+  if [ "$(sysctl -n hw.optional.arm64 2>/dev/null || true)" = "1" ]; then
+    echo '检测到 Apple Silicon Mac 正通过 Rosetta 运行 x86_64 环境。请执行 arch -arm64 zsh 打开原生 arm64 终端，并使用 /opt/homebrew 下的 arm64 Homebrew 后重试。' >&2
+  else
+    echo 'Intel 芯片 Mac 暂不支持。安装说明：docs/install-macos.md' >&2
+  fi
+  exit 1
+fi
 cd "$(dirname "$0")/.."
 if [ ! -d .venv ]; then python3 -m venv .venv; fi
 pip_args=()

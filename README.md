@@ -16,13 +16,13 @@
 
 便携版无需安装 Python/Node.js，可离线运行；轻量版、源码部署和故障处理见 [Windows 安装使用说明](docs/install-windows.md)，原 [Windows 分发版启动说明](docs/Windows分发版启动说明.md) 仍保留。
 
-### macOS（Apple Silicon 与 Intel）
+### macOS（仅 Apple Silicon）
 
 1. 安装先决条件后执行 `git clone https://github.com/wy165611/tunnel-traffic-digital-twin.git && cd tunnel-traffic-digital-twin`，终端应进入项目目录。
 2. 执行 `bash scripts/setup.sh`，看到模型校验和前端 `✓ built` 输出即安装完成。
 3. 执行 `./start.sh`，看到 `Uvicorn running` 后打开 <http://127.0.0.1:8000>，按 `Ctrl+C` 停止。
 
-详细 brew 命令、Apple Silicon MPS、Intel CPU、锁定依赖及权限问题见 [macOS 安装使用说明](docs/install-macos.md)。
+仅支持 Apple Silicon（M 系列），**Intel 芯片 Mac 暂不支持**；详细 brew 命令、MPS、锁定依赖、Rosetta 原生终端及权限问题见 [macOS 安装使用说明](docs/install-macos.md)。
 
 ![系统实际运行截图](docs/linear-design/desktop.jpg)
 

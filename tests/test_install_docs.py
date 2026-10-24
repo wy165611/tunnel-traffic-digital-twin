@@ -1,5 +1,9 @@
+import os
 from pathlib import Path
 import re
+import subprocess
+
+import pytest
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -13,7 +17,7 @@ def test_readme_has_concise_windows_and_macos_quickstarts():
     readme = read("README.md")
     install = readme.index("## 安装与使用")
     windows = readme.index("### Windows 10/11（64 位）", install)
-    macos = readme.index("### macOS（Apple Silicon 与 Intel）", windows)
+    macos = readme.index("### macOS（仅 Apple Silicon）", windows)
     assert install < windows < macos
     assert "TunnelTwin-Windows-x64-portable.zip" in readme[windows:macos]
     assert "docs/install-windows.md" in readme[windows:macos]
@@ -54,7 +58,9 @@ def test_macos_guide_matches_actual_commands_and_platform_behavior():
         assert command in guide
     for topic in (
         "Apple Silicon",
-        "Intel",
+        "Intel 芯片 Mac 暂不支持",
+        "arch -arm64 zsh",
+        "/opt/homebrew",
         "device: mps",
         "requirements-locked-macos-py313.txt",
         "无法验证开发者",
@@ -85,3 +91,44 @@ def test_shell_scripts_avoid_bare_empty_array_expansion_with_nounset():
     setup = read("scripts/setup.sh")
     assert setup.count('${pip_args[@]+"${pip_args[@]}"}') == 2
     assert 'python-version: \'3.13\'' in read(".github/workflows/windows-release.yml")
+
+
+@pytest.mark.parametrize("sysctl_result", ["1", "0", "fail"])
+def test_macos_x86_guard_distinguishes_rosetta_from_intel(tmp_path, sysctl_result):
+    fake_bin = tmp_path / "bin"
+    fake_bin.mkdir()
+    commands = {
+        "uname": '#!/bin/sh\nif [ "$1" = "-s" ]; then echo Darwin; else echo x86_64; fi\n',
+        "sysctl": "#!/bin/sh\n" + ("exit 1\n" if sysctl_result == "fail" else f"echo {sysctl_result}\n"),
+        "python3": "#!/bin/sh\nexit 99\n",
+    }
+    for name, content in commands.items():
+        executable = fake_bin / name
+        executable.write_text(content, encoding="utf-8")
+        executable.chmod(0o755)
+
+    scripts = tmp_path / "scripts"
+    scripts.mkdir()
+    setup = scripts / "setup.sh"
+    setup.write_text(read("scripts/setup.sh"), encoding="utf-8")
+    env = os.environ.copy()
+    env["PATH"] = str(fake_bin) + os.pathsep + env["PATH"]
+    result = subprocess.run(
+        ["bash", str(setup)],
+        cwd=tmp_path,
+        env=env,
+        capture_output=True,
+        text=True,
+        timeout=10,
+        check=False,
+    )
+    output = result.stdout + result.stderr
+    assert result.returncode == 1
+    assert not (tmp_path / ".venv").exists()
+    if sysctl_result == "1":
+        assert "arch -arm64 zsh" in output
+        assert "/opt/homebrew" in output
+        assert "Intel 芯片 Mac 暂不支持" not in output
+    else:
+        assert "Intel 芯片 Mac 暂不支持" in output
+        assert "docs/install-macos.md" in output

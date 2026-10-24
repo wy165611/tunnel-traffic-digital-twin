@@ -1,6 +1,6 @@
 # macOS 安装与使用说明
 
-适用于 Apple Silicon（arm64）和 Intel（x86_64）Mac；以下命令在“终端”中执行，项目默认只监听本机 `127.0.0.1`。
+仅适用于 Apple Silicon（arm64，M 系列）Mac；**Intel 芯片 Mac 暂不支持**。以下命令在原生 arm64“终端”中执行，项目默认只监听本机 `127.0.0.1`。
 
 ## 一、安装先决条件
 
@@ -66,15 +66,16 @@
 chmod +x start.sh scripts/setup.sh scripts/dev.sh
 ```
 
-## 三、Apple Silicon 与 Intel 运行方式
+## 三、Apple Silicon 运行方式
 
-- **Apple Silicon：** 默认 `detector.device: auto` 使用 CPU；如需尝试 MPS 加速，将 `config.yaml` 中的 `detector.device` 改为 `mps` 后重启，模型加载后的设备信息应显示 `mps`。
-- **Intel：** 使用 CPU，保持 `detector.device: auto` 或设为 `cpu` 即可，不需要 NVIDIA 显卡。
+- 默认 `detector.device: auto` 使用 CPU；如需尝试 MPS 加速，将 `config.yaml` 中的 `detector.device` 改为 `mps` 后重启，模型加载后的设备信息应显示 `mps`。
 - MPS 是否更快取决于模型、视频分辨率和 macOS/PyTorch 版本；遇到算子不支持时改回 `cpu`。
+- **Intel 芯片 Mac 暂不支持**，`scripts/setup.sh` 会在创建虚拟环境或安装依赖前明确退出。
+- Apple Silicon 若通过 Rosetta 运行 x86_64 终端，脚本会提示执行 `arch -arm64 zsh` 打开原生 arm64 终端，并使用 `/opt/homebrew` 下的 arm64 Homebrew；这与 Intel 不支持是不同情况。
 
 ```yaml
 detector:
-  device: mps  # Apple Silicon 可选；Intel 或兼容性问题请改为 cpu
+  device: mps  # Apple Silicon 可选；兼容性问题请改为 cpu
 ```
 
 ## 四、依赖锁定与下载镜像
