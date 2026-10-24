@@ -1,0 +1,176 @@
+name: Windows release
+
+on:
+  pull_request:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  windows-release:
+    runs-on: windows-latest
+    timeout-minutes: 90
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Build Windows packages
+        shell: pwsh
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\build_windows_release.ps1 -OutputDirectory artifacts\windows-release
+
+      - name: Smoke test extracted portable package
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          Add-Type -AssemblyName System.IO.Compression.FileSystem
+          $Archive = Join-Path $PWD 'artifacts\windows-release\TunnelTwin-Windows-x64-portable.zip'
+          $SmokeRoot = Join-Path $env:RUNNER_TEMP 'TunnelTwin 中文 路径 Smoke'
+          $Package = Join-Path $SmokeRoot '便携版 Package'
+          New-Item -ItemType Directory -Path $Package -Force | Out-Null
+          [System.IO.Compression.ZipFile]::ExtractToDirectory($Archive, $Package)
+
+          $LogDirectory = Join-Path $Package 'data\logs'
+          New-Item -ItemType Directory -Path $LogDirectory -Force | Out-Null
+          $Stdout = Join-Path $LogDirectory 'smoke-stdout.log'
+          $Stderr = Join-Path $LogDirectory 'smoke-stderr.log'
+          $env:TWIN_NO_BROWSER = '1'
+          $env:TWIN_NO_PAUSE = '1'
+          $env:TWIN_PORT = '8000'
+          $Listener = [System.Net.Sockets.TcpListener]::new([System.Net.IPAddress]::Loopback, 8000)
+          $Listener.Start()
+          $Process = $null
+          $Ready = $false
+          try {
+            $Launcher = Join-Path $Package '一键启动.bat'
+            $Process = Start-Process -FilePath 'cmd.exe' -ArgumentList @('/d', '/c', "`"$Launcher`"") -WorkingDirectory $Package -WindowStyle Hidden -RedirectStandardOutput $Stdout -RedirectStandardError $Stderr -PassThru
+            for ($Attempt = 0; $Attempt -lt 180; $Attempt++) {
+              if ($Process.HasExited) {
+                Get-Content $Stdout, $Stderr -ErrorAction SilentlyContinue
+                throw "Portable launcher exited with code $($Process.ExitCode)."
+              }
+              if (Test-Path $Stdout) {
+                $Log = [System.IO.File]::ReadAllText($Stdout, [System.Text.Encoding]::UTF8)
+                $Match = [regex]::Match($Log, 'http://127\.0\.0\.1:(\d+)')
+                if ($Match.Success) {
+                  $Port = $Match.Groups[1].Value
+                  if ($Port -eq '8000') {
+                    throw 'The launcher did not switch away from occupied port 8000.'
+                  }
+                  try {
+                    $Health = Invoke-WebRequest -UseBasicParsing -Uri "http://127.0.0.1:$Port/api/health" -TimeoutSec 2
+                    $Home = Invoke-WebRequest -UseBasicParsing -Uri "http://127.0.0.1:$Port/" -TimeoutSec 2
+                    if ($Health.StatusCode -eq 200 -and $Home.StatusCode -eq 200 -and $Home.Content -notmatch '前端尚未构建') {
+                      $Ready = $true
+                      Write-Host "Portable package is healthy on dynamically selected port $Port."
+                      break
+                    }
+                  } catch {
+                    Write-Host 'Waiting for the packaged server...'
+                  }
+                }
+              }
+              Start-Sleep -Seconds 2
+            }
+            if (-not $Ready) {
+              Get-Content $Stdout, $Stderr -ErrorAction SilentlyContinue
+              throw 'Timed out waiting for health and frontend responses.'
+            }
+          } finally {
+            if ($Process -and -not $Process.HasExited) {
+              & taskkill.exe /PID $Process.Id /T /F | Out-Null
+            }
+            $Listener.Stop()
+          }
+
+          Write-Host 'Running real-video detection, tracking and export smoke test...'
+          $env:TWIN_DATA_DIR = Join-Path $Package 'data'
+          Push-Location $Package
+          try {
+            & (Join-Path $Package 'runtime\python.exe') scripts\smoke_video.py --video (Join-Path $Package 'examples\tunnel-demo.mp4') --output (Join-Path $Package 'data\smoke-video.json')
+            if ($LASTEXITCODE -ne 0) {
+              throw "Real-video smoke test failed with exit code $LASTEXITCODE."
+            }
+          } finally {
+            Pop-Location
+          }
+
+      - name: Upload workflow artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: TunnelTwin-Windows-x64
+          path: |
+            artifacts/windows-release/*.zip
+            artifacts/windows-release/SHA256SUMS.txt
+          if-no-files-found: error
+
+      - name: Publish GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          body: |
+            ## Windows 安装说明
+
+            1. 推荐下载 **TunnelTwin-Windows-x64-portable.zip**（便携完整版）。
+            2. 完整解压到可写目录，例如 `D:\TunnelTwin`；中文和带空格的路径也可使用。
+            3. 双击 `一键启动.bat`，浏览器打开窗口显示的 `http://127.0.0.1:端口` 地址。
+
+            便携版内置 Python 3.11、CPU 版 PyTorch、依赖、网页、模型和演示视频，解压后可离线运行，无需安装 Python 或 Node.js。轻量版 `TunnelTwin-Windows-x64-lite.zip` 不含 Python 运行环境，首次启动需要本机 Python 3.10–3.12 并联网安装依赖。
+
+            适用于 Windows 10/11 64 位。SHA256SUMS.txt 可用于校验下载完整性。若 8000 端口被占用，启动脚本会自动选择后续端口。SmartScreen 或杀毒软件提示时，请核对下载来源和 SHA-256，不要关闭系统防护。
+          files: |
+            artifacts/windows-release/TunnelTwin-Windows-x64-portable.zip
+            artifacts/windows-release/TunnelTwin-Windows-x64-lite.zip
+            artifacts/windows-release/SHA256SUMS.txt
+          generate_release_notes: true
+
+  ubuntu-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install CPU PyTorch
+        run: python -m pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu --extra-index-url https://pypi.org/simple
+
+      - name: Install Python dependencies
+        run: python -m pip install -r requirements.txt
+
+      - name: Run pytest
+        run: python -m pytest
+
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Run frontend tests
+        working-directory: frontend
+        run: npm test
+
+      - name: Build frontend
+        working-directory: frontend
+        run: npm run build
