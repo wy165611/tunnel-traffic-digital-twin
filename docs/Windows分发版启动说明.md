@@ -28,7 +28,7 @@
 | 首次启动联网 | 不需要 | 需要 |
 | 用户需安装 | 无 | 64 位 Python 3.10、3.11 或 3.12 |
 
-轻量版沿用 `.venv` 安装流程。首次安装约需 5–20 分钟并建议预留 5 GB 空间；可交互选择清华 PyPI 镜像，也可预先设置 `TWIN_PIP_INDEX`。前端需要重新构建时，可通过 `TWIN_NPM_REGISTRY=https://registry.npmmirror.com` 选择 npmmirror。
+轻量版沿用 `.venv` 安装流程，首次启动还会联网下载并按 SHA-256 校验模型。首次安装约需 5–20 分钟并建议预留 5 GB 空间；可交互选择清华 PyPI 镜像，也可预先设置 `TWIN_PIP_INDEX`，HuggingFace 模型可通过 `HF_ENDPOINT=https://hf-mirror.com` 使用镜像。前端需要重新构建时，可通过 `TWIN_NPM_REGISTRY=https://registry.npmmirror.com` 选择 npmmirror。
 
 ## 三、电脑要求
 

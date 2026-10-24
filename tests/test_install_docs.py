@@ -28,6 +28,8 @@ def test_windows_guide_covers_all_installation_and_usage_paths():
     assert "方式二：轻量在线版" in guide
     assert "方式三：源码部署" in guide
     assert "不包含 `runtime` Python 环境与模型权重" in guide
+    assert "首次启动时联网下载" in guide
+    assert '$env:HF_ENDPOINT = "https://hf-mirror.com"' in guide
     assert "scripts\\setup-windows.ps1" in guide
     assert ".\\start-windows.bat" in guide
     assert "视频管理" in guide and "开始分析" in guide and "数据导出" in guide

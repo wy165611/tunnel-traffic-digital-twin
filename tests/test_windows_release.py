@@ -156,3 +156,15 @@ def test_gitattributes_protects_windows_and_macos_line_endings():
     assert "*.ps1 text eol=crlf" in rules
     assert "*.sh text eol=lf" in rules
     assert "pwsh -NoProfile -File" in read(WORKFLOW)
+
+
+def test_model_downloader_supports_optional_huggingface_mirror(monkeypatch):
+    from scripts.download_models import model_download_url
+
+    source = "https://huggingface.co/example/model/resolve/main/model.pt"
+    monkeypatch.delenv("HF_ENDPOINT", raising=False)
+    assert model_download_url(source) == source
+    monkeypatch.setenv("HF_ENDPOINT", "https://hf-mirror.com/")
+    assert model_download_url(source) == "https://hf-mirror.com/example/model/resolve/main/model.pt"
+    other = "https://download.pytorch.org/models/model.pth"
+    assert model_download_url(other) == other

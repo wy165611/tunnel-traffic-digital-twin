@@ -1,6 +1,7 @@
 """Download existing pretrained weights and verify pinned SHA-256; never train."""
 import hashlib
 import json
+import os
 from pathlib import Path
 import sys
 import time
@@ -10,6 +11,14 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 from backend.settings import DATA
 from backend.vision.weights import sha256_file
+
+
+def model_download_url(url: str) -> str:
+    endpoint = os.environ.get("HF_ENDPOINT")
+    huggingface = "https://huggingface.co"
+    if endpoint and url.startswith(huggingface + "/"):
+        return endpoint.rstrip("/") + url[len(huggingface):]
+    return url
 
 
 def download_file(url: str, destination: Path) -> None:
@@ -36,7 +45,7 @@ def main() -> int:
         for attempt in range(3):
             try:
                 temporary.unlink(missing_ok=True)
-                download_file(model["url"], temporary)
+                download_file(model_download_url(model["url"]), temporary)
                 actual = sha256_file(temporary)
                 if actual != expected:
                     raise ValueError(f"SHA-256 mismatch: expected {expected}, got {actual}")

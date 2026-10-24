@@ -40,13 +40,14 @@
 
 1. 安装 64 位 Python 3.10、3.11 或 3.12（推荐 3.12）并勾选 “Add python.exe to PATH”，在新 PowerShell 中执行 `python --version` 应显示对应版本。
 2. 从 Releases 下载并完整解压 `TunnelTwin-Windows-x64-lite.zip`，成功后目录中应有 `一键启动.bat`，但没有便携版的 `runtime`。
-3. 双击 `一键启动.bat`，看到 `[1/3]`、`[2/3]`、`[3/3]` 并保持窗口打开，依赖安装完成后应自动打开 <http://127.0.0.1:8000>。
-4. 后续启动会直接复用 `.venv`，无需重复安装，视频导入、分析和停止方法与便携版相同。
+3. 双击 `一键启动.bat`，看到 `[1/3]`、`[2/3]`、`[3/3]` 后保持窗口打开，脚本随后会显示“正在校验模型权重”并在首次启动时联网下载、按 SHA-256 校验模型，完成后自动打开 <http://127.0.0.1:8000>。
+4. 后续启动会直接复用 `.venv` 和已校验模型，无需重复下载，视频导入、分析和停止方法与便携版相同。
 
-首次安装通常需要 5–20 分钟并建议预留 5 GB 空间；需要指定镜像时，在启动前执行：
+首次安装通常需要 5–20 分钟并建议预留 5 GB 空间；需要指定 PyPI 与 HuggingFace 镜像时，在首次启动前执行（`HF_ENDPOINT` 只替换 HuggingFace 地址，其他模型仍使用 `models.json` 中的来源）：
 
 ```powershell
 $env:TWIN_PIP_INDEX = "https://pypi.tuna.tsinghua.edu.cn/simple"
+$env:HF_ENDPOINT = "https://hf-mirror.com"
 .\一键启动.bat
 ```
 
