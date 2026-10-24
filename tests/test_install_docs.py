@@ -1,4 +1,5 @@
 from pathlib import Path
+import re
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -74,3 +75,13 @@ def test_macos_setup_supports_documented_mirrors_and_demo():
     assert (ROOT / "examples/tunnel-demo.mp4").is_file()
     assert (ROOT / "start.sh").is_file()
     assert (ROOT / "scripts/dev.sh").is_file()
+
+
+def test_shell_scripts_avoid_bare_empty_array_expansion_with_nounset():
+    shell_scripts = list(ROOT.glob("*.sh")) + list(ROOT.glob("scripts/**/*.sh"))
+    bare_array_expansion = re.compile(r'(?<!\+)"\$\{[A-Za-z_][A-Za-z0-9_]*\[@\]\}"')
+    for script in shell_scripts:
+        assert not bare_array_expansion.search(script.read_text(encoding="utf-8")), script
+    setup = read("scripts/setup.sh")
+    assert setup.count('${pip_args[@]+"${pip_args[@]}"}') == 2
+    assert 'python-version: \'3.13\'' in read(".github/workflows/windows-release.yml")
