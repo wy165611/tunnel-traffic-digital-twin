@@ -147,10 +147,11 @@ if /i not "%TWIN_NO_BROWSER%"=="1" echo 浏览器将自动打开；若没有打�
 echo 保持本窗口打开。按 Ctrl+C 或直接关闭窗口可停止服务。
 if /i not "%TWIN_NO_BROWSER%"=="1" start "" /b powershell -NoProfile -WindowStyle Hidden -Command "for($i=0;$i -lt 240;$i++){try{$r=Invoke-WebRequest -UseBasicParsing -Uri 'http://127.0.0.1:%PORT%/api/health' -TimeoutSec 1; if($r.StatusCode -eq 200){Start-Process 'http://127.0.0.1:%PORT%'; break}}catch{}; Start-Sleep -Milliseconds 500}"
 "%APP_PY%" -m uvicorn backend.main:app --host 127.0.0.1 --port %PORT%
+set "SERVER_EXIT=%ERRORLEVEL%"
 echo.
 echo 服务已停止。可以关闭本窗口。
 if /i not "%TWIN_NO_PAUSE%"=="1" pause
-exit /b 0
+exit /b %SERVER_EXIT%
 
 :missing_files
 echo [错误] 文件不完整：未找到 backend\main.py，请重新解压整个压缩包。

@@ -24,7 +24,16 @@ def test_workflow_yaml_and_required_jobs_are_valid():
     workflow = load_workflow()
     triggers = workflow.get("on", workflow.get(True))
     assert set(triggers) == {"pull_request", "workflow_dispatch", "push"}
+    assert triggers["pull_request"]["paths"] == [
+        "scripts/**",
+        "start-windows.bat",
+        "一键启动.bat",
+        ".github/**",
+        "requirements*.txt",
+        "frontend/**",
+    ]
     assert workflow["jobs"]["windows-release"]["runs-on"] == "windows-latest"
+    assert workflow["jobs"]["windows-release"]["needs"] == "ubuntu-tests"
     assert workflow["jobs"]["ubuntu-tests"]["runs-on"] == "ubuntu-latest"
 
 
@@ -33,6 +42,9 @@ def test_workflow_builds_smoke_tests_uploads_and_publishes_assets():
     assert "TunnelTwin 中文 路径 Smoke" in text
     assert "便携版 Package" in text
     assert "/api/health" in text
+    assert "$FrontPage" in text
+    assert "$Home" not in text
+    assert "$($_.Exception.Message)" in text
     assert "scripts\\smoke_video.py" in text
     assert "actions/upload-artifact@v4" in text
     assert "softprops/action-gh-release@v2" in text
@@ -70,9 +82,12 @@ def test_build_script_prepares_offline_embedded_python_correctly():
     assert "python*._pth" in text
     assert "'#import site'" in text
     assert "@('Lib\\site-packages', '..', 'import site')" in text
-    assert "--target $SitePackages" in text
+    assert "--target" not in text
+    assert "'torch', 'torchvision', '-r'" in text
+    assert "--extra-index-url', $PipIndex" in text
     assert "https://download.pytorch.org/whl/cpu" in text
-    assert "runtime\\Lib\\site-packages" in text
+    assert "scripts\\lock_dependencies.py --check" in text
+    assert "$SitePackages = Join-Path $Runtime 'Lib\\site-packages'" in text
     assert "$env:TWIN_DATA_DIR = Join-Path $Portable 'data'" in text
 
 
@@ -104,3 +119,22 @@ def test_launcher_switches_ports_and_opens_the_selected_address():
     assert "Start-Process 'http://127.0.0.1:%PORT%'" in text
     assert '--port %PORT%' in text
     assert 'TWIN_NO_BROWSER' in text
+
+
+def test_windows_scripts_have_bom_and_crlf_line_endings():
+    for name in ("build_windows_release.ps1", "setup-windows.ps1"):
+        content = (ROOT / "scripts" / name).read_bytes()
+        assert content.startswith(b"\xef\xbb\xbf"), name
+        assert b"\n" not in content.replace(b"\r\n", b""), name
+    for name in ("一键启动.bat", "停止.bat", "start-windows.bat"):
+        content = (ROOT / name).read_bytes()
+        assert b"\n" not in content.replace(b"\r\n", b""), name
+
+
+def test_gitattributes_protects_windows_and_macos_line_endings():
+    rules = set(read(ROOT / ".gitattributes").splitlines())
+    assert "*.bat text eol=crlf" in rules
+    assert "*.cmd text eol=crlf" in rules
+    assert "*.ps1 text eol=crlf" in rules
+    assert "*.sh text eol=lf" in rules
+    assert "pwsh -NoProfile -File" in read(WORKFLOW)

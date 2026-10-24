@@ -2,6 +2,13 @@ name: Windows release
 
 on:
   pull_request:
+    paths:
+      - 'scripts/**'
+      - 'start-windows.bat'
+      - '一键启动.bat'
+      - '.github/**'
+      - 'requirements*.txt'
+      - 'frontend/**'
   workflow_dispatch:
   push:
     tags:
@@ -12,6 +19,7 @@ permissions:
 
 jobs:
   windows-release:
+    needs: ubuntu-tests
     runs-on: windows-latest
     timeout-minutes: 90
     steps:
@@ -27,7 +35,7 @@ jobs:
 
       - name: Build Windows packages
         shell: pwsh
-        run: powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\build_windows_release.ps1 -OutputDirectory artifacts\windows-release
+        run: pwsh -NoProfile -File .\scripts\build_windows_release.ps1 -OutputDirectory artifacts\windows-release
 
       - name: Smoke test extracted portable package
         shell: pwsh
@@ -69,14 +77,14 @@ jobs:
                   }
                   try {
                     $Health = Invoke-WebRequest -UseBasicParsing -Uri "http://127.0.0.1:$Port/api/health" -TimeoutSec 2
-                    $Home = Invoke-WebRequest -UseBasicParsing -Uri "http://127.0.0.1:$Port/" -TimeoutSec 2
-                    if ($Health.StatusCode -eq 200 -and $Home.StatusCode -eq 200 -and $Home.Content -notmatch '前端尚未构建') {
+                    $FrontPage = Invoke-WebRequest -UseBasicParsing -Uri "http://127.0.0.1:$Port/" -TimeoutSec 2
+                    if ($Health.StatusCode -eq 200 -and $FrontPage.StatusCode -eq 200 -and $FrontPage.Content -notmatch '前端尚未构建') {
                       $Ready = $true
                       Write-Host "Portable package is healthy on dynamically selected port $Port."
                       break
                     }
                   } catch {
-                    Write-Host 'Waiting for the packaged server...'
+                    Write-Host "Waiting for the packaged server: $($_.Exception.Message)"
                   }
                 }
               }

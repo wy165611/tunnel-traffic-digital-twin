@@ -1,4 +1,4 @@
-param(
+﻿param(
     [string]$OutputDirectory = 'artifacts\windows-release',
     [string]$PythonVersion = '3.11.9',
     [string]$NpmRegistry = $(if ($env:TWIN_NPM_REGISTRY) { $env:TWIN_NPM_REGISTRY } else { 'https://registry.npmjs.org' }),
@@ -130,16 +130,12 @@ try {
     & $PythonExe $GetPip --no-warn-script-location
     Assert-LastExitCode 'Bootstrapping pip'
 
-    Write-Host 'Installing CPU-only PyTorch into runtime\Lib\site-packages...'
-    & $PythonExe -m pip install --no-cache-dir --target $SitePackages torch torchvision --index-url https://download.pytorch.org/whl/cpu --extra-index-url https://pypi.org/simple
-    Assert-LastExitCode 'Installing CPU-only PyTorch'
-
-    Write-Host 'Installing application dependencies into the embedded runtime...'
-    $RequirementArgs = @('-m', 'pip', 'install', '--no-cache-dir', '--target', $SitePackages, '-r', (Join-Path $Portable 'requirements.txt'), '--extra-index-url', 'https://download.pytorch.org/whl/cpu')
+    Write-Host 'Installing CPU-only PyTorch and application dependencies into the embedded runtime...'
+    $DependencyArgs = @('-m', 'pip', 'install', '--no-cache-dir', 'torch', 'torchvision', '-r', (Join-Path $Portable 'requirements.txt'), '--index-url', 'https://download.pytorch.org/whl/cpu', '--extra-index-url', 'https://pypi.org/simple')
     if ($PipIndex) {
-        $RequirementArgs += @('--index-url', $PipIndex)
+        $DependencyArgs += @('--extra-index-url', $PipIndex)
     }
-    & $PythonExe @RequirementArgs
+    & $PythonExe @DependencyArgs
     Assert-LastExitCode 'Installing application dependencies'
 
     $env:TWIN_DATA_DIR = Join-Path $Portable 'data'
@@ -150,6 +146,8 @@ try {
         Assert-LastExitCode 'Downloading and verifying model weights'
         & $PythonExe scripts\prepare_demo.py --video (Join-Path $Portable 'examples\tunnel-demo.mp4')
         Assert-LastExitCode 'Preparing demo data'
+        & $PythonExe scripts\lock_dependencies.py --check
+        Assert-LastExitCode 'Checking installed dependency versions'
         & $PythonExe -c "import fastapi, uvicorn, cv2, torch, ultralytics; assert torch.__version__.endswith('+cpu'), torch.__version__"
         Assert-LastExitCode 'Validating the embedded runtime'
     } finally {

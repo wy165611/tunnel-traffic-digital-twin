@@ -11,3 +11,8 @@ backend/data/runs/
 *.log
 *.pid
 *.tsbuildinfo
+artifacts/
+data/
+.pr-body.md
+.progress-tmp.md
+.result-tmp.md
