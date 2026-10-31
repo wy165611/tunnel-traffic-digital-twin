@@ -133,7 +133,7 @@ class TrafficProcessor:
                            lane=lane['name'] if lane else None, timestamp=timestamp,
                            lane_direction=lane.get('direction', self.config['traffic']['legal_direction']) if lane else self.config['traffic']['legal_direction'],
                            lane_solid=lane.get('solid_line', True) if lane else True,
-                           pixel_speed=float(np.linalg.norm(track.filter.statePost[4:6]))*getattr(self.reader, 'fps', 30),
+                           pixel_speed=float(np.linalg.norm(track.filter.statePost[4:6].flatten()*[sx, sy]))*getattr(self.reader, 'fps', 30),
                            heading=heading, trajectory=trajectory, world_trajectory=wt, observed=observed)
             if observed and vehicle['type'] not in ('person', 'bicycle'):
                 self.flow.update(track.id, pixel, timestamp, vehicle['type'], vehicle['lane'])

@@ -2,11 +2,14 @@ from collections import Counter
 from backend.traffic.congestion import CONGESTION_LEVELS, lane_queue, overall_congestion
 from backend.traffic.service_level import lane_density, level_of_service
 
+MIN_FLOW_RATE_SECONDS = 10.
+
 
 def traffic_metrics(vehicles, seen, flow, timestamp, calibration, lanes, segment_start=0,
                     queue_speed_kmh=10., queue_pixel_speed=5., occupancy=None):
     vehicles = [v for v in vehicles if v.get('type') not in ('person', 'bicycle')]
-    calibrated = [v for v in vehicles if v['world'] is not None]
+    # Only detector-confirmed vehicles count toward density; Kalman-predicted tracks would inflate it.
+    calibrated = [v for v in vehicles if v['world'] is not None and v.get('observed')]
     speeds = [v['speed'] for v in vehicles if v['observed'] and v['speed'] is not None]
     average_speed = sum(speeds)/len(speeds) if speeds else None
     occupancy = occupancy or {}
@@ -20,11 +23,13 @@ def traffic_metrics(vehicles, seen, flow, timestamp, calibration, lanes, segment
         density = lane_density(lane, vehicles, calibration)
         los, los_label = level_of_service(density, lane_speed)
         window = flow.lane_window(timestamp, lane['name'], 60, segment_start)
+        # Extrapolating a few seconds of crossings to veh/h is meaningless (1 car in 0.5 s = 7200 veh/h).
         flow_hour = (window['window_flow']*3600/window['covered_seconds']
-                     if window['covered_seconds'] > 0 else None)
+                     if window['covered_seconds'] >= MIN_FLOW_RATE_SECONDS else None)
         loop = occupancy.get(lane['name'], {})
         lane_stats.append(dict(name=lane['name'], count=len(lv), flow=flow.by_lane[lane['name']],
                                average_speed=lane_speed, density=density, flow_per_hour=flow_hour,
+                               flow_per_hour_estimated=not window.get('complete', False),
                                occupancy=loop.get('occupancy'), level_of_service=los,
                                service_level_label=los_label, **queue))
     level, level_label = overall_congestion(lane_stats)
